@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Allan&family=Anton&family=Antonio:wght@200&family=Arvo&family=Source+Sans+3:wght@200&family=Varela+Round&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -33,6 +34,7 @@
 <body onload="onload()">
 <header>
     <h1>NETworks?</h1>
+    <p id="subtitle"> Help us improve your future mobile network!</p>
 </header>
 
 <nav class="navbar">
@@ -40,54 +42,30 @@
         <span class="material-symbols-outlined">menu</span>
     </div>
     <ul class="menu-items">
-        <li><a href="index.html">Overview</a></li>
-        <li><a href="page1.html">your stats</a></li>
-        <li><a href="page2.html">FAQ</a></li>
+        <p><a href="index.html">Overview</a></p>
+        <p><a href="page1.html">your stats</a></p>
+        <p><a href="page2.html">FAQ</a></p>
         <li><p><a href="page4.html">Map</a></p></li>
+
     </ul>
 </nav>
-
 <div class ="seitentitel"> 
-    <h2> Frequently Asked Questions </h2>
+    <h2>Your Network Tracking</h2>
 </div>
-
-<div id="faq">
-    <h3>How do I improve the mobile network with this app?</h3>
-    <h4>...</h4>
-    <h3>What is the difference between 5G, 4G, H+ ...?</h3>
-    <h4>...</h4>
-    <h3>How is the mobile connection tied to the network speed?</h3>
-    <h4>...</h4>
-    <h3>Which external factors are linked th the mobile network connection?</h3>
-    <h4>...</h4>
-    <h3>I can not see my data trajectories on the map. Why?</h3>
-    <h4>...</h4>
-    <h3>What is so special about trains considering mobile network connections?</h3>
-    <h4>...</h4>
-
-    <h4>You still have questions? Write us an email!<br>
-        faq@networks.com</h4>
+<div class="content">
+    <div id="map_old"></div>
+        <button id="fullscreenButton">
+            <i class="material-symbols-outlined">fullscreen</i>
+        </button>
+    </div>
 </div>
+<a id="download_track" href="#" download="trackpoints.csv">Download</a>
 
-<footer>
-    <div class="footer-content">
-        <h3>
-        &copy; Colin Walimann, Jiaan Tian, Tanja Bialek, Carmela Roth<br>
-        GTA Semsterprojekt<br>
-        IKG @ ETH Zürich
-        </h3>
-    </div>
-        <div class="toolbar">
-            <button id="home_page">
-                <span class="material-symbols-outlined">home</span>
-            </button>
-            <button id="analysis_page">
-                <span class="material-symbols-outlined">query_stats</span>
-            </button>
-            <button id="faq_page">
-                <span class="material-symbols-outlined">help</span>
-            </button>
-    </div>
+<div class="map">
+    <button id="close_map">
+        <span class="material-symbols-outlined">close</span>
+    </button>
+</div>
 </footer>
 </body>
 </html>

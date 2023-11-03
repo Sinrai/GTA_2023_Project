@@ -67,7 +67,7 @@ footer {
     position: relative;
 }
 
-#map {
+#map_old {
     flex: 1;
     height: 500px; /* Feste Höhe von 300 Pixeln */
     position: relative;
@@ -131,7 +131,7 @@ footer {
 
 .chart {
     height: 200px;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 #balken1{
@@ -144,6 +144,40 @@ footer {
 
 #balken3{
     fill: blue;
+}
+
+.map {
+    position: fixed;
+    padding: 20px;
+    background: transparent;
+    top: 75%;
+    right: 0;
+    transform: translate(0, 0);
+    z-index: 90;
+}
+
+.map button {
+    background: none;
+    border: none;
+    padding: 0;
+    border-radius: 50%; /* Runden Sie die Ecken ab, um einen Kreis zu erstellen */
+    width: 60px; /* Passen Sie die Größe des Kreises an */
+    height: 60px; /* Passen Sie die Größe des Kreises an */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 91;
+}
+
+.map button span.material-symbols-outlined {
+    border: none;
+    background: #33547d; /* Hintergrundfarbe des Icons */
+    color: white; /* Textfarbe des Icons auf transparent setzen */
+    border-radius: 50%; /* Runden Sie die Ecken des Icons ab, um es in den Kreis passen zu lassen */
+    padding: 14px; /* Innenabstand des Icons erhöht */
+    font-size: 24px; /* Größe des Icons erhöht */
+    display: inline-block;
+    z-index: 92;
 }
 
 /* Stil für Desktop- und Mobilansicht */
@@ -173,11 +207,10 @@ footer {
         background-color: #333; /* Hintergrundfarbe des Blocks */
         color: #fff; /* Textfarbe des Blocks */
         padding: 30px; /* Innenabstand des Blocks */
-        text-align: center; /* Text horizontal zentrieren */
         z-index: 999; /* Um sicherzustellen, dass der Block im Vordergrund steht */
         display: flex;
-        justify-content: space-evenly; /* Abstand zwischen den Buttons */
-        align-items: center; /* Vertikale Ausrichtung der Buttons */
+        justify-content: space-between; /* Abstand zwischen den Buttons */
+        box-sizing: border-box;
     }
 
     .toolbar button {
@@ -190,10 +223,6 @@ footer {
 
     .footer-content {
         padding-bottom: 80px;
-    }
-    .footer-content-container {
-        position: relative;
-        z-index: 1; /* Gleichbleibender Z-Index für den Inhalt im Footer */
     }
 }
 

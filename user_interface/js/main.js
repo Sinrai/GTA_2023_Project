@@ -86,7 +86,7 @@ function onload() {
         errMsg.show();
     }
 
-    map = L.map('map').setView([47.408375, 8.507669], 15);
+    map = L.map('map_old').setView([47.408375, 8.507669], 15);
     appState.markers = L.layerGroup();
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -157,11 +157,23 @@ document.addEventListener("DOMContentLoaded", function () {
     // Event-Handler für den Klick auf den "Analysis"-Button
     document.getElementById("analysis_page").addEventListener("click", function () {
         // Hier wird zur gewünschten HTML-Seite weitergeleitet (z.B., "analysis.html")
-        window.location.href = "page2.html";
+        window.location.href = "page1.html";
     });
 
     // Event-Handler für den Klick auf den "FAQ"-Button
     document.getElementById("faq_page").addEventListener("click", function () {
+        // Hier wird zur gewünschten HTML-Seite weitergeleitet (z.B., "faq.html")
+        window.location.href = "page2.html";
+    });
+
+    // Event-Handler für den Klick auf den "FAQ"-Button
+    document.getElementById("show_map").addEventListener("click", function () {
+        // Hier wird zur gewünschten HTML-Seite weitergeleitet (z.B., "faq.html")
+        window.location.href = "page4.html";
+    });
+
+    // Event-Handler für den Klick auf den "FAQ"-Button
+    document.getElementById("close_map").addEventListener("click", function () {
         // Hier wird zur gewünschten HTML-Seite weitergeleitet (z.B., "faq.html")
         window.location.href = "page1.html";
     });
