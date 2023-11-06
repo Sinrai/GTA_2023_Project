@@ -40,10 +40,9 @@
         <span class="material-symbols-outlined">menu</span>
     </div>
     <ul class="menu-items">
-        <p><a href="index.html">Overview</a></p>
-        <p><a href="page1.html">your stats</a></p>
-        <p><a href="page2.html">FAQ</a></p>
-        <p><a href="page4.html">Map</a></p>
+        <p><a onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'" onclick="loadContent('home.html')">Overview</a></p>
+        <p><a onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'" onclick="loadContent('analysis.html')">Your stats</a></p>
+        <p><a onmouseover="this.style.cursor='pointer'" onmouseout="this.style.cursor='default'" onclick="loadContent('faq.html')">FAQ</a></p>
     </ul>
 </nav>
 <div id="content"></div>
