@@ -1,3 +1,5 @@
+
+/*ALLGEMEIN*/
 html, body {
     width: 100%;
     font-family: 'Source Sans 3', sans-serif;
@@ -27,7 +29,88 @@ h1 {
     font-family: 'Varela Round', sans-serif;
 }
 
+#subtitle{ 
+    font-family: 'Allan', sans-serif;
+}
 
+.seitentitel{
+    margin: 20px;
+}
+
+/*???*/
+.section p { 
+    text-align: justify;
+}
+
+header {
+    border-bottom: 1px solid aliceblue;
+    background: #ffffff;
+    background: -webkit-linear-gradient(-20deg, #ffffff 0%, #f5fafd 100%);
+    background: linear-gradient(160deg, #ffffff 0%, #f5fafd 100%);
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
+    z-index: 9;
+    width: 100%;
+    text-align: center;
+}
+
+footer {
+    color: #becee2;
+    background: #33547d;
+    -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
+    padding: 24px calc((100% - 560px) / 2);
+    z-index: 9;
+    font-size:x-small;
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    height: 500px; /* Feste Höhe von 300 Pixeln */
+    align-items: stretch;
+    justify-content: center; /* Das zentriert das map-Element horizontal */
+    text-align: center;
+    position: relative;
+}
+
+/*google fonts symbols*/
+.material-symbols-outlined {
+    font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    z-index: 99; /* Hinzugefügte Zeile: Über dem map-Element anzeigen */
+}
+
+
+
+
+
+/*MENU*/
+/* Stil für das Hamburger-Menü */
+.hamburger-menu {
+    cursor: pointer;
+    margin: 10px;
+    padding: 10px;
+}
+
+.menu-items {
+    list-style-type: none;
+    display: none;
+}
+
+/* Standardmenü für Desktop */
+.menu-items.active {
+    display: inline-flex;
+    margin: 20px;
+    padding: 0;
+}
+
+
+
+
+
+
+/*HOME*/
+/*LOGIN & REGISTRATION*/
 .login-container {
     display: none;
     position: fixed;
@@ -58,6 +141,7 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    z-index: 999;
 }
 
 button#loginButton {
@@ -100,134 +184,26 @@ input {
     text-align: center;
 }
 
-/* ... Weiterer CSS-Stil für das Registrierungsfenster */
-
-
-#subtitle{ 
-    font-family: 'Allan', sans-serif;
-}
-
-.seitentitel{
-    margin: 20px;
-}
-
+/*TRACKING BUTTON*/
 #trackButton{
     position: relative;
     padding: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 5;
 }
 
-header {
-    border-bottom: 1px solid aliceblue;
-    background: #ffffff;
-    background: -webkit-linear-gradient(-20deg, #ffffff 0%, #f5fafd 100%);
-    background: linear-gradient(160deg, #ffffff 0%, #f5fafd 100%);
-    -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
-    z-index: 9;
-    width: 100%;
-    text-align: center;
-}
 
-footer {
-    color: #becee2;
-    background: #33547d;
-    -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
-    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
-    padding: 24px calc((100% - 560px) / 2);
-    z-index: 9;
-    font-size:x-small;
-}
 
-.content {
-    flex-grow: 1;
-    display: flex;
-    height: 500px; /* Feste Höhe von 300 Pixeln */
-    align-items: stretch;
-    justify-content: center; /* Das zentriert das map-Element horizontal */
-    text-align: center;
-    position: relative;
-}
 
+
+/*USER MAP*/
 #map_old {
     flex: 1;
     height: 500px; /* Feste Höhe von 300 Pixeln */
     position: relative;
     z-index: 1; 
-}
-
-.section p {
-    text-align: justify;
-}
-
-
-#fullscreenButton{
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    background: rgba(255, 255, 255, 0.7); /* Hinzugefügte Zeile: Hintergrundfarbe mit Transparenz */
-    padding: 3px; /* Hinzugefügte Zeile: Innenabstand für den Button */
-    z-index: 2;
-    border: 2px solid rgba(0, 0, 0, 0.332);
-}
-
-
-.material-symbols-outlined {
-    font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    z-index: 99; /* Hinzugefügte Zeile: Über dem map-Element anzeigen */
-}
-
-/* Füge eine Pseudo-Element, um das Icon zu zentrieren */
-#fullscreenButton i {
-    display: block;
-    text-align: center;
-}
-
-/* Stil für das Hamburger-Menü */
-.hamburger-menu {
-    cursor: pointer;
-    margin: 10px;
-    padding: 10px;
-}
-
-.menu-items {
-    list-style-type: none;
-    display: none;
-}
-
-/* Standardmenü für Desktop */
-.menu-items.active {
-    display: inline-flex;
-    margin: 20px;
-    padding: 0;
-}
-
-.analysis{
-    margin: 20px;
-}
-
-#faq{
-    margin: 20px;
-}
-
-
-.chart {
-    height: 200px;
-    justify-content: space-evenly;
-}
-
-#balken1{
-    fill: green;
-}
-
-#balken2{
-    fill: red;
-}
-
-#balken3{
-    fill: blue;
 }
 
 .map {
@@ -263,6 +239,60 @@ footer {
     display: inline-block;
     z-index: 92;
 }
+
+#fullscreenButton{
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(255, 255, 255, 0.7); /* Hinzugefügte Zeile: Hintergrundfarbe mit Transparenz */
+    padding: 3px; /* Hinzugefügte Zeile: Innenabstand für den Button */
+    z-index: 2;
+    border: 2px solid rgba(0, 0, 0, 0.332);
+}
+
+
+/* Füge eine Pseudo-Element, um das Icon zu zentrieren */
+#fullscreenButton i {
+    display: block;
+    text-align: center;
+}
+
+
+
+
+
+/*ANALYSE*/
+.analysis{
+    margin: 20px;
+}
+
+.chart {
+    height: 200px;
+    justify-content: space-evenly;
+}
+
+#balken1{
+    fill: green;
+}
+
+#balken2{
+    fill: red;
+}
+
+#balken3{
+    fill: blue;
+}
+
+
+
+
+/*FAQ*/
+#faq{
+    margin: 20px;
+}
+
+
+
 
 /* Stil für Desktop- und Mobilansicht */
 

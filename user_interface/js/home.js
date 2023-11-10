@@ -20,7 +20,6 @@ const submitLogin = document.getElementById("submitLogin");
 const submitRegister = document.getElementById("submitRegister");
 
 submitLogin.addEventListener("click", () => {
-    // Hier können Sie die Login-Logik implementieren
     isLoggedIn = true;
     loginButton.innerText = "Logout";
     alert("Einloggen erfolgreich!");
@@ -28,15 +27,17 @@ submitLogin.addEventListener("click", () => {
 });
 
 submitRegister.addEventListener("click", () => {
-    // Hier können Sie die Registrierungslogik implementieren
+    isLoggedIn = true;
+    loginButton.innerText = "Logout";
     alert("Registrierung erfolgreich!");
     registerContainer.style.display = "none";
 });
 
 loginButton.addEventListener("click", () => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn) { 
         loginContainer.style.display = "block";
         registerContainer.style.display = "none"; // Schließen Sie das Registrierungsfenster, wenn das Login-Fenster geöffnet wird
+        loginButton.innerText = "logout";
         enableTrackingButton();
     } else {
         // Wenn der Benutzer eingeloggt ist, ändern Sie den Text und die Logik
@@ -52,24 +53,11 @@ registerLink.addEventListener("click", () => {
 
 // Funktion, um den Benutzer auszuloggen
 function logout() {
-    // Fügen Sie hier die Logik zum Ausloggen hinzu
     isLoggedIn = false;
     loginButton.innerText = "Login";
+    disableTrackingButton();
 }
 
-
-loginButton.addEventListener("click", () => {
-    if (!isLoggedIn) {
-        loginButton.innerText = "Logout";
-        isLoggedIn = true;
-    } else {
-        loginButton.innerText = "Login";
-        isLoggedIn = false;
-    }
-
-    // Aktualisieren Sie den Tracking-Button entsprechend dem Anmeldestatus
-    updateTrackingButton();
-});
 
 // Funktion, um den Tracking-Button zu aktivieren oder deaktivieren
 function updateTrackingButton() {
@@ -82,22 +70,30 @@ function updateTrackingButton() {
 
 // Funktion, um den Tracking-Button zu aktivieren
 function enableTrackingButton() {
-    trackButton.disabled = false;
     trackButton.innerText = "Start Tracking";
-    trackButton.addEventListener("click", () => {
-        // Hier können Sie Ihre Tracking-Logik implementieren
-        alert("Tracking ist aktiviert.");
-    });
+    trackButton.addEventListener("click", toggleTracking);
 }
 
 // Funktion, um den Tracking-Button zu deaktivieren
 function disableTrackingButton() {
-    trackButton.disabled = true;
     trackButton.innerText = "Please login to track";
-    trackButton.removeEventListener("click", () => {
-        // Entfernen Sie den Event-Handler, falls vorhanden
-    });
+    trackButton.removeEventListener("click", toggleTracking);
 }
+
+// Funktion zum Umschalten des Tracking-Status
+function toggleTracking() {
+    if (!isTracking) {
+        isTracking = true;
+        trackButton.innerText = "Stop Tracking";
+        alert("Tracking ist aktiviert.");
+    } else {
+        trackButton.innerText = "Start Tracking";
+        alert("Tracking ist beendet.");
+        isTracking = false;
+    }
+}
+
+// Annahme: Irgendwo anders im Code haben Sie isTracking und trackButton definiert.
 
 // Initialisieren Sie den Button-Status
 updateTrackingButton();
