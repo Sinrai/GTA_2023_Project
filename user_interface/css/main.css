@@ -1,3 +1,5 @@
+
+/*ALLGEMEIN*/
 html, body {
     width: 100%;
     font-family: 'Source Sans 3', sans-serif;
@@ -35,6 +37,11 @@ h1 {
     margin: 20px;
 }
 
+/*???*/
+.section p { 
+    text-align: justify;
+}
+
 header {
     border-bottom: 1px solid aliceblue;
     background: #ffffff;
@@ -67,40 +74,17 @@ footer {
     position: relative;
 }
 
-#map_old {
-    flex: 1;
-    height: 500px; /* Feste Höhe von 300 Pixeln */
-    position: relative;
-    z-index: 1; 
-}
-
-.section p {
-    text-align: justify;
-}
-
-
-#fullscreenButton{
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    background: rgba(255, 255, 255, 0.7); /* Hinzugefügte Zeile: Hintergrundfarbe mit Transparenz */
-    padding: 3px; /* Hinzugefügte Zeile: Innenabstand für den Button */
-    z-index: 2;
-    border: 2px solid rgba(0, 0, 0, 0.332);
-}
-
-
+/*google fonts symbols*/
 .material-symbols-outlined {
     font-variation-settings:'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
     z-index: 99; /* Hinzugefügte Zeile: Über dem map-Element anzeigen */
 }
 
-/* Füge eine Pseudo-Element, um das Icon zu zentrieren */
-#fullscreenButton i {
-    display: block;
-    text-align: center;
-}
 
+
+
+
+/*MENU*/
 /* Stil für das Hamburger-Menü */
 .hamburger-menu {
     cursor: pointer;
@@ -120,30 +104,106 @@ footer {
     padding: 0;
 }
 
-.analysis{
+
+
+
+
+
+/*HOME*/
+/*LOGIN & REGISTRATION*/
+.login-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.login-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+button#loginButton {
+    position: relative;
     margin: 20px;
 }
 
-#faq{
-    margin: 20px;
+button#submitLogin {
+    margin-top: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.register-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.register-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/*TRACKING BUTTON*/
+#trackButton{
+    position: relative;
+    padding: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
 }
 
 
-.chart {
-    height: 200px;
-    justify-content: space-evenly;
-}
 
-#balken1{
-    fill: green;
-}
 
-#balken2{
-    fill: red;
-}
 
-#balken3{
-    fill: blue;
+/*USER MAP*/
+#map_old {
+    flex: 1;
+    height: 500px; /* Feste Höhe von 300 Pixeln */
+    position: relative;
+    z-index: 1; 
 }
 
 .map {
@@ -179,6 +239,60 @@ footer {
     display: inline-block;
     z-index: 92;
 }
+
+#fullscreenButton{
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    background: rgba(255, 255, 255, 0.7); /* Hinzugefügte Zeile: Hintergrundfarbe mit Transparenz */
+    padding: 3px; /* Hinzugefügte Zeile: Innenabstand für den Button */
+    z-index: 2;
+    border: 2px solid rgba(0, 0, 0, 0.332);
+}
+
+
+/* Füge eine Pseudo-Element, um das Icon zu zentrieren */
+#fullscreenButton i {
+    display: block;
+    text-align: center;
+}
+
+
+
+
+
+/*ANALYSE*/
+.analysis{
+    margin: 20px;
+}
+
+.chart {
+    height: 200px;
+    justify-content: space-evenly;
+}
+
+#balken1{
+    fill: green;
+}
+
+#balken2{
+    fill: red;
+}
+
+#balken3{
+    fill: blue;
+}
+
+
+
+
+/*FAQ*/
+#faq{
+    margin: 20px;
+}
+
+
+
 
 /* Stil für Desktop- und Mobilansicht */
 
