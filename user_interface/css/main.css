@@ -83,35 +83,6 @@ footer {
     z-index: 99; /* Hinzugefügte Zeile: Über dem map-Element anzeigen */
 }
 
-
-
-
-
-/*MENU*/
-/* Stil für das Hamburger-Menü */
-.hamburger-menu {
-    cursor: pointer;
-    margin: 10px;
-    padding: 10px;
-}
-
-.menu-items {
-    list-style-type: none;
-    display: none;
-}
-
-/* Standardmenü für Desktop */
-.menu-items.active {
-    display: inline-flex;
-    margin: 20px;
-    padding: 0;
-}
-
-
-
-
-
-
 /*HOME*/
 /*LOGIN & REGISTRATION*/
 .login-container {
@@ -191,7 +162,7 @@ input {
 
 
 /*USER MAP*/
-#map_old {
+#map {
     flex: 1;
     top: 115px;
     left: 0;
@@ -296,21 +267,13 @@ input {
 
 /* Stil für Desktop- und Mobilansicht */
 
-@media screen and (max-width: 996px) {
+@media screen {
     header {
         position: fixed;
     }
 
     .seitentitel{
         padding-top: 80px;
-    }
-    
-    .hamburger-menu {
-        display: none;
-    }
-
-    .menu-items {
-        display: none;
     }
 
     .toolbar {
@@ -337,11 +300,5 @@ input {
 
     .footer-content {
         padding-bottom: 80px;
-    }
-}
-
-@media screen and (min-width: 996px) {
-    .toolbar{
-        display:none;
     }
 }
