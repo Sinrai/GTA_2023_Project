@@ -201,10 +201,15 @@ input {
 /*USER MAP*/
 #map_old {
     flex: 1;
-    height: 500px; /* Feste Höhe von 300 Pixeln */
-    position: relative;
+    top: 115px;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Feste Höhe von 300 Pixeln */
+    position: fixed;
     z-index: 1; 
 }
+
+
 
 .map {
     position: fixed;
