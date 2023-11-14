@@ -16,6 +16,7 @@ body {
     position: fixed;
     height: 100%;
     overflow: auto; /* Scrollleisten werden angezeigt, wenn der Inhalt die Höhe des Browserfensters überschreitet */
+    background-color: whitesmoke;
 }
 
 h2, h3, h4, h5, h6 {
@@ -27,14 +28,17 @@ h2, h3, h4, h5, h6 {
 }
 h1 {    
     font-family: 'Varela Round', sans-serif;
+    color: whitesmoke;
 }
 
 #subtitle{ 
     font-family: 'Allan', sans-serif;
+    color: whitesmoke;
 }
 
 .seitentitel{
-    margin: 20px;
+    margin: 23px;
+    text-align: center;
 }
 
 /*???*/
@@ -44,9 +48,8 @@ h1 {
 
 header {
     border-bottom: 1px solid aliceblue;
-    background: #ffffff;
-    background: -webkit-linear-gradient(-20deg, #ffffff 0%, #f5fafd 100%);
-    background: linear-gradient(160deg, #ffffff 0%, #f5fafd 100%);
+    background: #333;
+    /*background: linear-gradient(-180deg, #333 30%, darkseagreen 100%);*/
     -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
     z-index: 9;
@@ -80,35 +83,6 @@ footer {
     z-index: 99; /* Hinzugefügte Zeile: Über dem map-Element anzeigen */
 }
 
-
-
-
-
-/*MENU*/
-/* Stil für das Hamburger-Menü */
-.hamburger-menu {
-    cursor: pointer;
-    margin: 10px;
-    padding: 10px;
-}
-
-.menu-items {
-    list-style-type: none;
-    display: none;
-}
-
-/* Standardmenü für Desktop */
-.menu-items.active {
-    display: inline-flex;
-    margin: 20px;
-    padding: 0;
-}
-
-
-
-
-
-
 /*HOME*/
 /*LOGIN & REGISTRATION*/
 .login-container {
@@ -132,25 +106,32 @@ footer {
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 button {
-    padding: 10px 20px;
-    background: #007bff;
-    color: #fff;
-    border: none;
     border-radius: 5px;
     cursor: pointer;
     z-index: 999;
 }
 
 button#loginButton {
-    position: relative;
+    position: fixed;
     margin: 20px;
+    padding: 10px 20px;
+    background: steelblue;
+    color: #fff;
+    border: none;
 }
 
 button#submitLogin {
     margin-top: 10px;
+    padding: 10px 20px;
+    background: steelblue;
+    color: #fff;
+    border: none;
 }
 
 input {
@@ -161,37 +142,19 @@ input {
     border-radius: 5px;
 }
 
-.register-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-}
 
-.register-box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-}
 
 /*TRACKING BUTTON*/
 #trackButton{
     position: relative;
-    padding: 20px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 5;
+    padding: 50px 80px;
+    background: darkseagreen;
+    color: #fff;
+    border: none;
 }
 
 
@@ -199,12 +162,17 @@ input {
 
 
 /*USER MAP*/
-#map_old {
+#map {
     flex: 1;
-    height: 500px; /* Feste Höhe von 300 Pixeln */
-    position: relative;
+    top: 115px;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Feste Höhe von 300 Pixeln */
+    position: fixed;
     z-index: 1; 
 }
+
+
 
 .map {
     position: fixed;
@@ -283,6 +251,9 @@ input {
     fill: blue;
 }
 
+#reward{
+    margin-left: 20px;
+}
 
 
 
@@ -296,21 +267,13 @@ input {
 
 /* Stil für Desktop- und Mobilansicht */
 
-@media screen and (max-width: 996px) {
+@media screen {
     header {
         position: fixed;
     }
 
     .seitentitel{
         padding-top: 80px;
-    }
-    
-    .hamburger-menu {
-        display: none;
-    }
-
-    .menu-items {
-        display: none;
     }
 
     .toolbar {
@@ -337,11 +300,5 @@ input {
 
     .footer-content {
         padding-bottom: 80px;
-    }
-}
-
-@media screen and (min-width: 996px) {
-    .toolbar{
-        display:none;
     }
 }

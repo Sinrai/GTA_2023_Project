@@ -9,35 +9,16 @@ $(document).ready(function() {
 
 const loginButton = document.getElementById("loginButton");
 const loginContainer = document.getElementById("loginContainer");
-const registerLink = document.getElementById("registerLink");
-const registerContainer = document.getElementById("registerContainer");
 const trackButton = document.getElementById("trackButton");
 
 let isLoggedIn = false; //Anmeldestatus vefolgen
 let isTracking = false; //Tracking-Status verfolgen
 
 const submitLogin = document.getElementById("submitLogin");
-const submitRegister = document.getElementById("submitRegister");
-
-submitLogin.addEventListener("click", () => {
-    isLoggedIn = true;
-    loginButton.innerText = "Logout";
-    alert("Einloggen erfolgreich!");
-    loginContainer.style.display = "none";
-});
-
-submitRegister.addEventListener("click", () => {
-    isLoggedIn = true;
-    loginButton.innerText = "Logout";
-    alert("Registrierung erfolgreich!");
-    registerContainer.style.display = "none";
-});
 
 loginButton.addEventListener("click", () => {
     if (!isLoggedIn) { 
         loginContainer.style.display = "block";
-        registerContainer.style.display = "none"; // Schließen Sie das Registrierungsfenster, wenn das Login-Fenster geöffnet wird
-        loginButton.innerText = "logout";
         enableTrackingButton();
     } else {
         // Wenn der Benutzer eingeloggt ist, ändern Sie den Text und die Logik
@@ -46,9 +27,11 @@ loginButton.addEventListener("click", () => {
     }
 });
 
-registerLink.addEventListener("click", () => {
-    registerContainer.style.display = "block";
-    loginContainer.style.display = "none"; // Schließen Sie das Login-Fenster, wenn das Registrierungsfenster geöffnet wird
+submitLogin.addEventListener("click", () => {
+    isLoggedIn = true;
+    loginButton.innerText = "Logout";
+    alert("Einloggen erfolgreich!");
+    loginContainer.style.display = "none";
 });
 
 // Funktion, um den Benutzer auszuloggen
@@ -92,8 +75,6 @@ function toggleTracking() {
         isTracking = false;
     }
 }
-
-// Annahme: Irgendwo anders im Code haben Sie isTracking und trackButton definiert.
 
 // Initialisieren Sie den Button-Status
 updateTrackingButton();

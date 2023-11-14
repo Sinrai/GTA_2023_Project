@@ -6,14 +6,11 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("analysis_page").addEventListener("click", function() {
         loadContent('analysis.html');
     });
+    document.getElementById("provider_page").addEventListener("click", function() {
+        loadContent('provider_map.html');
+    });
     document.getElementById("faq_page").addEventListener("click", function() {
         loadContent('faq.html');
-    });
-
-    const hamburgerMenu = document.querySelector(".hamburger-menu");
-    const menuItems = document.querySelector(".menu-items");
-    hamburgerMenu.addEventListener("click", function () {
-        menuItems.classList.toggle("active");
     });
 
     $(document).ready(function() {
