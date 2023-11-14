@@ -11,7 +11,6 @@ CREATE TABLE train_tracks(
 CREATE TABLE user(
      user_id SERIAL PRIMARY KEY,
      name VARCHAR(16),
-     password CHAR(256),
      provider VARCHAR(16));
 
 CREATE TABLE user_trajectory_data(
