@@ -11,11 +11,19 @@ $(document).ready(function() {
         attribution: '&copy; <a href="https://www.swisstopo.admin.ch/en/home.html">swisstopo</a>'
     });
 
+    var switzerlandBounds = L.latLngBounds(
+        L.latLng(45.217, 5.967), // Southwest coordinates
+        L.latLng(47.808, 10.492) // Northeast coordinates
+    );
+
     var map = L.map('map', {
         center: [46.408375, 8.507669],
         zoom: 8,
+        minZoom: 7.5,
+        zoomSnap: 0.5,
+        maxBounds: switzerlandBounds.pad(0.1),
         layers: [baseMap]
-    });
+    }).fitBounds(switzerlandBounds);
 
     baseMap.addTo(map);
 });
