@@ -31,10 +31,76 @@ function getNetworkInfo() {
 
 /**
  * Get current IP
- * @returns {string} Ip adress
+ * @returns {Promise<string>} IP address
+ * @example
+ * getIP().then((result) => {
+ *   console.log('IP:', result);
+ * });
  */
 function getIP() {
-    return '192.168.1.1_test'; //Dummy IP TODO implement function!!!
+    return new Promise(function(resolve, reject) {
+        $.get('https://www.cloudflare.com/cdn-cgi/trace').then(function(data) {
+            data = data.trim().split('\n').reduce(function(obj, pair) {
+                pair = pair.split('=');
+                return obj[pair[0]] = pair[1], obj;
+            }, {});
+            var ipAddress = data['ip'];
+            resolve(ipAddress);
+        }).catch(function(error) {
+            reject(error);
+        });
+    });
+}
+
+/**
+ * Is GPS location enabled?
+ * @returns {Promise<bool>}
+ * @example
+ * isGPSEnabled().then((result) => {
+ *   console.log('GPS is enabled:', result);
+ * });
+ */
+function isGPSenabled() {
+  return new Promise((resolve) => {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          resolve(true);
+        },
+        function(error) {
+          resolve(false);
+        }
+      );
+    } else {
+      resolve(false);
+    }
+  });
+}
+
+/**
+ * Get current location
+ * @returns {Promise<Geolocation>}
+ * @example
+ * getCurrentPosition()
+ *   .then((position) => {
+ *     console.log('Current position:', position);
+ *   })
+ */
+function getCurrentPosition() {
+    return new Promise((resolve, reject) => {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    resolve(position);
+                },
+                function(error) {
+                    reject(new Error('Error getting position: ' + error.message));
+                }
+            );
+        } else {
+            reject(new Error('Geolocation is not supported by this browser.'));
+        }
+    });
 }
 
 /**
@@ -52,49 +118,49 @@ function insertPoint() {
         console.log(x);
     });
 
-	let pointData =
-		'<wfs:Transaction\n'
-	  + '  service="WFS"\n'
-	  + '  version="1.0.0"\n'
-	  + '  xmlns="http://www.opengis.net/wfs"\n'
-	  + '  xmlns:wfs="http://www.opengis.net/wfs"\n'
-	  + '  xmlns:gml="http://www.opengis.net/gml"\n'
-	  + '  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
-	  + '  xmlns:' + workspace + '="http://www.gis.ethz.ch/' + workspace + '" \n'
-	  + '  xsi:schemaLocation="http://www.gis.ethz.ch/' + workspace + ' \n'
+    let pointData =
+        '<wfs:Transaction\n'
+      + '  service="WFS"\n'
+      + '  version="1.0.0"\n'
+      + '  xmlns="http://www.opengis.net/wfs"\n'
+      + '  xmlns:wfs="http://www.opengis.net/wfs"\n'
+      + '  xmlns:gml="http://www.opengis.net/gml"\n'
+      + '  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
+      + '  xmlns:' + workspace + '="http://www.gis.ethz.ch/' + workspace + '" \n'
+      + '  xsi:schemaLocation="http://www.gis.ethz.ch/' + workspace + ' \n'
       + '      http://ikgeoserv.ethz.ch:8080/geoserver/' + workspace + '/wfs?service=WFS&amp;'
       + '      version=1.0.0&amp;request=DescribeFeatureType&amp;typeName=' + workspace + '%3A' + layer_point + ' \n'
-	  + '      http://www.opengis.net/wfs\n'
-	  + '      http://ikgeoserv.ethz.ch:8080/geoserver/schemas/wfs/1.0.0/WFS-basic.xsd">\n'
-	  + '  <wfs:Insert>\n'
-	  + '    <' + workspace + ':' + layer_point + '>\n'
-	  + '      <lon>'+lng+'</lon>\n'
-	  + '      <lat>'+lat+'</lat>\n'
-	  + '      <name>'+name+'</name>\n'
-	  + '      <geometry>\n'
-	  + '        <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">\n'
-	  + '          <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">'+lng+ ',' +lat+'</gml:coordinates>\n'
-	  + '        </gml:Point>\n'
-	  + '      </geometry>\n'
-	  + '    </' + workspace + ':' + layer_point + '>\n'
-	  + '  </wfs:Insert>\n'
-	  + '</wfs:Transaction>';
+      + '      http://www.opengis.net/wfs\n'
+      + '      http://ikgeoserv.ethz.ch:8080/geoserver/schemas/wfs/1.0.0/WFS-basic.xsd">\n'
+      + '  <wfs:Insert>\n'
+      + '    <' + workspace + ':' + layer_point + '>\n'
+      + '      <lon>'+lng+'</lon>\n'
+      + '      <lat>'+lat+'</lat>\n'
+      + '      <name>'+name+'</name>\n'
+      + '      <geometry>\n'
+      + '        <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">\n'
+      + '          <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">'+lng+ ',' +lat+'</gml:coordinates>\n'
+      + '        </gml:Point>\n'
+      + '      </geometry>\n'
+      + '    </' + workspace + ':' + layer_point + '>\n'
+      + '  </wfs:Insert>\n'
+      + '</wfs:Transaction>';
 
-	$.ajax({
-		type: "POST",
-		url: 'http://ikgeoserv.ethz.ch:8080/geoserver/' + workspace + '/wfs',
-		dataType: "xml",
-		contentType: "text/xml",
-		data: postData,
-		success: function(xml) {
-			//Success feedback
-			console.log("Data uploaded");
-		},
-		error: function (xhr, ajaxOptions, thrownError) {
-			//Error handling
-			console.log("Error from AJAX uploading data");
-			console.log(xhr.status);
-			console.log(thrownError);
-		  }
-	});
+    $.ajax({
+        type: "POST",
+        url: 'http://ikgeoserv.ethz.ch:8080/geoserver/' + workspace + '/wfs',
+        dataType: "xml",
+        contentType: "text/xml",
+        data: postData,
+        success: function(xml) {
+            //Success feedback
+            console.log("Data uploaded");
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //Error handling
+            console.log("Error from AJAX uploading data");
+            console.log(xhr.status);
+            console.log(thrownError);
+          }
+    });
 }
