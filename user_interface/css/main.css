@@ -57,18 +57,17 @@ h1 {
 
 header {
     position: relative;
-    /* Add position: relative; to create a new stacking context */
     border-bottom: 1px solid aliceblue;
     width: 100%;
     text-align: center;
-    background-color: rgba(128, 128, 128, 0.192);
+    background-color: rgb(216, 216, 216);
+    z-index: 1; /* Ensure the header stays above the pseudo-element */
     -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
-}
-
-header::after {
+  }
+  
+  header::after {
     content: '';
-    /* Create a pseudo-element to hold the background image */
     position: absolute;
     top: 0;
     left: 0;
@@ -78,9 +77,9 @@ header::after {
     background-size: cover;
     background-position: center;
     opacity: 0.3;
-    /* Adjust the opacity as needed */
     z-index: -1;
-}
+  }
+  
 
 footer {
     color: white;
@@ -376,7 +375,6 @@ input {
 
 
 /* Stil für Desktop- und Mobilansicht */
-
 @media screen {
     header {
         position: fixed;
@@ -392,16 +390,11 @@ input {
         left: 0;
         width: 100%;
         background-color: #333;
-        /* Hintergrundfarbe des Blocks */
         color: #fff;
-        /* Textfarbe des Blocks */
         padding: 30px;
-        /* Innenabstand des Blocks */
         z-index: 999;
-        /* Um sicherzustellen, dass der Block im Vordergrund steht */
         display: flex;
         justify-content: space-between;
-        /* Abstand zwischen den Buttons */
         box-sizing: border-box;
     }
 
@@ -410,12 +403,15 @@ input {
         color: white;
         border: none;
         font-size: 10px;
-        /* Größe der Icons anpassen */
         margin: 0 10px;
-        /* Abstand zwischen den Buttons anpassen */
     }
 
     .footer-content {
         padding-bottom: 70px;
     }
 }
+
+/*enable tracking
+logged in
+browser unterstützt
+gps enabled */

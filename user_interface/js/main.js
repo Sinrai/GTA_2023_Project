@@ -28,3 +28,10 @@ function loadContent(page) {
         }
     });
 }
+let faqItems;
+let loginButton;
+let loginContainer;
+let trackButton;
+let isLoggedIn = false; //Anmeldestatus vefolgen
+let isTracking = false; //Tracking-Status verfolgen
+let submitLogin;
