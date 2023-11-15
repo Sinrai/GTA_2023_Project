@@ -37,6 +37,7 @@ h1 {
     font-family: 'Varela Round', sans-serif;
     color: black;
     margin-bottom: 10px;
+    margin-top:40px;
 }
 
 #subtitle {
@@ -46,8 +47,9 @@ h1 {
 }
 
 .seitentitel {
-    margin: 23px;
+    margin: 50px;
     text-align: center;
+    text-decoration: underline rgb(131, 176, 176) wavy 1.5px;
 }
 
 /*???*/
@@ -61,12 +63,14 @@ header {
     width: 100%;
     text-align: center;
     background-color: rgb(216, 216, 216);
-    z-index: 1; /* Ensure the header stays above the pseudo-element */
+    z-index: 1;
+    /* Ensure the header stays above the pseudo-element */
     -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
-  }
-  
-  header::after {
+    height: 140px;
+}
+
+header::after {
     content: '';
     position: absolute;
     top: 0;
@@ -78,8 +82,8 @@ header {
     background-position: center;
     opacity: 0.3;
     z-index: -1;
-  }
-  
+}
+
 
 footer {
     color: white;
@@ -95,14 +99,14 @@ footer {
 .content {
     flex-grow: 1;
     display: flex;
-    height: 500px;
-    /* Feste Höhe von 300 Pixeln */
-    align-items: stretch;
+    min-height: 100vh;
+    /* 100% der Bildschirmhöhe */
+    align-items: center;
     justify-content: center;
-    /* Das zentriert das map-Element horizontal */
     text-align: center;
     position: relative;
 }
+
 
 /*google fonts symbols*/
 .material-symbols-outlined {
@@ -171,7 +175,7 @@ button {
 
 button#loginButton {
     position: fixed;
-    margin: 20px;
+    margin: 40px 20px;
     padding: 10px 20px;
     background: #333;
     color: #fff;
@@ -199,9 +203,8 @@ input {
 /*TRACKING BUTTON*/
 #trackButton {
     position: relative;
-    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -5%);
     z-index: 5;
     padding: 50px 80px;
     background: rgb(131, 176, 176);
@@ -225,7 +228,7 @@ input {
 
 
 .network-info p {
-    margin: 5px 0;
+    margin: 5px 5px;
 }
 
 
@@ -247,7 +250,7 @@ input {
     position: fixed;
     padding: 20px;
     background: transparent;
-    top: 75%;
+    top: 70%;
     right: 0;
     transform: translate(0, 0);
     z-index: 90;
@@ -313,7 +316,9 @@ input {
     background-color: #f9f9f9;
     max-width: 400px;
     margin: 20px auto;
+    margin-bottom: 40%;
     /* Center horizontally */
+    text-align: left;
 }
 
 .chart {
@@ -333,11 +338,45 @@ input {
     fill: rgb(147, 222, 177);
 }
 
+
+
+/*PROVIDER ANALYSE*/
 /*
-#reward{
-    margin-left: 20px;
+.seitentitel-provider {
+    position: fixed;
+    top: 0;
+    width: 60%;
+    background-color: rgb(131, 176, 176);
+    color: #fff;
+    margin-top: 125px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; 
+    border-radius: 10px; 
+    margin-left: 20%; 
+    margin-right: 20%; 
+    font-size: small;
 }*/
 
+.seitentitel-provider {
+    position: fixed;
+    bottom: 0;
+    width: 60%;
+    background-color: rgb(131, 176, 176);
+    color: #fff;
+    margin-bottom: 125px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Für den Text innerhalb des Containers */
+    border-radius: 10px; 
+    margin-left: 20%; /* Zentrieren horizontal */
+    margin-right: 20%; /* Zentrieren horizontal */
+    font-size: small;
+}
 
 
 /*FAQ*/
@@ -348,7 +387,7 @@ input {
 
 /* Stil für die Fragen */
 .faq-item {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid rgb(131, 176, 176);
 }
 
 .faq-question {
@@ -362,6 +401,7 @@ input {
 .faq-answer {
     padding: 10px;
     display: none;
+    background-color: rgb(156, 189, 189);
 }
 
 .faq-answer.show {
@@ -391,7 +431,7 @@ input {
         width: 100%;
         background-color: #333;
         color: #fff;
-        padding: 30px;
+        padding: 40px;
         z-index: 999;
         display: flex;
         justify-content: space-between;
@@ -407,7 +447,7 @@ input {
     }
 
     .footer-content {
-        padding-bottom: 70px;
+        padding-bottom: 110px;
     }
 }
 
