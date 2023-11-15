@@ -1,11 +1,24 @@
 $(document).ready(function() {
     function updateNetInfo() {
-        const info = "Updated at " + new Date().toLocaleTimeString() + ": " + JSON.stringify(getNetworkInfo());
-        $("#netinfo_test").text(info);
+        const info = getNetworkInfo();
+
+        const updateTime = "Updated at " + new Date().toLocaleTimeString();
+        $(".update-time").text(updateTime);
+
+        const onlineStatus = "Online status: " + (info.isOnline ? "Online" : "Offline");
+        $(".online-status").text(onlineStatus);
+
+        const cellularStatus = "Cellular connection: " + (info.isCellular ? "Yes" : "No");
+        $(".cellular-status").text(cellularStatus);
+
+        const effectiveType = "Effective connection type: " + info.effectiveType;
+        $(".effective-type").text(effectiveType);
     }
+
     updateNetInfo();
     setInterval(updateNetInfo, 10000);
 });
+
 
 const loginButton = document.getElementById("loginButton");
 const loginContainer = document.getElementById("loginContainer");
@@ -59,7 +72,7 @@ function enableTrackingButton() {
 
 // Funktion, um den Tracking-Button zu deaktivieren
 function disableTrackingButton() {
-    trackButton.innerText = "Please login to track";
+    trackButton.innerText = "login to track";
     trackButton.removeEventListener("click", toggleTracking);
 }
 
