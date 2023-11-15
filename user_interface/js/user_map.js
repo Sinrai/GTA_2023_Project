@@ -12,7 +12,7 @@ $(document).ready(function() {
     });
 
     var switzerlandBounds = L.latLngBounds(
-        L.latLng(45.217, 5.967), // Southwest coordinates
+        L.latLng(45.817, 5.967), // Southwest coordinates
         L.latLng(47.808, 10.492) // Northeast coordinates
     );
 
