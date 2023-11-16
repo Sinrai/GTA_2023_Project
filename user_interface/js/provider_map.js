@@ -30,11 +30,25 @@ $(document).ready(function() {
     var map = L.map('map', {
         center: [46.408375, 8.507669],
         zoom: 8,
-        minZoom: 7.5,
+        minZoom: calculateMinZoom() /*7.5*/,
         zoomSnap: 0.5,
         maxBounds: switzerlandBounds.pad(0.1),
         layers: [baseMap]
     }).fitBounds(switzerlandBounds);
+
+
+    function calculateMinZoom() {
+        if (window.innerWidth <= 768) {
+            return 7.5; // Setze den Min-Zoom für mobile Geräte
+        } else {
+            return 8.5; // Setze den Min-Zoom für Desktop-Geräte
+        }
+    }
+    
+    // Reagiere auf Änderungen der Bildschirmgröße
+    window.addEventListener('resize', function () {
+        map.setMinZoom(calculateMinZoom());
+    });
 
     var overlays = {
         "Salt": saltMap,

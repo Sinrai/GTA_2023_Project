@@ -1,5 +1,25 @@
 document.addEventListener("DOMContentLoaded", function() {
-    // Navigation menu
+    const toolbar = document.querySelector('.toolbar');
+
+    function checkWindowSize() {
+        if (window.innerWidth <= 768) {
+            // Wenn der Bildschirm klein ist (mobile Ansicht)
+            toolbar.classList.remove('collapsed');
+        } else {
+            // Wenn der Bildschirm groß ist (Desktop-Ansicht)
+            toolbar.classList.add('collapsed');
+        }
+    }
+
+    // Initialisierung beim Laden der Seite
+    checkWindowSize();
+
+    // Eventlistener für Änderungen der Bildschirmgröße
+    window.addEventListener('resize', function() {
+        checkWindowSize();
+    });
+
+    // Restlicher Code bleibt unverändert
     document.getElementById("home_page").addEventListener("click", function() {
         loadContent('home.html');
     });
@@ -12,12 +32,8 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("faq_page").addEventListener("click", function() {
         loadContent('faq.html');
     });
-
-    $(document).ready(function() {
-        // Load content from home.html initially
-        loadContent('home.html');
-    });
 });
+
 
 function loadContent(page) {
     $.ajax({

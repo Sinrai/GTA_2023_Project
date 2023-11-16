@@ -17,7 +17,7 @@ body {
     height: 100%;
     overflow: auto;
     /* Scrollleisten werden angezeigt, wenn der Inhalt die Höhe des Browserfensters überschreitet */
-    background-color: whitesmoke;
+    background-color: white;
 }
 
 h2,
@@ -37,7 +37,7 @@ h1 {
     font-family: 'Varela Round', sans-serif;
     color: black;
     margin-bottom: 10px;
-    margin-top:40px;
+    margin-top: 40px;
 }
 
 #subtitle {
@@ -62,7 +62,7 @@ header {
     border-bottom: 1px solid aliceblue;
     width: 100%;
     text-align: center;
-    background-color: rgb(216, 216, 216);
+    background-color: rgb(241, 239, 239);
     z-index: 1;
     /* Ensure the header stays above the pseudo-element */
     -webkit-box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
@@ -96,6 +96,51 @@ footer {
     text-align: center;
 }
 
+/*TOOLBAR*/
+.toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 40px;
+    /* Ändere die Padding-Größe für die eingeklappte Ansicht */
+    z-index: 999;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    transition: padding 0.3s;
+    /* Füge eine Transition für eine sanfte Animation hinzu */
+}
+
+.toolbar button {
+    background: none;
+    color: white;
+    border: none;
+    font-size: 10px;
+    margin: 0 5px;
+    /* Ändere den Margin für die Buttons */
+}
+
+/*
+.toolbar.collapsed button {
+ Verstecke die Buttons in der eingeklappten Ansicht 
+}*/
+
+.toolbar.collapsed {
+    padding: 5px;
+    overflow: hidden;
+    transition: padding 0.3s ease-in-out;
+}
+
+/* Wenn die Maus über die Toolbar fährt */
+.toolbar:hover.collapsed {
+    padding: 40px;
+    /* Zeige die Toolbar vollständig beim Hover */
+}
+
+
 .content {
     flex-grow: 1;
     display: flex;
@@ -114,8 +159,6 @@ footer {
     z-index: 99;
     /* Hinzugefügte Zeile: Über dem map-Element anzeigen */
 }
-
-
 
 
 /*MENU*/
@@ -176,7 +219,7 @@ button {
 button#loginButton {
     position: fixed;
     margin: 40px 20px;
-    padding: 10px 20px;
+    padding: 10px 10px;
     background: #333;
     color: #fff;
     border: none;
@@ -233,7 +276,7 @@ input {
 
 
 
-/*USER MAP*/
+/*PROVIDER MAP*/
 #map {
     flex: 1;
     top: 115px;
@@ -243,8 +286,6 @@ input {
     position: fixed;
     z-index: 1;
 }
-
-
 
 .map {
     position: fixed;
@@ -287,19 +328,6 @@ input {
     display: inline-block;
     z-index: 92;
 }
-
-#fullscreenButton {
-    position: absolute;
-    bottom: 8px;
-    left: 8px;
-    background: rgba(255, 255, 255, 0.7);
-    /* Hinzugefügte Zeile: Hintergrundfarbe mit Transparenz */
-    padding: 3px;
-    /* Hinzugefügte Zeile: Innenabstand für den Button */
-    z-index: 2;
-    border: 2px solid rgba(0, 0, 0, 0.332);
-}
-
 
 /* Füge eine Pseudo-Element, um das Icon zu zentrieren */
 #fullscreenButton i {
@@ -371,17 +399,20 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center; /* Für den Text innerhalb des Containers */
-    border-radius: 10px; 
-    margin-left: 20%; /* Zentrieren horizontal */
-    margin-right: 20%; /* Zentrieren horizontal */
+    text-align: center;
+    /* Für den Text innerhalb des Containers */
+    border-radius: 10px;
+    margin-left: 20%;
+    /* Zentrieren horizontal */
+    margin-right: 20%;
+    /* Zentrieren horizontal */
     font-size: small;
 }
 
 
 /*FAQ*/
 .faq {
-    max-width: 600px;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -413,6 +444,29 @@ input {
 }
 
 
+@media screen and (min-width: 768px) {
+    h1 {
+        margin-top: 10px;
+    }
+
+    header {
+        height: 85px;
+    }
+    .seitentitel-provider {
+        margin-bottom: 50px;
+    }
+
+    #map {
+        flex: 1;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 50px);
+        position: fixed;
+        z-index: 1;
+    }
+}
+
 
 /* Stil für Desktop- und Mobilansicht */
 @media screen {
@@ -422,28 +476,6 @@ input {
 
     .seitentitel {
         padding-top: 80px;
-    }
-
-    .toolbar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: #333;
-        color: #fff;
-        padding: 40px;
-        z-index: 999;
-        display: flex;
-        justify-content: space-between;
-        box-sizing: border-box;
-    }
-
-    .toolbar button {
-        background: none;
-        color: white;
-        border: none;
-        font-size: 10px;
-        margin: 0 10px;
     }
 
     .footer-content {
