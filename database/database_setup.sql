@@ -1,30 +1,29 @@
-CREATE TABLE antenna_locations(
+DROP TABLE IF EXISTS gta_p4.antenna_locations;
+DROP TABLE IF EXISTS gta_p4.train_tracks;
+DROP TABLE IF EXISTS gta_p4.user_trajectory_data;
+DROP TABLE IF EXISTS gta_p4.user_point_data;
+
+CREATE TABLE gta_p4.antenna_locations(
      antenna_id SERIAL PRIMARY KEY,
      radiated_power VARCHAR(16),
-     geom geometry);
+     type INTEGER,
+     geom GEOMETRY);
 
-CREATE TABLE train_tracks(
+CREATE TABLE gta_p4.train_tracks(
      track_id SERIAL PRIMARY KEY,
-     geom geometry);
+     geom GEOMETRY);
 
-
-CREATE TABLE user(
-     user_id SERIAL PRIMARY KEY,
-     name VARCHAR(16),
-     provider VARCHAR(16));
-
-CREATE TABLE user_trajectory_data(
+CREATE TABLE gta_p4.user_trajectory_data(
      user_trajectory_id SERIAL PRIMARY KEY,
      distance REAL,
      time TIMESTAMP,
-     user_id INTEGER references user(user_id),
-     geom geometry);
+     user VARCHAR(255),
+     geom GEOMETRY);
 
-
-CREATE TABLE user_point_data(
+CREATE TABLE gta_p4.user_point_data(
      data_id SERIAL PRIMARY KEY,
      netspeed VARCHAR(16),
-     geom geometry,
      provider VARCHAR(16),
      time TIMESTAMP,
-     user_tractory_id INTEGER references user_trajectory_data(user_trajectory_id));
+     user VARCHAR(255),
+     geom GEOMETRY);
