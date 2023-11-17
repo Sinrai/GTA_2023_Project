@@ -1,7 +1,7 @@
 CREATE TABLE antenna_locations(
      antenna_id SERIAL PRIMARY KEY,
      radiated_power VARCHAR(16),
-     geom POINT);
+     geom geometry);
 
 CREATE TABLE train_tracks(
      track_id SERIAL PRIMARY KEY,
@@ -24,7 +24,7 @@ CREATE TABLE user_trajectory_data(
 CREATE TABLE user_point_data(
      data_id SERIAL PRIMARY KEY,
      netspeed VARCHAR(16),
-     geom POINT,
+     geom geometry,
      provider VARCHAR(16),
      time TIMESTAMP,
      user_tractory_id INTEGER references user_trajectory_data(user_trajectory_id));
