@@ -14,8 +14,8 @@ conn = psycopg2.connect(**db_gta)
 cur=conn.cursor()
 
 for json_file in ['2G.json', '3G.json', '4G.json', '5G.json']:
-    with open(json_file, 'r') as json:
-        data = json.load(json_file)
+    with open(json_file, 'r') as json_file_r:
+        data = json.load(json_file_r)
         for i in range(len(data["features"])):
             coordinate=Point(np.array(data["features"])[i]["geometry"]["coordinates"][0],np.array(data["features"])[i]["geometry"]["coordinates"][1])
             power=data["features"][i]["properties"]["powercode_de"]

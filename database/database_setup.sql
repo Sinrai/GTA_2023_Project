@@ -17,7 +17,7 @@ CREATE TABLE gta_p4.user_trajectory_data(
      user_trajectory_id SERIAL PRIMARY KEY,
      distance REAL,
      time TIMESTAMP,
-     user VARCHAR(255),
+     username VARCHAR(255),
      geom GEOMETRY);
 
 CREATE TABLE gta_p4.user_point_data(
@@ -25,5 +25,5 @@ CREATE TABLE gta_p4.user_point_data(
      netspeed VARCHAR(16),
      provider VARCHAR(16),
      time TIMESTAMP,
-     user VARCHAR(255),
+     username VARCHAR(255),
      geom GEOMETRY);
