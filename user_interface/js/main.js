@@ -32,6 +32,11 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("faq_page").addEventListener("click", function() {
         loadContent('faq.html');
     });
+
+    $(document).ready(function() {
+        // Load content from home.html initially
+        loadContent('home.html');
+    });
 });
 
 
@@ -44,10 +49,11 @@ function loadContent(page) {
         }
     });
 }
+
 let faqItems;
 let loginButton;
 let loginContainer;
 let trackButton;
-let isLoggedIn = false; //Anmeldestatus vefolgen
+let isLoggedIn; //Anmeldestatus vefolgen
 let isTracking = false; //Tracking-Status verfolgen
 let submitLogin;
