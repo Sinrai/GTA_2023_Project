@@ -110,13 +110,19 @@ function getCurrentPosition() {
  */
 function insertPoint() {
     //Not finished nor tested
-    let workspace = "GTA23_P4"
-    let layer_point = "point"
-    let layer_trajectory = "traj"
+    let workspace = "GTA23_project";
+    let layer_point = "user_point_data";
+    let layer_trajectory = "user_trajectory_data";
 
-    list.forEach((x, i) => {
-        console.log(x);
-    });
+    let netspeed = 4;
+    let provider = "Swisscom";
+    let time = "1999-01-08 04:05:06";
+    let username = "Gusti";
+    let lng = 48.3223525;
+    let lat = 5.225;
+    let geom = '<gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">\n'
+    + '             <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">' + lng + ',' + lat + '</gml:coordinates>'
+    + '         </gml:Point>\n';
 
     let pointData =
         '<wfs:Transaction\n'
@@ -134,17 +140,16 @@ function insertPoint() {
       + '      http://ikgeoserv.ethz.ch:8080/geoserver/schemas/wfs/1.0.0/WFS-basic.xsd">\n'
       + '  <wfs:Insert>\n'
       + '    <' + workspace + ':' + layer_point + '>\n'
-      + '      <lon>'+lng+'</lon>\n'
-      + '      <lat>'+lat+'</lat>\n'
-      + '      <name>'+name+'</name>\n'
-      + '      <geometry>\n'
-      + '        <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">\n'
-      + '          <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">'+lng+ ',' +lat+'</gml:coordinates>\n'
-      + '        </gml:Point>\n'
-      + '      </geometry>\n'
+      + '      <netspeed>'+netspeed+'</netspeed>\n'
+      + '      <provider>'+provider+'</provider>\n'
+      + '      <time>'+time+'</time>\n'
+      + '      <username>'+username+'</username>\n'
+      + '      <geom>' + geom + '</geom>\n'
       + '    </' + workspace + ':' + layer_point + '>\n'
       + '  </wfs:Insert>\n'
       + '</wfs:Transaction>';
+
+    let postData = pointData;
 
     $.ajax({
         type: "POST",
