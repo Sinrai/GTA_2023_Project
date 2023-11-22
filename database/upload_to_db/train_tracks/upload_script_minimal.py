@@ -7,14 +7,15 @@ from psycopg2.extensions import AsIs
 import pandas as pd
 import numpy as np
 
-with fiona.open("swissTLM3D_TLM_EISENBAHN.shp","r") as shpfile:
-    db_gta = {"dbname": "gta",
+db_gta = {"dbname": "gta",
             "port": "5432",
             "user": "gta_p4",
             "password": "***REMOVED***",
             "host": "ikgpgis.ethz.ch"}
-    conn = psycopg2.connect(**db_gta)
-    cur=conn.cursor()
+conn = psycopg2.connect(**db_gta)
+cur=conn.cursor()
+
+with fiona.open("swissTLM3D_TLM_EISENBAHN.shp","r") as shpfile:
     for i in shpfile:
         line = LineString(np.array(i['geometry']['coordinates'])[:,:2])
         cur.execute(f"INSERT INTO train_tracks (geom) VALUES ('{line}');")
