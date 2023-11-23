@@ -282,7 +282,7 @@ input {
     top: 143px;
     left: 0;
     width: 100%;
-    height: calc(100% - 200px);
+    height: calc(100% - 250px);
     position: fixed;
     z-index: 1;
 }

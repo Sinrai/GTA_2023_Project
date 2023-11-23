@@ -50,6 +50,7 @@ $(document).ready(function() {
         map.setMinZoom(calculateMinZoom());
     });
 
+    //Overlays der Provider maps
     var overlays = {
         "Salt": saltMap,
         "Sunrise": sunriseMap,
@@ -58,7 +59,11 @@ $(document).ready(function() {
 
     baseMap.addTo(map);
 
-    L.control.scale({ imperial: false }).addTo(map);
-
     var layerControl = L.control.layers(overlays).addTo(map);
+
+    //Massstab
+    L.control.scale({ imperial: false }).addTo(map); 
+
+
+
 });

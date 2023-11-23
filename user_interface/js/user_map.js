@@ -2,9 +2,7 @@ $(document).ready(function() {
     document.getElementById("close_map").addEventListener("click", function() {
         loadContent('analysis.html');
     });
-});
 
-$(document).ready(function() {
     var baseMap = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: 'ch.swisstopo.pixelkarte-grau',
         format: 'image/jpeg',
@@ -26,4 +24,44 @@ $(document).ready(function() {
     }).fitBounds(switzerlandBounds);
 
     baseMap.addTo(map);
+
+
+    
+    //Function to zoom to current position 
+    function updateMap(position) {
+        var userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
+        map.setView(userLatLng, 13);
+        var marker = L.marker(userLatLng).addTo(map);
+        console.log('Current position:', position);
+    }
+
+    function errorPosition(error) {
+        console.error('Error getting current position:', error);
+    }
+
+    function startTracking() {
+        navigator.geolocation.watchPosition(updateMap, errorPosition, {
+            enableHighAccuracy: true
+        });
+    }
+
+    startTracking();
+
+
+
+
+    /*
+    //Function to zoom to current position (doesn't work)
+    getCurrentPosition()
+        .then(position => {
+            var userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
+            map.setView(userLatLng, 13); 
+            var marker = L.marker(userLatLng).addTo(map);
+            console.log('Current position:', position);
+        })
+        .catch(error => {
+            console.error('Error getting current position:', error);
+        });
+    */
+        
 });
