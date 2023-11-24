@@ -409,6 +409,38 @@ input {
     font-size: small;
 }
 
+.legend {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    color: #111111;
+    
+    padding: 10px;
+    
+    position: fixed;
+    right: 0px;
+    bottom: 200px;
+    width: 40%;
+    
+    z-index: 999;
+    display: flex;
+
+    /* Für den Text innerhalb des Containers */
+    font-size: small;
+}
+
+
+.legend-content {
+    display: inline-block;
+    background-color: green;
+    opacity: 0.5;
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.legendDescription {
+    background-color: #f9f9f9;
+}
 
 /*FAQ*/
 .faq {

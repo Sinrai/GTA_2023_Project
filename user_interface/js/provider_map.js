@@ -61,8 +61,68 @@ $(document).ready(function() {
 
     var layerControl = L.control.layers(overlays).addTo(map);
 
+    //var layerControl = L.control.layers(null, overlays).addTo(map);
+
     //Massstab
     L.control.scale({ imperial: false }).addTo(map); 
+
+
+
+    //Legende
+    var legend = L.control({
+        position: 'bottomright'
+    });
+
+    legend.onAdd = function (map) {
+        var div = L.DomUtil.create('div', 'legend');
+        updateLegend(div, baseMap); // Initialize the legend with the default base map
+        return div;
+    };
+
+    legend.addTo(map);
+
+    function updateLegend(legendDiv, activeLayer) {
+        // Clear the existing content
+        legendDiv.innerHTML = '';
+
+        // Add legend content based on the activeLayer
+        if (activeLayer === baseMap) {
+            legendDiv.innerHTML = '<h4>Legend for Base Map</h4>';
+
+        //Salt
+        } else if (activeLayer === saltMap) {
+            //legendDiv.innerHTML = '<h4>Legend for Salt Map</h4>';
+
+            var legendContent = document.createElement('div');
+            legendContent.className = 'legend-content';
+            
+            var legendDescription = document.createElement('div')
+            legendDescription.className = 'legendDescription';
+            legendDescription.innerHTML = '3G (?)';
+
+            legendDiv.appendChild(legendContent);
+            legendDiv.appendChild(legendDescription);
+
+        //Sunrise
+        } else if (activeLayer === sunriseMap) {
+            legendDiv.innerHTML = '<h4>Legend for Sunrise Map</h4>';
+
+        //Swisscom
+        } else if (activeLayer === swisscomMap) {
+            legendDiv.innerHTML = '<h4>Legend for Swisscom Map</h4>';
+
+        }
+    }
+
+    map.on('layeradd', function (event) {
+        var activeLayer = event.layer;
+        updateLegend(legend.getContainer(), activeLayer);
+    });
+
+    map.on('layerremove', function (event) {
+        var activeLayer = map.hasLayer(baseMap) ? baseMap : null;
+        updateLegend(legend.getContainer(), activeLayer);
+    });
 
 
 
