@@ -38,6 +38,7 @@ submitLogin.addEventListener("click", () => {
     updateLoginButton(); // Update des Login/Logout-Buttons nach dem Login
     updateTrackingButton()
     loginContainer.style.display = "none";
+    userID = document.getElementById("input_userid").value;
     // alert("Einloggen erfolgreich!");
     saveLoginStatus(isLoggedIn); // Speichere den Anmeldestatus
 });
@@ -65,12 +66,14 @@ function toggleTracking() {
 // Funktion zum Speichern des Anmeldestatus im Local Storage
 function saveLoginStatus(status) {
     localStorage.setItem('isLoggedin', status); // Speichere den Status im Local Storage
+    localStorage.setItem('userID', userID);
 }
 
 // Funktion zum Laden des Anmeldestatus aus dem Local Storage
 function loadLoginStatus() {
     isLoggedIn = localStorage.getItem('isLoggedin'); // Lade den Status aus dem Local Storage
     if (isLoggedIn == null) {
+        userID = localStorage.getItem('userID')
         saveLoginStatus(false);
         isLoggedIn = false;
     }
@@ -84,12 +87,17 @@ function updateLoginButton() {
 
 function updateTrackingButton() {
     if (isLoggedIn) {
-        if (isTracking) {
-            trackButton.innerText = "Stop Tracking";
-            trackButton.addEventListener("click", toggleTracking);
+        if (getNetworkInfo()["isCellular"]) {
+            if (isTracking) {
+                trackButton.innerText = "Stop Tracking";
+                trackButton.addEventListener("click", toggleTracking);
+            } else {
+                trackButton.innerText = "Start Tracking";
+                trackButton.addEventListener("click", toggleTracking);
+            }
         } else {
-            trackButton.innerText = "Start Tracking";
-            trackButton.addEventListener("click", toggleTracking);
+            trackButton.innerText = "Connect with cellular connection to track";
+            trackButton.removeEventListener("click", toggleTracking);
         }
     } else {
         trackButton.innerText = "Login to Track";

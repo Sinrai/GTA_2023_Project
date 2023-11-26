@@ -54,6 +54,7 @@ let faqItems;
 let loginButton;
 let loginContainer;
 let trackButton;
+let userID;
 let isLoggedIn; //Anmeldestatus vefolgen
 let isTracking = false; //Tracking-Status verfolgen
 let submitLogin;
