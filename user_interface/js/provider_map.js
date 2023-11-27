@@ -71,111 +71,56 @@ $(document).ready(function() {
 
 
 
+    
 
     // Legende
-    function updateLegend(legendDiv, activeLayer) {
+    var activeLayers = [];
+
+    function updateLegend(legendDiv) {
         console.log('function');
-        // Clear the existing content
-        console.log(activeLayer)
-        legendDiv.innerHTML = '';
-
-        // Add legend content based on the activeLayer
-        if (activeLayer === baseMap) {
-            legendDiv.innerHTML = '<h4>Legend for Base Map</h4>';
-        }
         
-        if (activeLayer === saltMap) {
-            var legendContent = document.createElement('div');
-            legendContent.className = 'legend-content';
+        legendDiv.innerHTML = ''; // Clear existing content
 
-            var legendDescription = document.createElement('div');
-            legendDescription.className = 'legendDescription';
-            legendDescription.innerHTML = '3G (?)';
+        activeLayers.forEach(function (layer) {
+            if (layer === baseMap) {
+                legendDiv.innerHTML += '<h4>Legend for Base Map</h4>';
+            } else if (layer === saltMap) {
+                var legendContent = document.createElement('div');
+                legendContent.className = 'legend-content';
 
-            legendDiv.appendChild(legendContent);
-            legendDiv.appendChild(legendDescription);
-            console.log('salt');
-        }
-        
-        if (activeLayer === sunriseMap) {
-            legendDiv.innerHTML = '<h4>Legend for Sunrise Map</h4>';
-            console.log('sunrise');
-        }
-        
-        if (activeLayer === swisscomMap) {
-            legendDiv.innerHTML = '<h4>Legend for Swisscom Map</h4>';
-            console.log('swisscom');
-        }
+                var legendDescription = document.createElement('div');
+                legendDescription.className = 'legendDescription';
+                legendDescription.innerHTML = '3G (?)';
+
+                legendDiv.appendChild(legendContent);
+                legendDiv.appendChild(legendDescription);
+            } else if (layer === sunriseMap) {
+                legendDiv.innerHTML += '<h4>Legend for Sunrise Map</h4>';
+            } else if (layer === swisscomMap) {
+                legendDiv.innerHTML += '<h4>Legend for Swisscom Map</h4>';
+            }
+        });
     }
 
     map.on('layeradd', function (event) {
         var activeLayer = event.layer;
-        updateLegend(legend, activeLayer);
-    });
 
-    map.on('layerremove', function (event) {
-        var activeLayer = map.hasLayer(baseMap) ? baseMap : null;
-        updateLegend(legend, activeLayer);
-    });
-
-
-    /*
-    //Legende
-    var legend = L.control({
-        position: 'bottomright'
-    });
-
-    legend.onAdd = function (map) {
-        var div = L.DomUtil.create('div', 'legend');
-        updateLegend(div, baseMap); // Initialize the legend with the default base map
-        return div;
-    };
-
-    legend.addTo(map);
-
-    function updateLegend(legendDiv, activeLayer) {
-        // Clear the existing content
-        legendDiv.innerHTML = '';
-
-        // Add legend content based on the activeLayer
-        if (activeLayer === baseMap) {
-            legendDiv.innerHTML = '<h4>Legend for Base Map</h4>';
-
-        //Salt
-        } else if (activeLayer === saltMap) {
-            //legendDiv.innerHTML = '<h4>Legend for Salt Map</h4>';
-
-            var legendContent = document.createElement('div');
-            legendContent.className = 'legend-content';
-            
-            var legendDescription = document.createElement('div')
-            legendDescription.className = 'legendDescription';
-            legendDescription.innerHTML = '3G (?)';
-
-            legendDiv.appendChild(legendContent);
-            legendDiv.appendChild(legendDescription);
-
-        //Sunrise
-        } else if (activeLayer === sunriseMap) {
-            legendDiv.innerHTML = '<h4>Legend for Sunrise Map</h4>';
-
-        //Swisscom
-        } else if (activeLayer === swisscomMap) {
-            legendDiv.innerHTML = '<h4>Legend for Swisscom Map</h4>';
-
+        if (!activeLayers.includes(activeLayer)) {
+            activeLayers.push(activeLayer);
         }
-    }
 
-    map.on('layeradd', function (event) {
-        var activeLayer = event.layer;
-        updateLegend(legend.getContainer(), activeLayer);
+        updateLegend(legend);
     });
 
     map.on('layerremove', function (event) {
-        var activeLayer = map.hasLayer(baseMap) ? baseMap : null;
-        updateLegend(legend.getContainer(), activeLayer);
+        var removedLayer = event.layer;
+
+        activeLayers = activeLayers.filter(function (layer) {
+            return layer !== removedLayer;
+        });
+
+        updateLegend(legend);
     });
-    */
 
 
 });
