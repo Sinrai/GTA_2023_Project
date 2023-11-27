@@ -77,33 +77,60 @@
     var activeLayers = [];
 
     function updateLegend(legendDiv) {
-        console.log('function');
         
-        legendDiv.innerHTML = ''; // Clear existing content
+        legendDiv.innerHTML = 'Legend'; // Clear existing content
 
         activeLayers.forEach(function (layer) {
             if (layer === baseMap) {
                 legendDiv.innerHTML += '<h4>Legend for Base Map</h4>';
-            } else if (layer === saltMap) {
+            } 
+            
+            else if (layer === saltMap) {
                 var legendContent = document.createElement('div');
                 legendContent.className = 'legend-content';
+                legendContent.style.backgroundColor = '#41b045';
 
                 var legendDescription = document.createElement('div');
-                legendDescription.className = 'legendDescription';
-                legendDescription.innerHTML = '3G (?)';
+                legendDescription.className = 'legend-description';
+                legendDescription.innerHTML = '3G Salt (?)';
 
                 legendDiv.appendChild(legendContent);
                 legendDiv.appendChild(legendDescription);
-            } else if (layer === sunriseMap) {
-                legendDiv.innerHTML += '<h4>Legend for Sunrise Map</h4>';
-            } else if (layer === swisscomMap) {
-                legendDiv.innerHTML += '<h4>Legend for Swisscom Map</h4>';
+            } 
+            
+            else if (layer === sunriseMap) {
+                var legendContent = document.createElement('div');
+                legendContent.className = 'legend-content';
+                legendContent.style.backgroundColor = '#c42d3f';
+
+                var legendDescription = document.createElement('div');
+                legendDescription.className = 'legend-description';
+                legendDescription.innerHTML = '3G Sunrise (?)';
+
+                legendDiv.appendChild(legendContent);
+                legendDiv.appendChild(legendDescription);
+
+            } 
+            
+            else if (layer === swisscomMap) {
+                var legendContent = document.createElement('div');
+                legendContent.className = 'legend-content';
+                legendContent.style.backgroundColor = '#3e2bcc';
+
+                var legendDescription = document.createElement('div');
+                legendDescription.className = 'legend-description';
+                legendDescription.innerHTML = '3G Swisscom (?)';
+
+                legendDiv.appendChild(legendContent);
+                legendDiv.appendChild(legendDescription);
             }
         });
     }
 
     map.on('layeradd', function (event) {
         var activeLayer = event.layer;
+
+        activeLayer.bringToFront();
 
         if (!activeLayers.includes(activeLayer)) {
             activeLayers.push(activeLayer);
