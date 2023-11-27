@@ -1,4 +1,4 @@
-$(document).ready(function() {
+  $(document).ready(function() {
     var baseMap = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: 'ch.swisstopo.pixelkarte-grau',
         format: 'image/jpeg',
@@ -179,3 +179,17 @@ $(document).ready(function() {
 
 
 });
+
+
+    // Funktion, um das Element sanft auszublenden
+    function elementAusblenden() {
+      var titelDiv = document.getElementById('titelDiv');
+      if (titelDiv) {
+        titelDiv.style.opacity = '0';
+      }
+    }
+  
+    // Warte 5 Sekunden und rufe die Funktion auf, um das Element auszublenden
+    setTimeout(elementAusblenden, 5000);
+  
+

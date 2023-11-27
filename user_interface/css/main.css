@@ -277,6 +277,7 @@ input {
 
 
 /*PROVIDER MAP*/
+
 #map {
     flex: 1;
     top: 143px;
@@ -407,6 +408,9 @@ input {
     margin-right: 20%;
     /* Zentrieren horizontal */
     font-size: small;
+    opacity: 1;
+    transition: opacity 1s ease; /* Füge eine Übergangseigenschaft hinzu */
+  }
 }
 
 #legend {
