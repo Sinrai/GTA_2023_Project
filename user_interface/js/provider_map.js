@@ -59,15 +59,67 @@ $(document).ready(function() {
 
     baseMap.addTo(map);
 
-    var layerControl = L.control.layers(overlays).addTo(map);
+    
+    //var layerControl = L.control.layers(overlays).addTo(map); //Only one map layer at a time visible
 
-    //var layerControl = L.control.layers(null, overlays).addTo(map);
+    
+    var layerControl = L.control.layers(null, overlays).addTo(map); //Multiple map layers visible
 
     //Massstab
     L.control.scale({ imperial: false }).addTo(map); 
 
 
 
+
+
+    // Legende
+    function updateLegend(legendDiv, activeLayer) {
+        console.log('function');
+        // Clear the existing content
+        console.log(activeLayer)
+        legendDiv.innerHTML = '';
+
+        // Add legend content based on the activeLayer
+        if (activeLayer === baseMap) {
+            legendDiv.innerHTML = '<h4>Legend for Base Map</h4>';
+        }
+        
+        if (activeLayer === saltMap) {
+            var legendContent = document.createElement('div');
+            legendContent.className = 'legend-content';
+
+            var legendDescription = document.createElement('div');
+            legendDescription.className = 'legendDescription';
+            legendDescription.innerHTML = '3G (?)';
+
+            legendDiv.appendChild(legendContent);
+            legendDiv.appendChild(legendDescription);
+            console.log('salt');
+        }
+        
+        if (activeLayer === sunriseMap) {
+            legendDiv.innerHTML = '<h4>Legend for Sunrise Map</h4>';
+            console.log('sunrise');
+        }
+        
+        if (activeLayer === swisscomMap) {
+            legendDiv.innerHTML = '<h4>Legend for Swisscom Map</h4>';
+            console.log('swisscom');
+        }
+    }
+
+    map.on('layeradd', function (event) {
+        var activeLayer = event.layer;
+        updateLegend(legend, activeLayer);
+    });
+
+    map.on('layerremove', function (event) {
+        var activeLayer = map.hasLayer(baseMap) ? baseMap : null;
+        updateLegend(legend, activeLayer);
+    });
+
+
+    /*
     //Legende
     var legend = L.control({
         position: 'bottomright'
@@ -123,7 +175,7 @@ $(document).ready(function() {
         var activeLayer = map.hasLayer(baseMap) ? baseMap : null;
         updateLegend(legend.getContainer(), activeLayer);
     });
-
+    */
 
 
 });
