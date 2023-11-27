@@ -55,10 +55,12 @@ function logout() {
 function toggleTracking() {
     if (!isTracking) {
         isTracking = true;
-        alert("Tracking ist aktiviert.");
+        startTracking();
+        //alert("Tracking ist aktiviert.");
     } else {
         isTracking = false;
-        alert("Tracking ist beendet.");
+        stopTracking();
+        //alert("Tracking ist beendet.");
     }
     updateTrackingButton();
 }
@@ -73,9 +75,10 @@ function saveLoginStatus(status) {
 function loadLoginStatus() {
     isLoggedIn = localStorage.getItem('isLoggedin'); // Lade den Status aus dem Local Storage
     if (isLoggedIn == null) {
-        userID = localStorage.getItem('userID')
         saveLoginStatus(false);
         isLoggedIn = false;
+    } else {
+        userID = localStorage.getItem('userID')
     }
     updateLoginButton(); // Aktualisiere den Login/Logout-Button basierend auf dem geladenen Status
     updateTrackingButton(); //Aktualisiere den Tracking-Button basierend auf dem geladenen Status
@@ -87,7 +90,7 @@ function updateLoginButton() {
 
 function updateTrackingButton() {
     if (isLoggedIn) {
-        if (getNetworkInfo()["isCellular"]) {
+        if (getNetworkInfo()["isCellular"] | true) {
             if (isTracking) {
                 trackButton.innerText = "Stop Tracking";
                 trackButton.addEventListener("click", toggleTracking);

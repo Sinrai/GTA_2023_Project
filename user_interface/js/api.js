@@ -105,21 +105,21 @@ function getCurrentPosition() {
 
 function gen_WFSInsert_user_point_data(workspace, layer, data) {
     function gen_WFSInsert_single(single) {
-        return
-        '<wfs:Insert>\n'
+        return '<wfs:Insert>\n'
         + '  <' + workspace + ':' + layer + '>\n'
         + '      <netspeed>'+single.netspeed+'</netspeed>\n'
-        + '      <provider>'+single.IP+'</provider>\n'
+        + '      <ip>'+single.IP+'</ip>\n'
         + '      <time>'+single.time+'</time>\n'
         + '      <username>'+userID+'</username>\n'
         + '      <geom>\n'
         + '          <gml:Point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">\n'
-        + '              <gml:pos>' + single.position.coords.latitude + ' ' + single.position.coords.longitude + '</gml:pos>'
-        + '          </gml:Point>\n';
+        + '              <gml:coordinates decimal="." cs="," ts=" ">' + single.position.coords.latitude + ',' + single.position.coords.longitude + '</gml:coordinates>\n'
+        + '          </gml:Point>\n'
         + '      </geom>\n'
         + '  </' + workspace + ':' + layer + '>\n'
-        + '</wfs:Insert>\n'
+        + '</wfs:Insert>\n';
     }
+
     let string =
         '<wfs:Transaction\n'
         + '  service="WFS"\n'
@@ -141,7 +141,7 @@ function gen_WFSInsert_user_point_data(workspace, layer, data) {
 
 function gen_WFSInsert_user_trajectory_data(workspace, layer, data) {
     function get_coords_string(data) {
-        return data.coords.latitude + " " + data.coords.longitude;
+        return data.position.coords.latitude + "," + data.position.coords.longitude;
     }
 
     let string =
@@ -163,13 +163,14 @@ function gen_WFSInsert_user_trajectory_data(workspace, layer, data) {
         + '          <time>'+data[0].time+'</time>\n'
         + '          <username>'+userID+'</username>\n'
         + '          <geom>\n'
-        + '              <gml:LineString srsName="http://www.opengis.net/def/crs/EPSG/0/4326">\n'
-        + '                   <gml:posList>' + data.map(get_coords_string).join(" ") + '</gml:posList>\n'
+        + '              <gml:LineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">\n'
+        + '                   <gml:coordinates decimal="." cs="," ts=" ">' + data.map(get_coords_string).join(" ") + '</gml:coordinates>\n'
         + '              </gml:LineString>\n'
         + '          </geom>\n'
         + '      </' + workspace + ':' + layer + '>\n'
         + '  </wfs:Insert>\n'
         + '</wfs:Transaction>';
+    console.log(string);
     return string
 }
 
@@ -180,12 +181,8 @@ function gen_WFSInsert_user_trajectory_data(workspace, layer, data) {
 function uploadData(data) {
     //Not finished nor tested
     let workspace = "GTA23_project";
-    let layer_point = "user_point_data";
-    let layer_trajectory = "user_trajectory_data";
-
-    let pointData = gen_WFSInsert_user_point_data(workspace, layer_point, data);
-
-    let trajectoryData = gen_WFSInsert_user_trajectory_data(workspace, layer_trajectory, data);
+    let layer_point = "gta_p4_user_point_data";
+    let layer_trajectory = "gta_p4_user_trajectory_data";
 
     function upload(postData) {
         $.ajax({
@@ -197,6 +194,7 @@ function uploadData(data) {
             success: function(xml) {
                 //Success feedback
                 console.log("Data uploaded");
+                console.log(xml);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 //Error handling
@@ -207,23 +205,46 @@ function uploadData(data) {
         });
     }
 
+    let pointData = gen_WFSInsert_user_point_data(workspace, layer_point, data);
     upload(pointData);
-    upload(trajectoryData);
+
+    if (data.length >= 2) {
+        let trajectoryData = gen_WFSInsert_user_trajectory_data(workspace, layer_trajectory, data);
+        upload(trajectoryData);
+    }
+}
+
+function getTimestampString() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const timestampString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
+  return timestampString;
 }
 
 let trackingData = [];
+let intervalId;
 
 function startTracking() {
+    getCurrentPosition(); // Prompt for permissions, otherwise unsused
     intervalId = setInterval(trackPoint, 10000); // Add information every 10000 milliseconds (10 seconds)
 }
 
 function stopTracking() {
-    clearInterval(trackPoint);
+    clearInterval(intervalId);
     uploadData(trackingData);
     trackingData = [];
 }
 
 function trackPoint() {
+    console.log("Point added");
     let data = {};
 
     promiseFunctions = [
@@ -233,9 +254,9 @@ function trackPoint() {
 
     Promise.all(promiseFunctions)
         .then(([ip, position]) => {
-            data.netspeed = getNetworkInfo().effectiveType;
+            data.netspeed = getNetworkInfo().effectiveType[0];
             data.IP = ip;
-            data.time = time;
+            data.time = getTimestampString();
             data.position = position;
             trackingData.push(data);
     })
