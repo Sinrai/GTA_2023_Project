@@ -30,29 +30,6 @@ function getNetworkInfo() {
 }
 
 /**
- * Get current IP
- * @returns {Promise<string>} IP address
- * @example
- * getIP().then((result) => {
- *   console.log('IP:', result);
- * });
- */
-function getIP() {
-    return new Promise(function(resolve, reject) {
-        $.get('https://www.cloudflare.com/cdn-cgi/trace').then(function(data) {
-            data = data.trim().split('\n').reduce(function(obj, pair) {
-                pair = pair.split('=');
-                return obj[pair[0]] = pair[1], obj;
-            }, {});
-            var ipAddress = data['ip'];
-            resolve(ipAddress);
-        }).catch(function(error) {
-            reject(error);
-        });
-    });
-}
-
-/**
  * Is GPS location enabled?
  * @returns {Promise<bool>}
  * @example
@@ -103,130 +80,28 @@ function getCurrentPosition() {
     });
 }
 
-function gen_WFSInsert_user_point_data(workspace, layer, data) {
-    function gen_WFSInsert_single(single) {
-        return '<wfs:Insert>\n'
-        + '  <' + workspace + ':' + layer + '>\n'
-        + '      <netspeed>'+single.netspeed+'</netspeed>\n'
-        + '      <ip>'+single.IP+'</ip>\n'
-        + '      <time>'+single.time+'</time>\n'
-        + '      <username>'+userID+'</username>\n'
-        + '      <geom>\n'
-        + '          <gml:Point srsName="http://www.opengis.net/def/crs/EPSG/0/4326">\n'
-        + '              <gml:coordinates decimal="." cs="," ts=" ">' + single.position.coords.latitude + ',' + single.position.coords.longitude + '</gml:coordinates>\n'
-        + '          </gml:Point>\n'
-        + '      </geom>\n'
-        + '  </' + workspace + ':' + layer + '>\n'
-        + '</wfs:Insert>\n';
-    }
-
-    let string =
-        '<wfs:Transaction\n'
-        + '  service="WFS"\n'
-        + '  version="1.0.0"\n'
-        + '  xmlns="http://www.opengis.net/wfs"\n'
-        + '  xmlns:wfs="http://www.opengis.net/wfs"\n'
-        + '  xmlns:gml="http://www.opengis.net/gml"\n'
-        + '  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
-        + '  xmlns:' + workspace + '="http://www.gis.ethz.ch/' + workspace + '" \n'
-        + '  xsi:schemaLocation="http://www.gis.ethz.ch/' + workspace + ' \n'
-        + '      http://ikgeoserv.ethz.ch:8080/geoserver/' + workspace + '/wfs?service=WFS&amp;'
-        + '      version=1.0.0&amp;request=DescribeFeatureType&amp;typeName=' + workspace + '%3A' + layer + ' \n'
-        + '      http://www.opengis.net/wfs\n'
-        + '      http://ikgeoserv.ethz.ch:8080/geoserver/schemas/wfs/1.0.0/WFS-basic.xsd">\n'
-        +    data.map(gen_WFSInsert_single).join("")
-        + '</wfs:Transaction>';
-    return string
-}
-
-function gen_WFSInsert_user_trajectory_data(workspace, layer, data) {
-    function get_coords_string(data) {
-        return data.position.coords.latitude + "," + data.position.coords.longitude;
-    }
-
-    let string =
-        '<wfs:Transaction\n'
-        + '  service="WFS"\n'
-        + '  version="1.0.0"\n'
-        + '  xmlns="http://www.opengis.net/wfs"\n'
-        + '  xmlns:wfs="http://www.opengis.net/wfs"\n'
-        + '  xmlns:gml="http://www.opengis.net/gml"\n'
-        + '  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n'
-        + '  xmlns:' + workspace + '="http://www.gis.ethz.ch/' + workspace + '" \n'
-        + '  xsi:schemaLocation="http://www.gis.ethz.ch/' + workspace + ' \n'
-        + '      http://ikgeoserv.ethz.ch:8080/geoserver/' + workspace + '/wfs?service=WFS&amp;'
-        + '      version=1.0.0&amp;request=DescribeFeatureType&amp;typeName=' + workspace + '%3A' + layer + ' \n'
-        + '      http://www.opengis.net/wfs\n'
-        + '      http://ikgeoserv.ethz.ch:8080/geoserver/schemas/wfs/1.0.0/WFS-basic.xsd">\n'
-        + '  <wfs:Insert>\n'
-        + '      <' + workspace + ':' + layer + '>\n'
-        + '          <time>'+data[0].time+'</time>\n'
-        + '          <username>'+userID+'</username>\n'
-        + '          <geom>\n'
-        + '              <gml:LineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">\n'
-        + '                   <gml:coordinates decimal="." cs="," ts=" ">' + data.map(get_coords_string).join(" ") + '</gml:coordinates>\n'
-        + '              </gml:LineString>\n'
-        + '          </geom>\n'
-        + '      </' + workspace + ':' + layer + '>\n'
-        + '  </wfs:Insert>\n'
-        + '</wfs:Transaction>';
-    console.log(string);
-    return string
-}
-
 /**
  * Post user_point_data and user_trajectory_data
- * @param {list}     data     List of points, trajectory of user and connectivity
+ * @param {list}     user_data     List of points, trajectory of user and connectivity
  */
-function uploadData(data) {
-    //Not finished nor tested
-    let workspace = "GTA23_project";
-    let layer_point = "gta_p4_user_point_data";
-    let layer_trajectory = "gta_p4_user_trajectory_data";
-
-    function upload(postData) {
-        $.ajax({
-            type: "POST",
-            url: 'http://ikgeoserv.ethz.ch:8080/geoserver/' + workspace + '/wfs',
-            dataType: "xml",
-            contentType: "text/xml",
-            data: postData,
-            success: function(xml) {
-                //Success feedback
-                console.log("Data uploaded");
-                console.log(xml);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                //Error handling
-                console.log("Error from AJAX uploading data");
-                console.log(xhr.status);
-                console.log(thrownError);
-            }
-        });
-    }
-
-    let pointData = gen_WFSInsert_user_point_data(workspace, layer_point, data);
-    upload(pointData);
-
-    if (data.length >= 2) {
-        let trajectoryData = gen_WFSInsert_user_trajectory_data(workspace, layer_trajectory, data);
-        upload(trajectoryData);
-    }
-}
-
-function getTimestampString() {
-  const now = new Date();
-
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-  const day = String(now.getDate()).padStart(2, '0');
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-
-  const timestampString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-
-  return timestampString;
+function uploadData(user_data) {
+    $.ajax({
+        type: "POST",
+        url: '/api/upload_data',
+        dataType: "json",
+        contentType: "application/json",
+        data: JSON.stringify(user_data),
+        success: function(xml) {
+            //Success feedback
+            console.log("Data uploaded");
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            //Error handling
+            console.log("Error from AJAX uploading data");
+            console.log(xhr.status);
+            console.log(thrownError);
+        }
+    });
 }
 
 let trackingData = [];
@@ -254,9 +129,8 @@ function trackPoint() {
 
     Promise.all(promiseFunctions)
         .then(([ip, position]) => {
-            data.netspeed = getNetworkInfo().effectiveType[0];
-            data.IP = ip;
-            data.time = getTimestampString();
+            data.netspeed = getNetworkInfo().effectiveType;
+            data.time = Date.now();
             data.position = position;
             trackingData.push(data);
     })
