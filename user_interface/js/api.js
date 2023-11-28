@@ -182,10 +182,10 @@ function getTrajectoryLengthByIDDistanceAttribute(workspace, layerName, idValue)
 }
 
 // Beispielaufruf für die Version mit Attribut 'distance'
-var workspaceName = 'dein-arbeitsbereich';
-var layerToQuery = 'user_trajectory_data';
-var specificID = 'deine-gewünschte-id';
-getTrajectoryLengthByIDDistanceAttribute(workspaceName, layerToQuery, specificID);
+// var workspaceName = 'dein-arbeitsbereich';
+// var layerToQuery = 'user_trajectory_data';
+// var specificID = 'deine-gewünschte-id';
+// getTrajectoryLengthByIDDistanceAttribute(workspaceName, layerToQuery, specificID);
 
 
 
@@ -246,10 +246,10 @@ function calculateDistance(point1, point2) {
 
 
 // Beispielaufruf für die Version mit Attribut 'geom'
-var workspaceName = 'dein-arbeitsbereich';
-var layerToQuery = 'user_trajectory_data';
-var specificID = 'deine-gewünschte-id';
-getTrajectoryLengthByIDGeometryAttribute(workspaceName, layerToQuery, specificID);
+// var workspaceName = 'dein-arbeitsbereich';
+// var layerToQuery = 'user_trajectory_data';
+// var specificID = 'deine-gewünschte-id';
+// getTrajectoryLengthByIDGeometryAttribute(workspaceName, layerToQuery, specificID);
 
 
 
