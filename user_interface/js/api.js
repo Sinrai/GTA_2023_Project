@@ -122,20 +122,17 @@ function trackPoint() {
     console.log("Point added");
     let data = {};
 
-    promiseFunctions = [
-        getIP(),
-        getCurrentPosition()
-    ]
-
-    Promise.all(promiseFunctions)
-        .then(([ip, position]) => {
-            data.netspeed = getNetworkInfo().effectiveType;
-            data.time = Date.now();
-            data.position = position;
-            trackingData.push(data);
+    getCurrentPosition().then((position) => {
+        data.netinfo = getNetworkInfo()
+        data.time = Date.now();
+        data.position = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        };
+        trackingData.push(data);
     })
     .catch((error) => {
-      console.error("Error collecting data:", error);
+      console.error("Error collecting position:", error);
     });
 }
 
