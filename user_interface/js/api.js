@@ -264,3 +264,121 @@ function trackPoint() {
       console.error("Error collecting data:", error);
     });
 }
+
+
+
+
+
+/*GeoServer Abfrage um die Länge der Trajektorien mit einer bestimmten ID zu ermitteln*/
+
+/*VERSION MIT ATTRIBUT "distance" type(REAL)*/
+
+function getTrajectoryLengthByIDDistanceAttribute(workspace, layerName, idValue) {
+    let serverUrl = 'http://ikgeoserv.ethz.ch:8080/geoserver/' + workspace + '/wfs';
+    let requestUrl = serverUrl + '?service=WFS&version=1.0.0&request=GetFeature&typeName=' + workspace + ':' + layerName + '&CQL_FILTER=user_id=' + idValue;
+
+    $.ajax({
+        type: "GET",
+        url: requestUrl,
+        dataType: "json",
+        success: function(response) {
+            // Erfolgreiche Antwort
+            console.log("Abfrage erfolgreich:");
+            console.log(response);
+
+            // Hier werden die Längen der Linien berechnet
+            if (response && response.features && response.features.length > 0) {
+                let totalLength = 0;
+                response.features.forEach(function(feature) {
+                    // Für jede Linie in der Antwort die Länge addieren (diesmal aus dem 'distance'-Attribut)
+                    let lineLength = parseFloat(feature.properties.distance); // Annahme: 'distance' ist das Attribut
+                    totalLength += lineLength;
+                });
+                console.log("Gesamtlänge der Linien mit ID " + idValue + " (basierend auf 'distance'): " + totalLength);
+            } else {
+                console.log("Keine Linien mit der ID " + idValue + " gefunden.");
+            }
+        },
+        error: function(xhr, status, error) {
+            // Fehlerbehandlung
+            console.log("Fehler bei der Abfrage:");
+            console.log(error);
+        }
+    });
+}
+
+// Beispielaufruf für die Version mit Attribut 'distance'
+var workspaceName = 'dein-arbeitsbereich';
+var layerToQuery = 'user_trajectory_data';
+var specificID = 'deine-gewünschte-id';
+getTrajectoryLengthByIDDistanceAttribute(workspaceName, layerToQuery, specificID);
+
+
+
+/*VERSION MIT DEM ATTRIBUT "geom" type(LINESTRING)*/
+
+function getTrajectoryLengthByIDGeometryAttribute(workspace, layerName, idValue) {
+    let serverUrl = 'http://ikgeoserv.ethz.ch:8080/geoserver/' + workspace + '/wfs';
+    let requestUrl = serverUrl + '?service=WFS&version=1.0.0&request=GetFeature&typeName=' + workspace + ':' + layerName + '&CQL_FILTER=user_id=' + idValue;
+
+    $.ajax({
+        type: "GET",
+        url: requestUrl,
+        dataType: "json",
+        success: function(response) {
+            // Erfolgreiche Antwort
+            console.log("Abfrage erfolgreich:");
+            console.log(response);
+
+            // Hier werden die Längen der Linien basierend auf der Geometrie berechnet
+            if (response && response.features && response.features.length > 0) {
+                let totalLength = 0;
+                response.features.forEach(function(feature) {
+                    // Für jede Linie in der Antwort die Geometrie abrufen und die Länge berechnen
+                    let lineString = feature.geometry.coordinates; // Annahme: Die Geometrie ist ein LineString
+                    let lineLength = calculateLineLength(lineString);
+                    totalLength += lineLength;
+                });
+                console.log("Gesamtlänge der Linien mit ID " + idValue + " (basierend auf 'geom'): " + totalLength);
+            } else {
+                console.log("Keine Linien mit der ID " + idValue + " gefunden.");
+            }
+        },
+        error: function(xhr, status, error) {
+            // Fehlerbehandlung
+            console.log("Fehler bei der Abfrage:");
+            console.log(error);
+        }
+    });
+}
+
+// Funktion zur Berechnung der Länge einer Linie
+function calculateLineLength(lineCoordinates) {
+    let length = 0;
+    for (let i = 0; i < lineCoordinates.length - 1; i++) {
+        let p1 = lineCoordinates[i];
+        let p2 = lineCoordinates[i + 1];
+        length += calculateDistance(p1, p2);
+    }
+    return length;
+}
+
+// Funktion zur Berechnung der Distanz zwischen zwei Punkten
+function calculateDistance(point1, point2) {
+
+    //Berechnung der euklidischen Distanz in 2D:
+    return Math.sqrt(Math.pow(point2[0] - point1[0], 2) + Math.pow(point2[1] - point1[1], 2));
+}
+
+
+// Beispielaufruf für die Version mit Attribut 'geom'
+var workspaceName = 'dein-arbeitsbereich';
+var layerToQuery = 'user_trajectory_data';
+var specificID = 'deine-gewünschte-id';
+getTrajectoryLengthByIDGeometryAttribute(workspaceName, layerToQuery, specificID);
+
+
+
+
+
+
