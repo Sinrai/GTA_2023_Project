@@ -115,9 +115,11 @@ function updateTrackingButton() {
     if (isLoggedIn) {
         if (getNetworkInfo()["isCellular"] | true) {
             if (isTracking) {
+                trackButton.classList.add('blinking'); // Apply blinking effect
                 trackButton.innerText = "Stop Tracking";
                 trackButton.addEventListener("click", toggleTracking);
             } else {
+                trackButton.classList.remove('blinking'); // Remove blinking effect
                 trackButton.innerText = "Start Tracking";
                 trackButton.style.color = 'black';
                 trackButton.style.background = 'rgb(131, 176, 176)';
