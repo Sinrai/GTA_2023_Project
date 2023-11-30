@@ -1,4 +1,6 @@
 import psycopg2 #für die Datenbankverbindung
+import json
+import pytest
 from flask import Blueprint, jsonify, request
 
 api = Blueprint('api', __name__)
@@ -27,7 +29,7 @@ def process_user_data():
 def calculate_trajectory_length(user_id):
     conn = psycopg2.connect(
         dbname='gta',          #DB-Name
-        user='gta_u23',        #Benutzername
+        user='gta_u20',        #Benutzername
         password='gta_pw',     #Passwort
         host='ikgpgis.ethz.ch',#Host
         port='5432'            #Port
@@ -51,8 +53,9 @@ def calculate_trajectory_length(user_id):
 @api.route('/api/get_user_statistic', methods=["GET"])
 def get_user_statistic():
     
-    user_id = request.args.get('user_id')               # Beispiel: User-ID aus der GET-Anfrage erhalten
+    user_id = request.args.get('5')               # Beispiel: User-ID aus der GET-Anfrage erhalten
     total_length = calculate_trajectory_length(user_id) # Aufruf der Funktion zur Berechnung der Linienlängen
-    return jsonify({"statistic": total_length})         # Rückgabe der berechneten Gesamtlänge als JSON
+    print(json.dumps({"statistic": total_length}, indent=4)) # Ausgabe in der Python-Flask-Konsole für debuggen
 
+    return jsonify({"statistic": total_length})         # Rückgabe der berechneten Gesamtlänge als JSON
 
