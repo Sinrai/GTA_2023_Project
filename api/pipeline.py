@@ -1,3 +1,4 @@
+import psycopg2 #für die Datenbankverbindung
 from flask import Blueprint, jsonify, request
 
 api = Blueprint('api', __name__)
@@ -18,8 +19,40 @@ def process_user_data():
         status_code = 400
     return jsonify(result), status_code
 
+
+
+# Carmela stuff here
+
+# Funktion zur Berechnung der Linienlängen
+def calculate_trajectory_length(user_id):
+    conn = psycopg2.connect(
+        dbname='gta',          #DB-Name
+        user='gta_u23',        #Benutzername
+        password='gta_pw',     #Passwort
+        host='ikgpgis.ethz.ch',#Host
+        port='5432'            #Port
+    )
+
+    cur = conn.cursor()
+    query = f"SELECT distance FROM user_trajectory_data WHERE user_id = {user_id}"  # SQL-Abfrage zur Auswahl der Linienlängen basierend auf der user_id
+    cur.execute(query)
+    rows = cur.fetchall()
+    total_length = 0
+
+    # Berechnung der Gesamtlänge der Linien
+    for row in rows:
+        total_length += row[0]  # Annahme: 'distance' ist das Attribut vom Typ REAL
+
+    conn.close()
+
+    return total_length
+
+# Flask-Routenfunktion
 @api.route('/api/get_user_statistic', methods=["GET"])
 def get_user_statistic():
-    # Carmela stuff here (if done with flask)
-    return jsonify("statistic")
+    
+    user_id = request.args.get('user_id')               # Beispiel: User-ID aus der GET-Anfrage erhalten
+    total_length = calculate_trajectory_length(user_id) # Aufruf der Funktion zur Berechnung der Linienlängen
+    return jsonify({"statistic": total_length})         # Rückgabe der berechneten Gesamtlänge als JSON
+
 
