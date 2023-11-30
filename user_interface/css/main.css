@@ -47,9 +47,8 @@ h1 {
 }
 
 .seitentitel {
-    margin: 50px;
     text-align: center;
-    padding-top: 80px;
+    padding-top: 130px;
     /*text-decoration: underline rgb(131, 176, 176) wavy 1.5px;*/
 }
 
@@ -252,7 +251,7 @@ input {
 #trackButton {
     position: relative;
     left: 50%;
-    transform: translate(-50%, -5%);
+    transform: translate(-50%, +15%);
     z-index: 5;
     padding: 50px 80px;
     background: rgb(131, 176, 176);
@@ -278,11 +277,11 @@ input {
 /*NET_INFO*/
 .network-info {
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 30px;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     max-width: 400px;
-    margin: 20px auto;
+    margin: 10px;
     /* Center horizontally */
 }
 
@@ -361,7 +360,7 @@ input {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     width: 90%;
-    margin: 20px auto;
+    margin: 10px;
     margin-bottom: 40%;
     /* Center horizontally */
     text-align: center;
@@ -505,7 +504,7 @@ input {
     }
 
 .seitentitel {
-    padding-top: 35px;
+    padding-top: 80px;
 }
 
     .seitentitel-provider {
