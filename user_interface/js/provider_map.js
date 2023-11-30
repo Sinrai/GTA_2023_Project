@@ -164,4 +164,3 @@
     // Warte 5 Sekunden und rufe die Funktion auf, um das Element auszublenden
     setTimeout(elementAusblenden, 5000);
   
-

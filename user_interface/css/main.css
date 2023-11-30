@@ -1,4 +1,4 @@
-/*ALLGEMEIN*/
+/*ALLGEMEIN/////////////////////////////////////////////////////////////////////////////////////////////*/
 html,
 body {
     width: 100%;
@@ -49,6 +49,7 @@ h1 {
 .seitentitel {
     margin: 50px;
     text-align: center;
+    padding-top: 80px;
     /*text-decoration: underline rgb(131, 176, 176) wavy 1.5px;*/
 }
 
@@ -58,7 +59,7 @@ h1 {
 }
 
 header {
-    position: relative;
+    position: fixed;
     border-bottom: 1px solid aliceblue;
     width: 100%;
     text-align: center;
@@ -96,7 +97,11 @@ footer {
     text-align: center;
 }
 
-/*TOOLBAR*/
+.footer-content {
+    padding-bottom: 110px;
+}
+
+/*TOOLBAR/////////////////////////////////////////////////////////////////////////////////////////////*/
 .toolbar {
     position: fixed;
     bottom: 0;
@@ -161,7 +166,7 @@ footer {
 }
 
 
-/*MENU*/
+/*MENU/////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 /* Stil für das Hamburger-Menü */
 .hamburger-menu {
     cursor: pointer;
@@ -182,8 +187,8 @@ footer {
 }
 
 
-/*HOME*/
-/*LOGIN NEW*/
+/*HOME////////////////////////////////////////////////////////////////////////////////////////////////////////7//*/
+/*LOGIN NEW//////////////////////////////////////////////////////////////////////////////////////////////////////*/
 .login-container {
     display: none;
     position: fixed;
@@ -276,7 +281,7 @@ input {
 
 
 
-/*PROVIDER MAP*/
+/*PROVIDER MAP//////////////////////////////////////////////////////////////////////////////////////////*/
 
 #map {
     flex: 1;
@@ -343,66 +348,52 @@ input {
     padding: 10px;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
-    max-width: 400px;
+    width: 90%;
     margin: 20px auto;
     margin-bottom: 40%;
     /* Center horizontally */
-    text-align: left;
+    text-align: center;
 }
 
 .chart {
-    height: 200px;
-    justify-content: space-evenly;
+    overflow: hidden;
+    height: 200px; /* Höhe des Chart-Divs anpassen, wenn nötig */
+
 }
 
+.balken {
+    margin: 0 5px; /* Abstand zwischen den Balken anpassen, falls erforderlich */
+}
+
+/* Die individuellen Balken-Stile können beibehalten werden */
 #balken1 {
-    fill: rgb(14, 106, 78);
+    fill: coral;
 }
 
 #balken2 {
-    fill: rgb(102, 152, 228);
+    fill: grey;
 }
 
 #balken3 {
-    fill: rgb(147, 222, 177);
+    fill: rgb(92, 208, 92);
 }
 
 
 
-/*PROVIDER ANALYSE*/
-/*
+/*PROVIDER ANALYSE//////////////////////////////////////////////////////////////////////////////////////////*/
 .seitentitel-provider {
     position: fixed;
     top: 0;
     width: 60%;
-    background-color: rgb(131, 176, 176);
-    color: #fff;
-    margin-top: 125px;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center; 
-    border-radius: 10px; 
-    margin-left: 20%; 
-    margin-right: 20%; 
-    font-size: small;
-}*/
-
-.seitentitel-provider {
-    position: fixed;
-    bottom: 0;
-    width: 60%;
-    background-color: rgb(131, 176, 176);
-    color: #fff;
-    margin-bottom: 125px;
-    z-index: 999;
+    background-color: whitesmoke;
+    color: black;
+    margin-top: 150px;
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     /* Für den Text innerhalb des Containers */
-    border-radius: 10px;
     margin-left: 20%;
     /* Zentrieren horizontal */
     margin-right: 20%;
@@ -447,10 +438,11 @@ input {
     background-color: #f9f9f9;
 }
 
-/*FAQ*/
+/*FAQ //////////////////////////////////////////////////////////////////////////////////////*/
 .faq {
     width: 100%;
     margin: 0 auto;
+
 }
 
 /* Stil für die Fragen */
@@ -489,9 +481,6 @@ input {
     header {
         height: 85px;
     }
-    .seitentitel-provider {
-        margin-bottom: 50px;
-    }
 
     #map {
         flex: 1;
@@ -502,21 +491,28 @@ input {
         position: fixed;
         z-index: 1;
     }
+
+.seitentitel {
+    padding-top: 35px;
 }
 
-
-/* Stil für Desktop- und Mobilansicht */
-@media screen {
-    header {
-        position: fixed;
+    .seitentitel-provider {
+        margin-top: 70px;
+        width: 80%;
+        margin-left: 10%;
+        /* Zentrieren horizontal */
+        margin-right: 10%;
+        /* Zentrieren horizontal */
     }
 
-    .seitentitel {
-        padding-top: 80px;
+    .text-padding {
+        padding-left: 30px;
+        padding-right: 30px;
     }
 
-    .footer-content {
-        padding-bottom: 110px;
+    .faq-answer {
+        padding: 30px;
+        padding-right: 30px;
     }
 }
 

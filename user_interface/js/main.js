@@ -24,10 +24,19 @@ document.addEventListener("DOMContentLoaded", function() {
         loadContent('home.html');
     });
     document.getElementById("analysis_page").addEventListener("click", function() {
-        loadContent('analysis.html');
+        if (isLoggedIn == true){
+            loadContent('analysis.html');
+        } else {
+            alert("please login to access this page")
+        }
+
     });
     document.getElementById("provider_page").addEventListener("click", function() {
-        loadContent('provider_map.html');
+        if (isLoggedIn == true){
+            loadContent('provider_map.html');
+        } else {
+            alert("please login to access this page")
+        }
     });
     document.getElementById("faq_page").addEventListener("click", function() {
         loadContent('faq.html');
@@ -38,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function() {
         loadContent('home.html');
     });
 });
-
 
 function loadContent(page) {
     $.ajax({
@@ -58,3 +66,10 @@ let userID;
 let isLoggedIn; //Anmeldestatus vefolgen
 let isTracking = false; //Tracking-Status verfolgen
 let submitLogin;
+
+let values;
+let barwidth;
+
+function saveLoginStatus(status) {
+    localStorage.setItem('isLoggedin', JSON.stringify(status));
+}

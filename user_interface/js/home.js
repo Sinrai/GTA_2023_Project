@@ -39,9 +39,30 @@ submitLogin.addEventListener("click", () => {
     updateTrackingButton()
     loginContainer.style.display = "none";
     userID = document.getElementById("input_userid").value;
+    
+    // Füge hier den Code für die Flask-Abfrage ein
+    executeFlaskQuery(userID);
+    
     // alert("Einloggen erfolgreich!");
     saveLoginStatus(isLoggedIn); // Speichere den Anmeldestatus
 });
+
+function executeFlaskQuery(userId) {
+    $.ajax({
+        type: "GET",
+        url: "/api/get_user_statistic?user_id=" + userId, // Die Flask-Routen-URL
+        success: function(response) {
+            // Verarbeite die Antwort hier
+            console.log(response);
+            // Weitere Aktionen basierend auf der Antwort durchführen
+        },
+        error: function(xhr, status, error) {
+            // Fehlerbehandlung
+            console.log("Fehler bei der Anfrage:");
+            console.log(error);
+        }
+    });
+}
 
 // Funktion, um den Benutzer auszuloggen
 function logout() {
@@ -67,25 +88,27 @@ function toggleTracking() {
 
 // Funktion zum Speichern des Anmeldestatus im Local Storage
 function saveLoginStatus(status) {
+    console.log("Store",isLoggedIn);
     localStorage.setItem('isLoggedin', status); // Speichere den Status im Local Storage
     localStorage.setItem('userID', userID);
 }
 
-// Funktion zum Laden des Anmeldestatus aus dem Local Storage
 function loadLoginStatus() {
-    isLoggedIn = localStorage.getItem('isLoggedin'); // Lade den Status aus dem Local Storage
-    if (isLoggedIn == null) {
-        saveLoginStatus(false);
-        isLoggedIn = false;
-    } else {
-        userID = localStorage.getItem('userID')
+    isLoggedIn = JSON.parse(localStorage.getItem('isLoggedin')); // Lade den Status aus dem Local Storage und konvertiere ihn in einen Boolean-Wert
+    if (isLoggedIn) {
+        userID = localStorage.getItem('userID');
     }
     updateLoginButton(); // Aktualisiere den Login/Logout-Button basierend auf dem geladenen Status
     updateTrackingButton(); //Aktualisiere den Tracking-Button basierend auf dem geladenen Status
 }
 
+
 function updateLoginButton() {
-    loginButton.innerText = isLoggedIn ? "Logout" : "Login";
+    if (isLoggedIn == false) {
+        loginButton.innerText = "Login";
+    } else {
+        loginButton.innerText = "Logout";
+    }
 }
 
 function updateTrackingButton() {
@@ -96,6 +119,8 @@ function updateTrackingButton() {
                 trackButton.addEventListener("click", toggleTracking);
             } else {
                 trackButton.innerText = "Start Tracking";
+                trackButton.style.color = 'black';
+                trackButton.style.background = 'rgb(131, 176, 176)';
                 trackButton.addEventListener("click", toggleTracking);
             }
         } else {
@@ -104,6 +129,8 @@ function updateTrackingButton() {
         }
     } else {
         trackButton.innerText = "Login to Track";
+        trackButton.style.color = 'coral';
+        trackButton.style.background = 'grey';
         trackButton.removeEventListener("click", toggleTracking);
     }
 }
