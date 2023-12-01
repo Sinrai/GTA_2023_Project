@@ -39,30 +39,9 @@ submitLogin.addEventListener("click", () => {
     updateTrackingButton()
     loginContainer.style.display = "none";
     userID = document.getElementById("input_userid").value;
-    
-    // Füge hier den Code für die Flask-Abfrage ein
-    executeFlaskQuery(userID);
-    
     // alert("Einloggen erfolgreich!");
     saveLoginStatus(isLoggedIn); // Speichere den Anmeldestatus
 });
-
-function executeFlaskQuery(userId) {
-    $.ajax({
-        type: "GET",
-        url: "/api/get_user_statistic?user_id=" + userId, // Die Flask-Routen-URL
-        success: function(response) {
-            // Verarbeite die Antwort hier
-            console.log(response);
-            // Weitere Aktionen basierend auf der Antwort durchführen
-        },
-        error: function(xhr, status, error) {
-            // Fehlerbehandlung
-            console.log("Fehler bei der Anfrage:");
-            console.log(error);
-        }
-    });
-}
 
 // Funktion, um den Benutzer auszuloggen
 function logout() {
@@ -88,7 +67,6 @@ function toggleTracking() {
 
 // Funktion zum Speichern des Anmeldestatus im Local Storage
 function saveLoginStatus(status) {
-    console.log("Store",isLoggedIn);
     localStorage.setItem('isLoggedin', status); // Speichere den Status im Local Storage
     localStorage.setItem('userID', userID);
 }
@@ -101,7 +79,6 @@ function loadLoginStatus() {
     updateLoginButton(); // Aktualisiere den Login/Logout-Button basierend auf dem geladenen Status
     updateTrackingButton(); //Aktualisiere den Tracking-Button basierend auf dem geladenen Status
 }
-
 
 function updateLoginButton() {
     if (isLoggedIn == false) {

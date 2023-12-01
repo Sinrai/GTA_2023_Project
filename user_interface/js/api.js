@@ -104,6 +104,21 @@ function uploadData(user_data) {
     });
 }
 
+function get_user_statistic(userId) {
+    return new Promise((resolve) => {
+        $.ajax({
+            type: "GET",
+            url: "/api/get_user_statistic?user_id=" + userId,
+            success: function(response) {
+                resolve(response);
+            },
+            error: function(xhr, status, error) {
+                reject(new Error('Error getting user statistic: ' + error));
+            }
+        });
+    });
+}
+
 let trackingData = [];
 let intervalId;
 
