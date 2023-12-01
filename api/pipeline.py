@@ -1,5 +1,4 @@
 import json
-import pytest
 from flask import Blueprint, jsonify, request
 import sqlalchemy as db
 
@@ -10,7 +9,18 @@ def process_user_data():
     try:
         user_data = request.get_json(force=True)
         client_ip = request.remote_addr
+        client_ip_from_proxy = request.headers.get('X-Forwarded-For')
+        if client_ip == '127.0.0.1':
+            if client_ip_from_proxy is not None:
+                # Flask app deployed with proxy
+                client_ip = client_ip_from_proxy
+            else:
+                # Local development, can set custom ip if necessary
+                # client_ip = ...
+                pass
+
         print(user_data)
+        print(client_ip)
 
         # Jiann stuff here
 
