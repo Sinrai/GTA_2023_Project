@@ -144,6 +144,7 @@ function trackPoint() {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude
         };
+        data.username = userID;
         trackingData.push(data);
     })
     .catch((error) => {
