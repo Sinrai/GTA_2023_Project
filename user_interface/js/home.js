@@ -75,6 +75,8 @@ function loadLoginStatus() {
     isLoggedIn = JSON.parse(localStorage.getItem('isLoggedin')); // Lade den Status aus dem Local Storage und konvertiere ihn in einen Boolean-Wert
     if (isLoggedIn) {
         userID = localStorage.getItem('userID');
+    } else {
+        isLoggedIn = false;
     }
     updateLoginButton(); // Aktualisiere den Login/Logout-Button basierend auf dem geladenen Status
     updateTrackingButton(); //Aktualisiere den Tracking-Button basierend auf dem geladenen Status
