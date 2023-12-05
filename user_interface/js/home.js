@@ -92,20 +92,25 @@ function updateLoginButton() {
 
 function updateTrackingButton() {
     if (isLoggedIn) {
-        if (getNetworkInfo()["isCellular"] | true) {
-            if (isTracking) {
-                trackButton.classList.add('blinking'); // Apply blinking effect
-                trackButton.innerText = "Stop Tracking";
-                trackButton.addEventListener("click", toggleTracking);
+        if (getNetworkInfo()["browser_compatible"]) {
+            if (getNetworkInfo()["isCellular"]) {
+                if (isTracking) {
+                    trackButton.classList.add('blinking'); // Apply blinking effect
+                    trackButton.innerText = "Stop Tracking";
+                    trackButton.addEventListener("click", toggleTracking);
+                } else {
+                    trackButton.classList.remove('blinking'); // Remove blinking effect
+                    trackButton.innerText = "Start Tracking";
+                    trackButton.style.color = 'black';
+                    trackButton.style.background = 'rgb(131, 176, 176)';
+                    trackButton.addEventListener("click", toggleTracking);
+                }
             } else {
-                trackButton.classList.remove('blinking'); // Remove blinking effect
-                trackButton.innerText = "Start Tracking";
-                trackButton.style.color = 'black';
-                trackButton.style.background = 'rgb(131, 176, 176)';
-                trackButton.addEventListener("click", toggleTracking);
+                trackButton.innerText = "Connect with cellular connection to track";
+                trackButton.removeEventListener("click", toggleTracking);
             }
         } else {
-            trackButton.innerText = "Connect with cellular connection to track";
+            trackButton.innerText = "Use a compatible browser";
             trackButton.removeEventListener("click", toggleTracking);
         }
     } else {
