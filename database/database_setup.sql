@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS gta_p4.antenna_locations;
 DROP TABLE IF EXISTS gta_p4.train_tracks;
-DROP TABLE IF EXISTS gta_p4.user_trajectory_data;
 DROP TABLE IF EXISTS gta_p4.user_point_data;
+DROP TABLE IF EXISTS gta_p4.user_trajectory_data;
 
 CREATE TABLE gta_p4.antenna_locations(
     antenna_id SERIAL PRIMARY KEY,
@@ -23,9 +23,9 @@ CREATE TABLE gta_p4.user_point_data(
     ip VARCHAR(255),
     provider VARCHAR(255),
     time TIMESTAMP,
-    username VARCHAR(255));
+    username VARCHAR(255),
     in_train BOOLEAN,
-    user_trajectory_id INTEGER REFERENCES gta_p4.user_trajectory_data(user_trajectory_id);)
+    user_trajectory_id INTEGER REFERENCES gta_p4.user_trajectory_data(user_trajectory_id));
 
 SELECT AddGeometryColumn('gta_p4', 'antenna_locations', 'geometry', '2056', 'POINT', 2);
 SELECT AddGeometryColumn('gta_p4', 'train_tracks', 'geometry', '2056', 'LINESTRING', 2);
