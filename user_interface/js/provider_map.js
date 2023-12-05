@@ -1,4 +1,6 @@
   $(document).ready(function() {
+
+    // Load all maps
     var baseMap = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: 'ch.swisstopo.pixelkarte-grau',
         format: 'image/jpeg',
@@ -21,12 +23,13 @@
         opacity: 0.5
     });
 
+    // set bounds of switzerland
     var switzerlandBounds = L.latLngBounds(
         L.latLng(45.817, 5.967), // Southwest coordinates
         L.latLng(47.808, 10.492) // Northeast coordinates
     );
     
-
+    // Define map
     var map = L.map('map', {
         center: [46.408375, 8.507669],
         zoom: 8,
@@ -39,18 +42,18 @@
 
     function calculateMinZoom() {
         if (window.innerWidth <= 768) {
-            return 7.5; // Setze den Min-Zoom für mobile Geräte
+            return 7.5; // Min-Zoom for mobile Device
         } else {
-            return 8.5; // Setze den Min-Zoom für Desktop-Geräte
+            return 8.5; // Min-Zoom für Desktop-Device
         }
     }
     
-    // Reagiere auf Änderungen der Bildschirmgröße
+    // Respond to changes in screen size
     window.addEventListener('resize', function () {
         map.setMinZoom(calculateMinZoom());
     });
 
-    //Overlays der Provider maps
+    // Overlays of Provider maps
     var overlays = {
         "Salt": saltMap,
         "Sunrise": sunriseMap,
@@ -59,21 +62,17 @@
 
     baseMap.addTo(map);
 
-    
-    //var layerControl = L.control.layers(overlays).addTo(map); //Only one map layer at a time visible
 
-    
+    // Layer Control
     var layerControl = L.control.layers(null, overlays).addTo(map); //Multiple map layers visible
 
-    //Massstab
+
+    // Scale
     L.control.scale({ imperial: false }).addTo(map); 
-
-
-
 
     
 
-    // Legende
+    // Legend
     var activeLayers = [];
 
     function updateLegend(legendDiv) {
@@ -85,48 +84,159 @@
                 legendDiv.innerHTML += '<h4>Legend for Base Map</h4>';
             } 
             
+            // Legend salt map
             else if (layer === saltMap) {
-                var legendContent = document.createElement('div');
-                legendContent.className = 'legend-content';
-                legendContent.style.backgroundColor = '#41b045';
+                // 4G+
+                var legendContent1 = document.createElement('div');
+                legendContent1.className = 'legend-content';
+                legendContent1.style.backgroundColor = '#65a63c';
 
-                var legendDescription = document.createElement('div');
-                legendDescription.className = 'legend-description';
-                legendDescription.innerHTML = '3G Salt (?)';
+                var legendDescription1 = document.createElement('div');
+                legendDescription1.className = 'legend-description';
+                legendDescription1.innerHTML = 'Salt 4G+';
 
-                legendDiv.appendChild(legendContent);
-                legendDiv.appendChild(legendDescription);
+                var legendContainer1 = document.createElement('div');
+                legendContainer1.className = 'legend-container';
+                legendContainer1.appendChild(legendContent1);
+                legendContainer1.appendChild(legendDescription1);
+
+                legendDiv.appendChild(legendContainer1);
+
+
+                // 4G
+                var legendContent2 = document.createElement('div');
+                legendContent2.className = 'legend-content';
+                legendContent2.style.backgroundColor = '#87b578';
+
+                var legendDescription2 = document.createElement('div');
+                legendDescription2.className = 'legend-description';
+                legendDescription2.innerHTML = 'Salt 4G';
+
+                var legendContainer2 = document.createElement('div');
+                legendContainer2.className = 'legend-container';
+                legendContainer2.appendChild(legendContent2);
+                legendContainer2.appendChild(legendDescription2);
+
+                legendDiv.appendChild(legendContainer2);
+
+                // 3G
+                var legendContent3 = document.createElement('div');
+                legendContent3.className = 'legend-content';
+                legendContent3.style.backgroundColor = '#b1c697';
+
+                var legendDescription3 = document.createElement('div');
+                legendDescription3.className = 'legend-description';
+                legendDescription3.innerHTML = 'Salt 3G';
+
+                var legendContainer3 = document.createElement('div');
+                legendContainer3.className = 'legend-container';
+                legendContainer3.appendChild(legendContent3);
+                legendContainer3.appendChild(legendDescription3);
+
+                legendDiv.appendChild(legendContainer3);
             } 
-            
+
+            // Legend sunrise map
             else if (layer === sunriseMap) {
-                var legendContent = document.createElement('div');
-                legendContent.className = 'legend-content';
-                legendContent.style.backgroundColor = '#c42d3f';
+                // 4G+
+                var legendContent1 = document.createElement('div');
+                legendContent1.className = 'legend-content';
+                legendContent1.style.backgroundColor = '#ea4d77';
+                legendDiv.appendChild(legendContent1);
 
-                var legendDescription = document.createElement('div');
-                legendDescription.className = 'legend-description';
-                legendDescription.innerHTML = '3G Sunrise (?)';
+                var legendDescription1 = document.createElement('div');
+                legendDescription1.className = 'legend-description';
+                legendDescription1.innerHTML = 'Sunrise 4G+';
+                legendDiv.appendChild(legendDescription1);
 
-                legendDiv.appendChild(legendContent);
-                legendDiv.appendChild(legendDescription);
+                var legendContainer1 = document.createElement('div');
+                legendContainer1.className = 'legend-container';
+                legendContainer1.appendChild(legendContent1);
+                legendContainer1.appendChild(legendDescription1);
+
+                legendDiv.appendChild(legendContainer1);
+
+                // 4G
+                var legendContent2 = document.createElement('div');
+                legendContent2.className = 'legend-content';
+                legendContent2.style.backgroundColor = '#ef7f9d';
+                legendDiv.appendChild(legendContent2);
+
+                var legendDescription2 = document.createElement('div');
+                legendDescription2.className = 'legend-description';
+                legendDescription2.innerHTML = 'Sunrise 4G';
+                legendDiv.appendChild(legendDescription2);
+
+                var legendContainer2 = document.createElement('div');
+                legendContainer2.className = 'legend-container';
+                legendContainer2.appendChild(legendContent2);
+                legendContainer2.appendChild(legendDescription2);
+
+                legendDiv.appendChild(legendContainer2);
+
+                // 3G
+                var legendContent3 = document.createElement('div');
+                legendContent3.className = 'legend-content';
+                legendContent3.style.backgroundColor = '#f5b2c4';
+                legendDiv.appendChild(legendContent3);
+
+                var legendDescription3 = document.createElement('div');
+                legendDescription3.className = 'legend-description';
+                legendDescription3.innerHTML = 'Sunrise 3G';
+                legendDiv.appendChild(legendDescription3);
+
+                var legendContainer3 = document.createElement('div');
+                legendContainer3.className = 'legend-container';
+                legendContainer3.appendChild(legendContent3);
+                legendContainer3.appendChild(legendDescription3);
+
+                legendDiv.appendChild(legendContainer3);
 
             } 
             
+            // Legend swisscom map
             else if (layer === swisscomMap) {
-                var legendContent = document.createElement('div');
-                legendContent.className = 'legend-content';
-                legendContent.style.backgroundColor = '#3e2bcc';
+                // 4G LTE
+                var legendContent1 = document.createElement('div');
+                legendContent1.className = 'legend-content';
+                legendContent1.style.backgroundColor = '#0851da';
+                legendDiv.appendChild(legendContent1);
 
-                var legendDescription = document.createElement('div');
-                legendDescription.className = 'legend-description';
-                legendDescription.innerHTML = '3G Swisscom (?)';
+                var legendDescription1 = document.createElement('div');
+                legendDescription1.className = 'legend-description';
+                legendDescription1.innerHTML = 'Swisscom 4G LTE';
+                legendDiv.appendChild(legendDescription1);
 
-                legendDiv.appendChild(legendContent);
-                legendDiv.appendChild(legendDescription);
+                var legendContainer1 = document.createElement('div');
+                legendContainer1.className = 'legend-container';
+                legendContainer1.appendChild(legendContent1);
+                legendContainer1.appendChild(legendDescription1);
+
+                legendDiv.appendChild(legendContainer1);
+
+                // 4G LTE advanced  
+                var legendContent2 = document.createElement('div');
+                legendContent2.className = 'legend-content';
+                legendContent2.style.backgroundColor = '#001155';
+                legendDiv.appendChild(legendContent2);
+
+                var legendDescription2 = document.createElement('div');
+                legendDescription2.className = 'legend-description';
+                legendDescription2.innerHTML = 'Swisscom 4G LTE advanced';
+                legendDiv.appendChild(legendDescription2);
+                
+                var legendContainer2 = document.createElement('div');
+                legendContainer2.className = 'legend-container';
+                legendContainer2.appendChild(legendContent2);
+                legendContainer2.appendChild(legendDescription2);
+
+                legendDiv.appendChild(legendContainer2);
+
             }
         });
     }
 
+    // Update legend when layer added
     map.on('layeradd', function (event) {
         var activeLayer = event.layer;
 
@@ -139,6 +249,8 @@
         updateLegend(legend);
     });
 
+
+    // Update legend when layer removed
     map.on('layerremove', function (event) {
         var removedLayer = event.layer;
 
@@ -153,7 +265,10 @@
 });
 
 
-    // Funktion, um das Element sanft auszublenden
+
+
+
+    // Function to fade out element
     function elementAusblenden() {
       var titelDiv = document.getElementById('titelDiv');
       if (titelDiv) {
@@ -161,6 +276,5 @@
       }
     }
   
-    // Warte 5 Sekunden und rufe die Funktion auf, um das Element auszublenden
-    setTimeout(elementAusblenden, 5000);
+    setTimeout(elementAusblenden, 5000); // Wait 5 sec then fade out
   

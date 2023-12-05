@@ -31,13 +31,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
     });
+    
     document.getElementById("provider_page").addEventListener("click", function() {
+        loadContent('provider_map.html');
+        /*
         if (isLoggedIn == true){
             loadContent('provider_map.html');
         } else {
             alert("please login to access this page")
         }
+        */
     });
+    
     document.getElementById("faq_page").addEventListener("click", function() {
         loadContent('faq.html');
     });
