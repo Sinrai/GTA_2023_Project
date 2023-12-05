@@ -25,8 +25,11 @@ def get_train_tracks(trajectory):
 
 
 def get_provider(ip):
-    re = requests.get(f'https://ipinfo.io/{ip}/json')
-    return re.json()['org']
+    if ip == '127.0.0.1':
+        return 'localhost'
+    else:
+        re = requests.get(f'https://ipinfo.io/{ip}/json')
+        return re.json()['org']
 
 def load_data(data, client_ip):
     assert len(data) > 1
