@@ -27,7 +27,7 @@ CREATE TABLE gta_p4.user_point_data(
     in_train BOOLEAN,
     user_trajectory_id INTEGER REFERENCES gta_p4.user_trajectory_data(user_trajectory_id);)
 
-SELECT AddGeometryColumn('gta_p4', 'antenna_locations', 'geom', '2056', 'POINT', 2);
-SELECT AddGeometryColumn('gta_p4', 'train_tracks', 'geom', '2056', 'LINESTRING', 2);
-SELECT AddGeometryColumn('gta_p4', 'user_trajectory_data', 'geom', '4326', 'LINESTRING', 2);
-SELECT AddGeometryColumn('gta_p4', 'user_point_data', 'geom', '4326', 'POINT', 2);
+SELECT AddGeometryColumn('gta_p4', 'antenna_locations', 'geometry', '2056', 'POINT', 2);
+SELECT AddGeometryColumn('gta_p4', 'train_tracks', 'geometry', '2056', 'LINESTRING', 2);
+SELECT AddGeometryColumn('gta_p4', 'user_trajectory_data', 'geometry', '4326', 'LINESTRING', 2);
+SELECT AddGeometryColumn('gta_p4', 'user_point_data', 'geometry', '4326', 'POINT', 2);

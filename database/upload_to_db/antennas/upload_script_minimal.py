@@ -19,7 +19,7 @@ for json_file in ['2G.json', '3G.json', '4G.json', '5G.json']:
         for i in range(len(data["features"])):
             coordinate=Point(np.array(data["features"])[i]["geometry"]["coordinates"][0],np.array(data["features"])[i]["geometry"]["coordinates"][1])
             power=data["features"][i]["properties"]["powercode_de"]
-            cur.execute(f"INSERT INTO gta_p4.antenna_locations (radiated_power,geom,type) VALUES('{power}','{coordinate}','{json_file[0]}');")
+            cur.execute(f"INSERT INTO gta_p4.antenna_locations (radiated_power,geometry,type) VALUES('{power}','{coordinate}','{json_file[0]}');")
 
 conn.commit()
 conn.close()

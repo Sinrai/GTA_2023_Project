@@ -18,7 +18,7 @@ cur=conn.cursor()
 with fiona.open("swissTLM3D_TLM_EISENBAHN.shp","r") as shpfile:
     for i in shpfile:
         line = LineString(np.array(i['geometry']['coordinates'])[:,:2])
-        cur.execute(f"INSERT INTO train_tracks (geom) VALUES ('{line}');")
+        cur.execute(f"INSERT INTO train_tracks (geometry) VALUES ('{line}');")
 
 conn.commit()
 conn.close()
