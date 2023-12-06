@@ -34,13 +34,21 @@ loginButton.addEventListener("click", () => {
 });
 
 submitLogin.addEventListener("click", () => {
-    isLoggedIn = true;
-    updateLoginButton(); // Update des Login/Logout-Buttons nach dem Login
-    updateTrackingButton()
-    loginContainer.style.display = "none";
-    userID = document.getElementById("input_userid").value;
-    // alert("Einloggen erfolgreich!");
-    saveLoginStatus(isLoggedIn); // Speichere den Anmeldestatus
+    
+    userInput = document.getElementById('input_userid');
+    userID_empty = userInput.value.trim() === ''; // Überprüfen, ob der Wert des Inputs leer ist
+
+    if (userID_empty == false) {
+        isLoggedIn = true;
+        updateLoginButton(); // Update des Login/Logout-Buttons nach dem Login
+        updateTrackingButton()
+        loginContainer.style.display = "none";
+        userID = document.getElementById("input_userid").value;
+        saveLoginStatus(isLoggedIn); // Speichere den Anmeldestatus
+    }
+    else {
+        alert("Please enter a User ID")
+    }
 });
 
 // Funktion, um den Benutzer auszuloggen
@@ -49,6 +57,7 @@ function logout() {
     updateLoginButton(); // Update des Login/Logout-Buttons nach dem Logout
     updateTrackingButton();
     saveLoginStatus(isLoggedIn); // Speichere den Anmeldestatus
+    userID_empty = true;
 }
 
 // Funktion zum Umschalten des Tracking-Status

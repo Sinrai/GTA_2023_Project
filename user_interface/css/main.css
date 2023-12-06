@@ -127,11 +127,6 @@ footer {
     /* Ändere den Margin für die Buttons */
 }
 
-/*
-.toolbar.collapsed button {
- Verstecke die Buttons in der eingeklappten Ansicht 
-}*/
-
 .toolbar.collapsed {
     padding: 5px;
     overflow: hidden;
@@ -282,7 +277,9 @@ input {
     background-color: #f9f9f9;
     max-width: 400px;
     margin: 10px;
-    /* Center horizontally */
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, -5%);
 }
 
 
@@ -532,8 +529,3 @@ input {
         padding-right: 30px;
     }
 }
-
-/*enable tracking
-logged in
-browser unterstützt
-gps enabled */

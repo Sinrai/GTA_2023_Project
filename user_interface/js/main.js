@@ -71,6 +71,7 @@ let userID;
 let isLoggedIn; //Anmeldestatus vefolgen
 let isTracking = false; //Tracking-Status verfolgen
 let submitLogin;
+let userID_empty;
 
 let values;
 let barwidth;
