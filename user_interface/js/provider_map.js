@@ -24,13 +24,13 @@
     });
 
     // Add data from Geoserver using WMS
-    let antennaLocations = L.tileLayer.wms("http://ikgeoserv.ethz.ch:8080/geoserver/GTA23_project/wms", {
+    let antennaLocations = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
         layers: "GTA23_project:gta_p4_antenna_locations",
         format: "image/png",
         transparent: true
     });
-    let trajectories = L.tileLayer.wms("http://ikgeoserv.ethz.ch:8080/geoserver/GTA23_project/wms", {
-        layers: "GTA23_project:gta_p4_user_trajectory_data",
+    let trajectories = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
+        layers: "GTA23_project:gta_p4_trajectory_data",
         format: "image/png",
         transparent: true
     });
