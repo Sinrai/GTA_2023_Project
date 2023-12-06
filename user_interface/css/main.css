@@ -232,8 +232,8 @@ button#submitLogin {
     border: none;
 }
 
-input {
-    width: 100%;
+#input_userid {
+    /*width: 100%;*/
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
@@ -392,7 +392,7 @@ input {
 .seitentitel-provider {
     position: fixed;
     top: 0;
-    width: 60%;
+    width: 40%;
     background-color: whitesmoke;
     color: black;
     margin-top: 150px;
@@ -402,9 +402,9 @@ input {
     justify-content: center;
     text-align: center;
     /* Für den Text innerhalb des Containers */
-    margin-left: 20%;
+    margin-left: 15%;
     /* Zentrieren horizontal */
-    margin-right: 20%;
+    margin-right: 30%;
     /* Zentrieren horizontal */
     font-size: small;
     opacity: 1;
@@ -422,7 +422,7 @@ input {
     position: fixed;
     right: 0px;
     bottom: 130px;
-    width: 45%;
+    width: 35%;
     
     z-index: 999;
     display: flex;
@@ -445,12 +445,37 @@ input {
     opacity: 0.5;
     width: 20px;
     height: 20px;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 .legend-description {
     background-color: #f9f9f9;
 }
+
+/*
+.leaflet-control-layers-list{
+    z-index: 99;
+}
+
+
+.leaflet-control-layers-overlays{
+    display: flex;
+}
+
+
+.leaflet-control-layers-selector {
+    background-color: cadetblue;
+    display: flex;
+}
+
+.leaflet-control-layers-overlays label {
+    background-color: rgb(151, 108, 192);
+    display: flex;
+}
+
+.leaflet-control-layers-expanded
+*/
+
 
 /*FAQ //////////////////////////////////////////////////////////////////////////////////////*/
 .faq {
