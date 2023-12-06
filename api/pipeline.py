@@ -88,6 +88,7 @@ def process_user_data():
                                                             '{user_data_gdf.at[0, 'username']}',\
                                                             '{user_trajectory}'\
                                                         ) RETURNING user_trajectory_id;")).fetchone()[0]
+            conn.commit()
 
         user_data_gdf['user_trajectory_id'] = [user_trajectory_id for i in range(len(user_data_gdf))]
         user_data_gdf = user_data_gdf.to_crs('EPSG:4326')
