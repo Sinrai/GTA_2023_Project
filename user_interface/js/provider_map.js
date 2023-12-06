@@ -23,6 +23,20 @@
         opacity: 0.5
     });
 
+    // Add data from Geoserver using WMS
+    let antennaLocations = L.tileLayer.wms("http://ikgeoserv.ethz.ch:8080/geoserver/GTA23_project/wms", {
+        layers: "GTA23_project:gta_p4_antenna_locations",
+        format: "image/png",
+        transparent: true
+    });
+    let trajectories = L.tileLayer.wms("http://ikgeoserv.ethz.ch:8080/geoserver/GTA23_project/wms", {
+        layers: "GTA23_project:gta_p4_user_trajectory_data",
+        format: "image/png",
+        transparent: true
+    });
+
+
+
     // set bounds of switzerland
     var switzerlandBounds = L.latLngBounds(
         L.latLng(45.817, 5.967), // Southwest coordinates
@@ -57,7 +71,9 @@
     var overlays = {
         "Salt": saltMap,
         "Sunrise": sunriseMap,
-        "Swisscom": swisscomMap
+        "Swisscom": swisscomMap,
+        "Antenna Locations": antennaLocations,
+        "Trajectories": trajectories    
     };
 
     baseMap.addTo(map);
