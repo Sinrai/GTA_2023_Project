@@ -23,3 +23,16 @@ for (let i = 0; i < values.length; i++) {
         textElement.setAttribute('y', 195 - height); // Anpassung des y-Werts für die Position des Textes
     }
 }
+
+
+trajectory_length = document.getElementById("trajectory_length");
+discount = document.getElementById("discount");
+
+let response = get_user_statistic(userID)["statistic"];
+trajectory_length.value = response , + "km";
+discount.value = response/100, + "CHF";
+
+
+
+
+
