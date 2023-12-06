@@ -121,8 +121,19 @@ function get_user_statistic(userId) {
                 reject(new Error('Error getting user statistic: ' + error));
             }
         });
+        $.ajax({
+            type: "GET",
+            url: "/api/get_user_statistic?user_id=" + userId,
+            success: function(response) {
+                resolve(response);
+            },
+            error: function(xhr, status, error) {
+                reject(new Error('Error getting user statistic: ' + error));
+            }
+        });
     });
 }
+
 
 let trackingData = [];
 let intervalId;

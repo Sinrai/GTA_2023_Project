@@ -128,12 +128,35 @@ def calculate_trajectory_length(user_id):
 
     return total_length
 
+
+def calcuate_network_speed(user_id):
+    query = db.text(f"SELECT netspeed FROM gta_p4.user_point_data WHERE username = '{user_id}'")  # SQL-Abfrage zur Auswahl der Linienlängen basierend auf der user_id
+    rows = execute_query(query)
+    no_conn = 0
+    upto_threeG = 0
+    fourG_fiveG = 0
+
+    # Berechnung der netspeed klassen
+    for row in rows:
+        if row == 1 or row == 2 or row == 3:
+            upto_threeG += 1
+        if row == 4 or row == 5:
+            fourG_fiveG += 1
+        else:
+            no_conn += 1
+
+    return [no_conn, upto_threeG, fourG_fiveG]
+
+
 # Flask-Routenfunktion
 @api.route('/api/get_user_statistic', methods=["GET"])
 def get_user_statistic():
-    user_id = request.args.get('user_id')               # Beispiel: User-ID aus der GET-Anfrage erhalten
+    user_id = request.args.get('user_id')               # Beispiel: Usr GET-Anfrage erhaltener-ID aus de
     total_length = calculate_trajectory_length(user_id) # Aufruf der Funktion zur Berechnung der Linienlängen
     print(json.dumps({"statistic": total_length}, indent=4)) # Ausgabe in der Python-Flask-Konsole für debuggen
 
-    return jsonify({"statistic": total_length})         # Rückgabe der berechneten Gesamtlänge als JSON
+    netspeed_array = calcuate_network_speed(user_id)
+    print(json.dumps({"netspeed_class": netspeed_array}, indent=4))
+
+    return jsonify({"statistic": total_length}, {"netspeed_class": netspeed_array} )         # Rückgabe der berechneten Gesamtlänge als JSON
 
