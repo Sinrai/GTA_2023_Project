@@ -72,6 +72,11 @@ function getCurrentPosition() {
                 },
                 function(error) {
                     reject(new Error('Error getting position: ' + error.message));
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
                 }
             );
         } else {
