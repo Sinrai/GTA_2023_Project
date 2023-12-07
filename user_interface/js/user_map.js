@@ -38,7 +38,7 @@ $(document).ready(function() {
 
     //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
 
-    //userID
+    // user point data
 
     let wfsUrl_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
 
@@ -56,7 +56,7 @@ $(document).ready(function() {
                     // Create circle marker for each coordinate
                     var circle = L.circle([coord[1], coord[0]], {
                         radius: 200, 
-                        fillColor: 'blue', 
+                        fillColor: 'purple', 
                         fillOpacity: 0.8, 
                         opacity: 0
                     });
@@ -67,6 +67,44 @@ $(document).ready(function() {
             }
         },
     });
+
+
+    // trajectory data
+    let wfsUrl_trajectory = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_trajectory_data&OUTPUTFORMAT=application/json';
+
+    var user_trajectory = L.layerGroup();
+    
+    $.ajax({
+        type: "GET",
+        url: wfsUrl_trajectory+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>username</PropertyName><Literal>'+userID+'</Literal></PropertyIsEqualTo></Filter>',
+        dataType: 'json',
+        
+        success: function (data) {
+            
+            if (data.features && data.features.length > 0) {
+                var coordinates = data.features[0].geometry.coordinates;
+
+                if (coordinates && coordinates.length >= 2) {
+                    var latLngArray = coordinates.map(function (coord) {
+                        return L.latLng(coord[1], coord[0]);
+                    });
+
+                    var polyline = L.polyline(latLngArray, {
+                        color: 'blue', 
+                        weight: 4
+                    });
+
+                    polyline.addTo(map);
+                }
+
+                
+    
+            } 
+        } 
+    });
+    
+
+
 
     
     
