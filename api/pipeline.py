@@ -8,6 +8,7 @@ import requests
 import pyproj
 import sqlalchemy.dialects.postgresql as pg_dialect
 from geoalchemy2 import Geometry
+import math
 
 api = Blueprint('api', __name__)
 engine = db.create_engine("postgresql://gta_p4:***REMOVED***@ikgpgis.ethz.ch:5432/gta")
@@ -132,20 +133,30 @@ def calculate_trajectory_length(user_id):
 def calcuate_network_speed(user_id):
     query = db.text(f"SELECT netspeed FROM gta_p4.user_point_data WHERE username = '{user_id}'")  # SQL-Abfrage zur Auswahl der Linienlängen basierend auf der user_id
     rows = execute_query(query)
-    no_conn = 0
-    upto_threeG = 0
+    lessthan_3G = 0
+    threeG = 0
     fourG_fiveG = 0
+
 
     # Berechnung der netspeed klassen
     for row in rows:
-        if row == 1 or row == 2 or row == 3:
-            upto_threeG += 1
-        if row == 4 or row == 5:
+        print(json.dumps(row[0], indent=4))
+        if row[0] == 1 or row[0] == 2:
+            lessthan_3G += 1
+        if row[0] == 3:
+            threeG += 1
+        if row[0] == 4 or row[0] == 5:
             fourG_fiveG += 1
-        else:
-            no_conn += 1
 
-    return [no_conn, upto_threeG, fourG_fiveG]
+    if max(lessthan_3G, threeG, fourG_fiveG) >= 300:
+        if lessthan_3G != 0:
+            lessthan_3G = math.log(lessthan_3G) + 100
+        if threeG != 0:
+            threeG = math.log(threeG) + 100
+        if fourG_fiveG != 0:
+            fourG_fiveG = math.log(fourG_fiveG) + 100
+
+    return [lessthan_3G, threeG, fourG_fiveG]
 
 
 # Flask-Routenfunktion
@@ -158,5 +169,5 @@ def get_user_statistic():
     netspeed_array = calcuate_network_speed(user_id)
     print(json.dumps({"netspeed_class": netspeed_array}, indent=4))
 
-    return jsonify({"statistic": total_length}, {"netspeed_class": netspeed_array} )         # Rückgabe der berechneten Gesamtlänge als JSON
+    return jsonify({"statistic": total_length, "netspeed_class": netspeed_array} )         # Rückgabe der berechneten Gesamtlänge als JSON
 

@@ -48,7 +48,15 @@ $(document).ready(function() {
     startTracking();
 
 
-
+    // Function to fade out element
+    function elementAusblenden() {
+        var titelDiv = document.getElementById('titelDiv_user');
+        if (titelDiv) {
+          titelDiv.style.opacity = '0';
+        }
+      }
+    
+      setTimeout(elementAusblenden, 5000); // Wait 5 sec then fade out
 
     /*
     //Function to zoom to current position (doesn't work)

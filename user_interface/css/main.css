@@ -275,8 +275,7 @@ button#submitLogin {
     padding: 30px;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
-    max-width: 400px;
-    margin: 10px;
+    max-width: 80%;
     position: relative;
     left: 50%;
     transform: translate(-50%, -5%);
@@ -285,8 +284,31 @@ button#submitLogin {
 
 .network-info p {
     margin: 5px 5px;
+
 }
 
+/*USER MAP//////////////////////////////////////////////////////////////////////////////////////////////*/
+.seitentitel-user {
+    position: fixed;
+    top: 0;
+    width: 40%;
+    background-color: whitesmoke;
+    color: black;
+    margin-top: 150px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* Für den Text innerhalb des Containers */
+    margin-left: 15%;
+    /* Zentrieren horizontal */
+    margin-right: 30%;
+    /* Zentrieren horizontal */
+    font-size: small;
+    opacity: 1;
+    transition: opacity 1s ease; /* Füge eine Übergangseigenschaft hinzu */
+  }
 
 
 /*PROVIDER MAP//////////////////////////////////////////////////////////////////////////////////////////*/
@@ -356,17 +378,23 @@ button#submitLogin {
     padding: 10px;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
-    width: 90%;
-    margin: 10px;
-    margin-bottom: 40%;
-    /* Center horizontally */
+    max-width: 80%;  /* Center horizontally */
     text-align: center;
+    min-height: fit-content;
+
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
 }
 
 .chart {
     overflow: hidden;
-    height: 200px; /* Höhe des Chart-Divs anpassen, wenn nötig */
+    min-height: 300px; /* Höhe des Chart-Divs anpassen, wenn nötig */
 
+}
+
+.chart_txt {
+    z-index: 999;
 }
 
 .balken {
@@ -500,7 +528,7 @@ button#submitLogin {
 .faq-answer {
     padding: 10px;
     display: none;
-    background-color: rgb(156, 189, 189);
+    background-color: rgb(201, 228, 228);
 }
 
 .faq-answer.show {
@@ -536,6 +564,15 @@ button#submitLogin {
 }
 
     .seitentitel-provider {
+        margin-top: 70px;
+        width: 80%;
+        margin-left: 10%;
+        /* Zentrieren horizontal */
+        margin-right: 10%;
+        /* Zentrieren horizontal */
+    }
+
+    .seitentitel-user {
         margin-top: 70px;
         width: 80%;
         margin-left: 10%;

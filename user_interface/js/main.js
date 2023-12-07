@@ -73,8 +73,15 @@ let isTracking = false; //Tracking-Status verfolgen
 let submitLogin;
 let userID_empty;
 
-let values;
 let barwidth;
+let height;
+let balken;
+let textElement;
+
+let response_statisitc;
+let response_netspeed;
+let userStats;
+let userStat;
 
 function saveLoginStatus(status) {
     localStorage.setItem('isLoggedin', JSON.stringify(status));
