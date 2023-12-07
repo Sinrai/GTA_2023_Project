@@ -19,78 +19,68 @@ $(document).ready(function () {
     setInterval(updateNetInfo, 10000);
 });
 
-
+//get objects from html
 loginButton = document.getElementById("loginButton");
 loginContainer = document.getElementById("loginContainer");
 trackButton = document.getElementById("trackButton");
 submitLogin = document.getElementById("submitLogin");
 
+//login button click 
 loginButton.addEventListener("click", () => {
     if (!isLoggedIn) {
-        loginContainer.style.display = "block";
+        loginContainer.style.display = "block"; //login container pops up if not logged in
     } else {
         logout();
     }
 });
 
+//login container -> submit login
 submitLogin.addEventListener("click", () => {
-    
-    userInput = document.getElementById('input_userid');
-    userID_empty = userInput.value.trim() === ''; // Überprüfen, ob der Wert des Inputs leer ist
+    userInput = document.getElementById('input_userid'); //get html object 
+    userID_empty = userInput.value.trim() === ''; // define variable to check if input is emtpy
 
-    if (userID_empty == false) {
+    if (userID_empty == false) { // login is successful
         isLoggedIn = true;
-        updateLoginButton(); // Update des Login/Logout-Buttons nach dem Login
-        updateTrackingButton()
-        loginContainer.style.display = "none";
-        userID = document.getElementById("input_userid").value;
-        saveLoginStatus(isLoggedIn); // Speichere den Anmeldestatus
+        updateLoginButton(); //change login button to logout
+        updateTrackingButton() // enable tracking button
+        loginContainer.style.display = "none"; // login container disapears
+        userID = document.getElementById("input_userid").value;  //get the user ID of current user
+        saveLoginStatus(isLoggedIn); // save login status
     }
     else {
-        alert("Please enter a User ID")
+        alert("Please enter a User ID") // user input is empty
     }
 });
 
-// Funktion, um den Benutzer auszuloggen
+// logout user
 function logout() {
     isLoggedIn = false;
-    updateLoginButton(); // Update des Login/Logout-Buttons nach dem Logout
-    updateTrackingButton();
-    saveLoginStatus(isLoggedIn); // Speichere den Anmeldestatus
-    userID_empty = true;
+    updateLoginButton(); // update logout button to login
+    updateTrackingButton(); // disable tracking button
+    saveLoginStatus(isLoggedIn); // save login status
+    userID_empty = true; // update boolean
 }
 
-// Funktion zum Umschalten des Tracking-Status
-function toggleTracking() {
-    if (!isTracking) {
-        isTracking = true;
-        startTracking();
-        //alert("Tracking ist aktiviert.");
-    } else {
-        isTracking = false;
-        stopTracking();
-        //alert("Tracking ist beendet.");
-    }
-    updateTrackingButton();
-}
 
-// Funktion zum Speichern des Anmeldestatus im Local Storage
+// save login status (boolean) in local storage
 function saveLoginStatus(status) {
-    localStorage.setItem('isLoggedin', status); // Speichere den Status im Local Storage
+    localStorage.setItem('isLoggedin', status); 
     localStorage.setItem('userID', userID);
 }
 
+// load login status from local storage and convert it into boolean
 function loadLoginStatus() {
-    isLoggedIn = JSON.parse(localStorage.getItem('isLoggedin')); // Lade den Status aus dem Local Storage und konvertiere ihn in einen Boolean-Wert
+    isLoggedIn = JSON.parse(localStorage.getItem('isLoggedin')); 
     if (isLoggedIn) {
-        userID = localStorage.getItem('userID');
+        userID = localStorage.getItem('userID'); //if logged it get user ID from local storage
     } else {
         isLoggedIn = false;
     }
-    updateLoginButton(); // Aktualisiere den Login/Logout-Button basierend auf dem geladenen Status
-    updateTrackingButton(); //Aktualisiere den Tracking-Button basierend auf dem geladenen Status
+    updateLoginButton(); 
+    updateTrackingButton();
 }
 
+// change text displayed in button
 function updateLoginButton() {
     if (isLoggedIn == false) {
         loginButton.innerText = "Login";
@@ -99,6 +89,19 @@ function updateLoginButton() {
     }
 }
 
+// change between start tracking and stop tracking
+function toggleTracking() {
+    if (!isTracking) {
+        isTracking = true;
+        //startTracking();
+    } else {
+        isTracking = false;
+        //stopTracking();
+    }
+    updateTrackingButton(); // update text displayed in button
+}
+
+// change style of tracking button 
 function updateTrackingButton() {
     if (isLoggedIn) {
         if (getNetworkInfo()["browser_compatible"]) {
@@ -132,5 +135,5 @@ function updateTrackingButton() {
     }
 }
 
-// Initialisieren Sie den Button-Status
+// initialize login status 
 loadLoginStatus();

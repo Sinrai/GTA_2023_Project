@@ -1,17 +1,13 @@
+faqItems = document.querySelectorAll('.faq-item'); //get html objects
 
-faqItems = document.querySelectorAll('.faq-item');
-
-if (faqItems.length > 0) {
+if (faqItems.length > 0) { //go trough every faq question and add the answer
   faqItems.forEach((item, index) => {
     const question = item.querySelector('.faq-question');
 
-    question.addEventListener('click', () => {
-      // Toggle-Ansicht der Antwort
+    question.addEventListener('click', () => { //toggle answer
       const answer = item.querySelector('.faq-answer');
-      answer.classList.toggle('show');
-      // Ändere den Stil der Frage basierend auf geöffnetem/zusammengeklapptem Zustand
+      answer.classList.toggle('show');  // show answer if clicked
       question.classList.toggle('active');
-      // Alert zum Testen, ob der Klick funktioniert
     });
   });
 } else {

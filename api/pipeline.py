@@ -117,28 +117,27 @@ def execute_query(query):
         return result.fetchall()
 
 
-# Funktion zur Berechnung der Linienlängen
+# claculate trajectory length
 def calculate_trajectory_length(user_id):
-    query = db.text(f"SELECT distance FROM gta_p4.user_trajectory_data WHERE username = '{user_id}'")  # SQL-Abfrage zur Auswahl der Linienlängen basierend auf der user_id
+    query = db.text(f"SELECT distance FROM gta_p4.user_trajectory_data WHERE username = '{user_id}'")  # SQL query to select the line lengths based on the user_id
     rows = execute_query(query)
     total_length = 0
 
-    # Berechnung der Gesamtlänge der Linien
+    # claculate total length of all trips with same user id
     for row in rows:
-        total_length += row[0]  # Annahme: 'distance' ist das Attribut vom Typ REAL
-
+        total_length += row[0]  # distance is type REAL
     return total_length
 
 
 def calcuate_network_speed(user_id):
-    query = db.text(f"SELECT netspeed FROM gta_p4.user_point_data WHERE username = '{user_id}'")  # SQL-Abfrage zur Auswahl der Linienlängen basierend auf der user_id
+    query = db.text(f"SELECT netspeed FROM gta_p4.user_point_data WHERE username = '{user_id}'") # SQL query to select the netspeed based on the user_id
     rows = execute_query(query)
     lessthan_3G = 0
     threeG = 0
     fourG_fiveG = 0
 
 
-    # Berechnung der netspeed klassen
+    # calculating three netspeed classes
     for row in rows:
         print(json.dumps(row[0], indent=4))
         if row[0] == 1 or row[0] == 2:
@@ -148,6 +147,7 @@ def calcuate_network_speed(user_id):
         if row[0] == 4 or row[0] == 5:
             fourG_fiveG += 1
 
+    # if values are very big take log(values) -> bar chart style stays nice on web app
     if max(lessthan_3G, threeG, fourG_fiveG) >= 300:
         if lessthan_3G != 0:
             lessthan_3G = math.log(lessthan_3G) + 100
@@ -159,15 +159,16 @@ def calcuate_network_speed(user_id):
     return [lessthan_3G, threeG, fourG_fiveG]
 
 
-# Flask-Routenfunktion
+# flask 
 @api.route('/api/get_user_statistic', methods=["GET"])
 def get_user_statistic():
-    user_id = request.args.get('user_id')               # Beispiel: Usr GET-Anfrage erhaltener-ID aus de
-    total_length = calculate_trajectory_length(user_id) # Aufruf der Funktion zur Berechnung der Linienlängen
-    print(json.dumps({"statistic": total_length}, indent=4)) # Ausgabe in der Python-Flask-Konsole für debuggen
 
-    netspeed_array = calcuate_network_speed(user_id)
-    print(json.dumps({"netspeed_class": netspeed_array}, indent=4))
+    user_id = request.args.get('user_id')               # get user id
+    total_length = calculate_trajectory_length(user_id) # get total legth
+    print(json.dumps({"statistic": total_length}, indent=4)) # Output in the Python-Flask console for debugging
 
-    return jsonify({"statistic": total_length, "netspeed_class": netspeed_array} )         # Rückgabe der berechneten Gesamtlänge als JSON
+    netspeed_array = calcuate_network_speed(user_id) # get netspeed
+    print(json.dumps({"netspeed_class": netspeed_array}, indent=4)) # Output in the Python-Flask console for debugging
+
+    return jsonify({"statistic": total_length, "netspeed_class": netspeed_array} )  # Return the calculated total length and the netspeed as JSON
 
