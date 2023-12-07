@@ -26,12 +26,49 @@ $(document).ready(function() {
     baseMap.addTo(map);
 
 
+    // Function to fade out element
+    function elementAusblenden() {
+        var titelDiv = document.getElementById('titelDiv_user');
+        if (titelDiv) {
+          titelDiv.style.opacity = '0';
+        }
+      }
+    
+    setTimeout(elementAusblenden, 5000); // Wait 5 sec then fade out
 
     //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
 
+    //userID
+
+    let wfsUrl_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
+
+    var user_points = L.layerGroup(); // Create layerGroup to hold points
+    $.ajax({
+        type: "GET",
+        url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>username</PropertyName><Literal>'+userID+'</Literal></PropertyIsEqualTo></Filter>',
+        dataType: 'json',
+        
+        success: function (data) {
+            if (data.features) {
+                data.features.forEach(function (feature) {
+                    let coord = feature.geometry.coordinates;
+                    
+                    // Create circle marker for each coordinate
+                    var circle = L.circle([coord[1], coord[0]], {
+                        radius: 200, 
+                        fillColor: 'blue', 
+                        fillOpacity: 0.8, 
+                        opacity: 0
+                    });
+                    circle.addTo(user_points); // add to layerGroup
+                    circle.addTo(map);
+                });
+                
+            }
+        },
+    });
+
     
-
-
     
     //Function to zoom to current position 
     /*
@@ -53,32 +90,7 @@ $(document).ready(function() {
     }
 
     startTracking();
-
-
-    // Function to fade out element
-    function elementAusblenden() {
-        var titelDiv = document.getElementById('titelDiv_user');
-        if (titelDiv) {
-          titelDiv.style.opacity = '0';
-        }
-      }
-    
-      setTimeout(elementAusblenden, 5000); // Wait 5 sec then fade out
-
-    /*
-    //Function to zoom to current position (doesn't work)
-    getCurrentPosition()
-        .then(position => {
-            var userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
-            map.setView(userLatLng, 13); 
-            var marker = L.marker(userLatLng).addTo(map);
-            console.log('Current position:', position);
-        })
-        .catch(error => {
-            console.error('Error getting current position:', error);
-        });
     */
-
 
 
 
