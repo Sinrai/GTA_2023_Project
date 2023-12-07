@@ -106,14 +106,14 @@ function updateTrackingButton() {
                 if (isTracking) {
                     trackButton.classList.add('blinking'); // Apply blinking effect
                     trackButton.innerText = "Stop Tracking";
-                    //trackButton.style.color = 'red';
+                    trackButton.style.color = 'white';
+                    trackButton.style.background = 'rgb(255, 102, 102)';
                     trackButton.addEventListener("click", toggleTracking);
                 } else {
                     trackButton.classList.remove('blinking'); // Remove blinking effect
                     trackButton.innerText = "Start Tracking";
                     trackButton.style.color = 'black';
-                    //trackButton.style.boxShadow = '0 0 10px rgba(0, 255, 0, 0.5)';
-                    trackButton.style.background = 'rgb(131, 176, 176)';
+                    trackButton.style.background = 'rgb(154, 229, 154)';
                     trackButton.addEventListener("click", toggleTracking);
                 }
             } else {
@@ -126,7 +126,7 @@ function updateTrackingButton() {
         }
     } else {
         trackButton.innerText = "Login to Track";
-        trackButton.style.color = 'coral';
+        trackButton.style.color = 'white';
         trackButton.style.background = 'grey';
         trackButton.removeEventListener("click", toggleTracking);
     }

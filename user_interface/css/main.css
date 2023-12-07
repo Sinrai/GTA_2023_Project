@@ -1,4 +1,4 @@
-/*ALLGEMEIN/////////////////////////////////////////////////////////////////////////////////////////////*/
+/*GENERAL/////////////////////////////////////////////////////////////////////////////////////////////*/
 html,
 body {
     width: 100%;
@@ -52,11 +52,32 @@ h1 {
     /*text-decoration: underline rgb(131, 176, 176) wavy 1.5px;*/
 }
 
-/*???*/
-.section p {
-    text-align: justify;
+/*google fonts symbols*/
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    z-index: 99;
+    /* Hinzugefügte Zeile: Über dem map-Element anzeigen */
 }
 
+button {
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 999;
+}
+
+/*INDEX HTML////////////////////////////////////////////////////////////////////////////////////////*/
+.content {
+    flex-grow: 1;
+    display: flex;
+    min-height: 100vh;
+    /* 100% der Bildschirmhöhe */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+/*HEADER//////////////////////////////////////////////////////////////////////////////////////////////*/
 header {
     position: fixed;
     border-bottom: 1px solid aliceblue;
@@ -70,6 +91,7 @@ header {
     height: 140px;
 }
 
+/*add background to header*/
 header::after {
     content: '';
     position: absolute;
@@ -85,6 +107,7 @@ header::after {
 }
 
 
+/*FOOTER//////////////////////////////////////////////////////////////////////////////////////////////*/
 footer {
     color: white;
     background: rgb(131, 176, 176);
@@ -100,7 +123,9 @@ footer {
     padding-bottom: 110px;
 }
 
-/*TOOLBAR/////////////////////////////////////////////////////////////////////////////////////////////*/
+
+/*TOOLBAR /////////////////////////////////////////////////////////////////////////////////////////////*/
+
 .toolbar {
     position: fixed;
     bottom: 0;
@@ -108,81 +133,27 @@ footer {
     width: 100%;
     background-color: #333;
     color: #fff;
-    padding: 40px;
-    /* Ändere die Padding-Größe für die eingeklappte Ansicht */
     z-index: 999;
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
-    transition: padding 0.3s;
-    /* Füge eine Transition für eine sanfte Animation hinzu */
 }
 
 .toolbar button {
-    background: none;
+    background: #333;
     color: white;
     border: none;
     font-size: 10px;
+    padding: 15px 15px;
     margin: 0 5px;
-    /* Ändere den Margin für die Buttons */
-}
-
-.toolbar.collapsed {
-    padding: 5px;
-    overflow: hidden;
     transition: padding 0.3s ease-in-out;
-}
-
-/* Wenn die Maus über die Toolbar fährt */
-.toolbar:hover.collapsed {
-    padding: 40px;
-    /* Zeige die Toolbar vollständig beim Hover */
+    /*soft transition fullsize to collapsed*/
 }
 
 
-.content {
-    flex-grow: 1;
-    display: flex;
-    min-height: 100vh;
-    /* 100% der Bildschirmhöhe */
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-}
+/*HOME PAGE ///////////////////////////////////////////////////////////////////////////////////////////////////7//*/
 
-
-/*google fonts symbols*/
-.material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-    z-index: 99;
-    /* Hinzugefügte Zeile: Über dem map-Element anzeigen */
-}
-
-
-/*MENU/////////////////////////////////////////////////////////////////////////////////////////////////////////*/
-/* Stil für das Hamburger-Menü */
-.hamburger-menu {
-    cursor: pointer;
-    margin: 10px;
-    padding: 10px;
-}
-
-.menu-items {
-    list-style-type: none;
-    display: none;
-}
-
-/* Standardmenü für Desktop */
-.menu-items.active {
-    display: inline-flex;
-    margin: 20px;
-    padding: 0;
-}
-
-
-/*HOME////////////////////////////////////////////////////////////////////////////////////////////////////////7//*/
-/*LOGIN NEW//////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*LOGIN /////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 .login-container {
     display: none;
     position: fixed;
@@ -209,12 +180,6 @@ footer {
     align-items: center;
 }
 
-button {
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 999;
-}
-
 button#loginButton {
     position: fixed;
     margin: 40px 20px;
@@ -233,7 +198,6 @@ button#submitLogin {
 }
 
 #input_userid {
-    /*width: 100%;*/
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
@@ -242,7 +206,7 @@ button#submitLogin {
 
 
 
-/*TRACKING BUTTON*/
+/*TRACKING BUTTON /////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 #trackButton {
     position: relative;
     left: 50%;
@@ -260,16 +224,21 @@ button#submitLogin {
     animation: blinkShadow 1s infinite alternate;
 }
 
+/*blink while tracking*/
 @keyframes blinkShadow {
     0% {
-        box-shadow: 0 0 30px rgba(0, 255, 0, 0.5); /* Green shadow color */
+        box-shadow: 0 0 20px red;
+        /* Green shadow color */
     }
+
     100% {
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Original shadow color */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        /* Original shadow color */
     }
 }
 
-/*NET_INFO*/
+
+/*NET_INFO /////////////////////////////////////////////////////////////////////////////////////////////////////////*/
 .network-info {
     border: 1px solid #ccc;
     padding: 30px;
@@ -280,7 +249,6 @@ button#submitLogin {
     left: 50%;
     transform: translate(-50%, -5%);
 }
-
 
 .network-info p {
     margin: 5px 5px;
@@ -300,28 +268,28 @@ button#submitLogin {
     align-items: center;
     justify-content: center;
     text-align: center;
-    /* Für den Text innerhalb des Containers */
     margin-left: 15%;
-    /* Zentrieren horizontal */
     margin-right: 30%;
-    /* Zentrieren horizontal */
     font-size: small;
     opacity: 1;
-    transition: opacity 1s ease; /* Füge eine Übergangseigenschaft hinzu */
-  }
+    transition: opacity 1s ease;
+}
 
 
-/*PROVIDER MAP//////////////////////////////////////////////////////////////////////////////////////////*/
+/*PERSONAL DATA ANALYSIS /////////////////////////////////////////////////////////////////////////////////////*/
 
+/* MAP ////////////////////////////////////////////////////////////////////////////////////////////////*/
 #map {
     flex: 1;
     top: 143px;
     left: 0;
     width: 100%;
-    height: calc(100% - 250px);
+    height: calc(100% - 200px);
     position: fixed;
     z-index: 1;
 }
+
+/*MAP BUTTON //////////////////////////////////////////////////////////////////////////////////////////*/
 
 .map {
     position: fixed;
@@ -338,11 +306,11 @@ button#submitLogin {
     border: none;
     padding: 0;
     border-radius: 50%;
-    /* Runden Sie die Ecken ab, um einen Kreis zu erstellen */
+    /*round edges*/
     width: 60px;
-    /* Passen Sie die Größe des Kreises an */
+    /*size of circle*/
     height: 60px;
-    /* Passen Sie die Größe des Kreises an */
+    /*size of circle*/
     display: flex;
     align-items: center;
     justify-content: center;
@@ -352,33 +320,27 @@ button#submitLogin {
 .map button span.material-symbols-outlined {
     border: none;
     background: rgb(131, 176, 176);
-    /* Hintergrundfarbe des Icons */
     color: white;
-    /* Textfarbe des Icons auf transparent setzen */
     border-radius: 50%;
-    /* Runden Sie die Ecken des Icons ab, um es in den Kreis passen zu lassen */
     padding: 14px;
-    /* Innenabstand des Icons erhöht */
     font-size: 24px;
-    /* Größe des Icons erhöht */
     display: inline-block;
     z-index: 92;
 }
 
-/* Füge eine Pseudo-Element, um das Icon zu zentrieren */
 #fullscreenButton i {
     display: block;
     text-align: center;
 }
 
-
-/*ANALYSE*/
+/* ANALYSIS WINDOW ////////////////////////////////////////////////////////////////////////*/
 .analysis {
     border: 1px solid #ccc;
     padding: 10px;
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
-    max-width: 80%;  /* Center horizontally */
+    max-width: 80%;
+    /* Center horizontally */
     text-align: center;
     min-height: fit-content;
 
@@ -389,7 +351,8 @@ button#submitLogin {
 
 .chart {
     overflow: hidden;
-    min-height: 300px; /* Höhe des Chart-Divs anpassen, wenn nötig */
+    min-height: 300px;
+    /* Höhe des Chart-Divs anpassen, wenn nötig */
 
 }
 
@@ -398,25 +361,24 @@ button#submitLogin {
 }
 
 .balken {
-    margin: 0 5px; /* Abstand zwischen den Balken anpassen, falls erforderlich */
+    margin: 0 5px;
 }
 
-/* Die individuellen Balken-Stile können beibehalten werden */
 #balken1 {
-    fill: coral;
+    fill: rgb(255, 102, 102);
 }
 
 #balken2 {
-    fill: grey;
+    fill: rgb(168, 196, 193);
 }
 
 #balken3 {
-    fill: rgb(92, 208, 92);
+    fill: rgb(154, 229, 154);
 }
 
 
 
-/*PROVIDER ANALYSE//////////////////////////////////////////////////////////////////////////////////////////*/
+/*PROVIDER ANALYSIS//////////////////////////////////////////////////////////////////////////////////////////*/
 .seitentitel-provider {
     position: fixed;
     top: 0;
@@ -436,22 +398,23 @@ button#submitLogin {
     /* Zentrieren horizontal */
     font-size: small;
     opacity: 1;
-    transition: opacity 1s ease; /* Füge eine Übergangseigenschaft hinzu */
-  }
+    transition: opacity 1s ease;
+    /* Füge eine Übergangseigenschaft hinzu */
+}
 
 
 #legend {
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     color: #111111;
-    
+
     padding: 10px;
-    
+
     position: fixed;
     right: 0px;
     bottom: 130px;
     width: 35%;
-    
+
     z-index: 999;
     display: flex;
     flex-direction: column;
@@ -512,7 +475,6 @@ button#submitLogin {
 
 }
 
-/* Stil für die Fragen */
 .faq-item {
     border-bottom: 1px solid rgb(131, 176, 176);
 }
@@ -524,7 +486,6 @@ button#submitLogin {
     cursor: pointer;
 }
 
-/* Stil für die Antworten */
 .faq-answer {
     padding: 10px;
     display: none;
@@ -539,7 +500,7 @@ button#submitLogin {
     margin: 15px;
 }
 
-
+/* RESONSIVENESS ///////////////////////////////////////////////////////////////*/
 @media screen and (min-width: 768px) {
     h1 {
         margin-top: 10px;
@@ -559,26 +520,22 @@ button#submitLogin {
         z-index: 1;
     }
 
-.seitentitel {
-    padding-top: 80px;
-}
+    .seitentitel {
+        padding-top: 80px;
+    }
 
     .seitentitel-provider {
         margin-top: 70px;
         width: 80%;
         margin-left: 10%;
-        /* Zentrieren horizontal */
         margin-right: 10%;
-        /* Zentrieren horizontal */
     }
 
     .seitentitel-user {
         margin-top: 70px;
         width: 80%;
         margin-left: 10%;
-        /* Zentrieren horizontal */
         margin-right: 10%;
-        /* Zentrieren horizontal */
     }
 
     .text-padding {
@@ -589,5 +546,48 @@ button#submitLogin {
     .faq-answer {
         padding: 30px;
         padding-right: 30px;
+    }
+
+
+    .toolbar button {
+        padding: 0 0px;
+    }
+
+    .toolbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        z-index: 999;
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+    }
+
+    .toolbar button {
+        background: #333;
+        color: white;
+        border: none;
+        font-size: 10px;
+        padding: 5px;
+        margin: 0 5px;
+        transition: padding 0.3s ease-in-out;
+        /*soft transition fullsize to collapsed*/
+    }
+
+    /*collapsed state*/
+    .toolbar.collapsed {
+        padding: 5px;
+        overflow: hidden;
+    }
+
+    /*fullsize state when hovering*/
+    .toolbar.collapsed:hover button {
+        transition: padding 0.3s ease-in-out;
+        /*soft transition fullsize to collapsed*/
+        padding: 30px 60px;
     }
 }
