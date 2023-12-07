@@ -343,7 +343,7 @@ button#submitLogin {
     /* Center horizontally */
     text-align: center;
     min-height: fit-content;
-
+    padding-bottom: 80px;
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%);
@@ -589,5 +589,9 @@ button#submitLogin {
         transition: padding 0.3s ease-in-out;
         /*soft transition fullsize to collapsed*/
         padding: 30px 60px;
+    }
+
+    .analysis {
+        padding-bottom: 100px;
     }
 }
