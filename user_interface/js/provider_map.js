@@ -1,12 +1,14 @@
   $(document).ready(function() {
 
-    // Load all maps
+    // Load basemap
     var baseMap = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: 'ch.swisstopo.pixelkarte-grau',
         format: 'image/jpeg',
-        attribution: '&copy; <a href="https://www.swisstopo.admin.ch/en/home.html">swisstopo</a>'
+        attribution: '&copy; <a href="https://www.swisstopo.admin.ch/en/home.html">swisstopo</a>',
+        opacity: 0.7
     });
 
+    // Load provider maps
     var saltMap = L.tileLayer('https://mapserver.salt.ch/public/gmaps/2G3G4G4G+@GoogleMapsCompatible/{z}/{x}/{y}.png', {
         format: 'image/png',
         attribution: 'Salt',
@@ -22,19 +24,6 @@
         attribution: 'Swisscom',
         opacity: 0.5
     });
-
-    // Add data from Geoserver using WMS
-    let antennaLocations = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
-        layers: "GTA23_project:gta_p4_antenna_locations",
-        format: "image/png",
-        transparent: true
-    });
-    let trajectories = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
-        layers: "GTA23_project:gta_p4_trajectory_data",
-        format: "image/png",
-        transparent: true
-    });
-
 
 
     // set bounds of switzerland
@@ -67,13 +56,133 @@
         map.setMinZoom(calculateMinZoom());
     });
 
+
+    // Add data from Geoserver using WMS
+    let antennaLocations = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
+        layers: "GTA23_project:gta_p4_antenna_locations",
+        format: "image/png",
+        transparent: true
+    });
+
+    let trajectories = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
+        layers: "GTA23_project:gta_p4_trajectory_data",
+        format: "image/png",
+        transparent: true
+    });
+
+    
+    let userPointData = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
+        layers: "GTA23_project:gta_p4_user_point_data",
+        format: "image/png",
+        transparent: true,
+    });
+        
+        
+    
+        
+    //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
+
+    //Filter Swisscom
+    //&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo></Filter>
+
+    let wfsUrl_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
+
+
+    var swisscom_user = L.layerGroup(); // Create layerGroup to hold points
+
+    $.ajax({
+        type: "GET",
+        url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo></Filter>',
+        dataType: 'json',
+        
+        success: function (data) {
+            if (data.features) {
+                data.features.forEach(function (feature) {
+                    let coord = feature.geometry.coordinates;
+                    
+                    // Create circle marker for each coordinate
+                    var circle = L.circle([coord[1], coord[0]], {
+                        radius: 200, 
+                        fillColor: 'blue', 
+                        fillOpacity: 0.8, 
+                        opacity: 0
+                    });
+                    circle.addTo(swisscom_user); // add to layerGroup
+                });
+                
+            }
+        },
+    });
+
+    var salt_user = L.layerGroup(); // Create layerGroup to hold the points
+
+    $.ajax({
+        type: "GET",
+        url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS15796 Salt Mobile SA</Literal></PropertyIsEqualTo></Filter>',
+        dataType: 'json',
+        
+        success: function (data) {
+            if (data.features) {
+                data.features.forEach(function (feature) {
+                    let coord = feature.geometry.coordinates;
+                    
+                    // Create  circle marker for each coordinate
+                    var circle = L.circle([coord[1], coord[0]], {
+                        radius: 200, 
+                        fillColor: 'purple', 
+                        fillOpacity: 0.8, 
+                        opacity: 0
+                    });
+                    circle.addTo(salt_user); // add to layerGroup
+                });
+                
+            }
+        },
+    });
+
+
+    var sunrise_user = L.layerGroup(); // Create layerGroup to hold the points
+
+    $.ajax({
+        type: "GET",
+        url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS6730 Sunrise GmbH</Literal></PropertyIsEqualTo></Filter>',
+        dataType: 'json',
+        
+        success: function (data) {
+            if (data.features) {
+                data.features.forEach(function (feature) {
+                    let coord = feature.geometry.coordinates;
+                    
+                    // Create  circle marker for each coordinate
+                    var circle = L.circle([coord[1], coord[0]], {
+                        radius: 200, 
+                        fillColor: 'green', 
+                        fillOpacity: 0.8, 
+                        opacity: 0
+                    });
+                    circle.addTo(sunrise_user); // add to layerGroup
+                });
+                
+            }
+        },
+    });
+
+
+
+
+
+    //-------------------------------------------- Add Layers --------------------------------------------
     // Overlays of Provider maps
     var overlays = {
         "Salt": saltMap,
         "Sunrise": sunriseMap,
         "Swisscom": swisscomMap,
         "Antenna Locations": antennaLocations,
-        "Trajectories": trajectories    
+        //"Trajectories": trajectories,
+        //"User Point Data": userPointData, 
+        "Swisscom User Data": swisscom_user,
+        "Salt User Data": salt_user,
+        "Sunrise User Data": sunrise_user,
     };
 
     baseMap.addTo(map);
@@ -253,28 +362,32 @@
 
     // Update legend when layer added
     map.on('layeradd', function (event) {
-        var activeLayer = event.layer;
+            var activeLayer = event.layer;
 
-        activeLayer.bringToFront();
+            /*
+            activeLayer.bringToFront();
+            */
 
-        if (!activeLayers.includes(activeLayer)) {
-            activeLayers.push(activeLayer);
-        }
+            if (!activeLayers.includes(activeLayer)) {
+                activeLayers.push(activeLayer);
+            }
 
-        updateLegend(legend);
+            updateLegend(legend);
     });
 
 
     // Update legend when layer removed
     map.on('layerremove', function (event) {
-        var removedLayer = event.layer;
+            var removedLayer = event.layer;
 
         activeLayers = activeLayers.filter(function (layer) {
             return layer !== removedLayer;
         });
 
         updateLegend(legend);
+        
     });
+
 
 
 });

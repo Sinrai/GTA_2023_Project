@@ -26,8 +26,15 @@ $(document).ready(function() {
     baseMap.addTo(map);
 
 
+
+    //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
+
+    
+
+
     
     //Function to zoom to current position 
+    /*
     function updateMap(position) {
         var userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
         map.setView(userLatLng, 13);
@@ -71,5 +78,10 @@ $(document).ready(function() {
             console.error('Error getting current position:', error);
         });
     */
+
+
+
+
+    
         
 });
