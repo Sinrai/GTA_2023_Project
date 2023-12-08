@@ -78,6 +78,8 @@
     });
         
         
+
+    console.log(saltMap.bands)
     
         
     //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
@@ -114,6 +116,56 @@
         },
     });
 
+    //----------------------------------TEST
+
+    // empty GeoJSON layer
+    var geojsonLayer = L.geoJSON(null, {
+        style: function (feature) {
+            switch (feature.properties.netspeed) {
+                case 3: // Netspeed 3 (3G)
+                    return {
+                        fillColor: "#00ff00",  // Green
+                        fillOpacity: 0.5
+                    };
+                case 4: // Netspeed 4 (4G)
+                    return {
+                        fillColor: "#ff00ff",  // Pink
+                        fillOpacity: 0.5
+                    };
+                default:
+                    return {
+                        fillColor: "#000000",  // Black
+                        fillOpacity: 0 //invisible
+                    };
+            }
+        },
+
+        pointToLayer: function (feature, latlng) {
+            let coord = feature.geometry.coordinates;
+            return L.circle([coord[1], coord[0]], {
+                radius: 5, 
+                opacity: 0
+            });
+        }
+    });
+
+    // fetch GeoJSON data
+    $.ajax({
+        type: "GET",
+        url: wfsUrl_point + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo></Filter>',
+        dataType: 'json',
+
+        success: function (data) {
+            geojsonLayer.addData(data); // Add GeoJSON data to GeoJSON layer
+            
+        }
+    });
+
+    //----------------------------------
+
+
+    // Filter Salt
+
     var salt_user = L.layerGroup(); // Create layerGroup to hold the points
 
     $.ajax({
@@ -140,6 +192,8 @@
         },
     });
 
+
+    // Filter Sunrise
 
     var sunrise_user = L.layerGroup(); // Create layerGroup to hold the points
 
@@ -181,8 +235,9 @@
         //"Trajectories": trajectories,
         //"User Point Data": userPointData, 
         "Swisscom User Data": swisscom_user,
-        "Salt User Data": salt_user,
-        "Sunrise User Data": sunrise_user,
+        //"Salt User Data": salt_user,
+        //"Sunrise User Data": sunrise_user,
+        "geojsonLayer": geojsonLayer
     };
 
     baseMap.addTo(map);

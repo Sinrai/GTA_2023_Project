@@ -61,7 +61,7 @@ $(document).ready(function() {
                         opacity: 0
                     });
                     circle.addTo(user_points); // add to layerGroup
-                    circle.addTo(map);
+                    // circle.addTo(map);
                 });
                 
             }
@@ -80,6 +80,7 @@ $(document).ready(function() {
         dataType: 'json',
         
         success: function (data) {
+            // for each !!!!!!!!!!!!!!!!!!!!!!!!
             
             if (data.features && data.features.length > 0) {
                 var coordinates = data.features[0].geometry.coordinates;
