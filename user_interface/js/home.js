@@ -93,10 +93,10 @@ function updateLoginButton() {
 function toggleTracking() {
     if (!isTracking) {
         isTracking = true;
-        //startTracking();
+        startTracking();
     } else {
         isTracking = false;
-        //stopTracking();
+        stopTracking();
     }
     updateTrackingButton(); // update text displayed in button
 }

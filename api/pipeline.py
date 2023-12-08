@@ -76,7 +76,7 @@ def process_user_data():
                 speed = dist/time
                 in_train = (speed >= 60 and train_dist <= 10)
                 user_data_gdf.at[idx, 'in_train'] = in_train
-                if in_train:
+                if not in_train:
                     traj_dist += dist
             else:
                 user_data_gdf.at[idx, 'in_train'] = user_data_gdf.at[idx-1, 'in_train']
@@ -171,4 +171,3 @@ def get_user_statistic():
     # print(json.dumps({"netspeed_class": netspeed_array}, indent=4)) # Output in the Python-Flask console for debugging
 
     return jsonify({"statistic": total_length, "netspeed_class": netspeed_array} )  # Return the calculated total length and the netspeed as JSON
-
