@@ -72,9 +72,9 @@ def process_user_data():
             train_dist = train_tracks.distance(row.geometry).min()
             if idx < len(user_data_gdf)-1:
                 time = (user_data_gdf.at[idx+1, 'time'] - row['time']).total_seconds()
-                dist = user_data_gdf.geometry.distance(user_data_gdf.at[idx+1, 'geometry']).min()
+                dist = row['geometry'].distance(user_data_gdf.at[idx+1, 'geometry'])
                 speed = dist/time
-                in_train = (speed >= 60 and dist <= 10)
+                in_train = (speed >= 60 and train_dist <= 10)
                 user_data_gdf.at[idx, 'in_train'] = in_train
                 if in_train:
                     traj_dist += dist
@@ -139,7 +139,7 @@ def calcuate_network_speed(user_id):
 
     # calculating three netspeed classes
     for row in rows:
-        print(json.dumps(row[0], indent=4))
+        # print(json.dumps(row[0], indent=4))
         if row[0] == 1 or row[0] == 2:
             lessthan_3G += 1
         if row[0] == 3:
@@ -165,10 +165,10 @@ def get_user_statistic():
 
     user_id = request.args.get('user_id')               # get user id
     total_length = calculate_trajectory_length(user_id) # get total legth
-    print(json.dumps({"statistic": total_length}, indent=4)) # Output in the Python-Flask console for debugging
+    # print(json.dumps({"statistic": total_length}, indent=4)) # Output in the Python-Flask console for debugging
 
     netspeed_array = calcuate_network_speed(user_id) # get netspeed
-    print(json.dumps({"netspeed_class": netspeed_array}, indent=4)) # Output in the Python-Flask console for debugging
+    # print(json.dumps({"netspeed_class": netspeed_array}, indent=4)) # Output in the Python-Flask console for debugging
 
     return jsonify({"statistic": total_length, "netspeed_class": netspeed_array} )  # Return the calculated total length and the netspeed as JSON
 
