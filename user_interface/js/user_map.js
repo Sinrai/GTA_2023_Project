@@ -6,7 +6,8 @@ $(document).ready(function() {
     var baseMap = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: 'ch.swisstopo.pixelkarte-grau',
         format: 'image/jpeg',
-        attribution: '&copy; <a href="https://www.swisstopo.admin.ch/en/home.html">swisstopo</a>'
+        attribution: '&copy; <a href="https://www.swisstopo.admin.ch/en/home.html">swisstopo</a>',
+        opacity: 0.7
     });
 
     var switzerlandBounds = L.latLngBounds(
@@ -14,7 +15,6 @@ $(document).ready(function() {
         L.latLng(47.808, 10.492) // Northeast coordinates
     );
 
-    //console.log(switzerlandBounds)
 
     var map = L.map('map', {
         center: [46.408375, 8.507669],
@@ -44,34 +44,6 @@ $(document).ready(function() {
 
     let wfsUrl_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
 
-    /*
-    var user_points = L.layerGroup(); // Create layerGroup to hold points
-    $.ajax({
-        type: "GET",
-        url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>username</PropertyName><Literal>'+userID+'</Literal></PropertyIsEqualTo></Filter>',
-        dataType: 'json',
-        
-        success: function (data) {
-            if (data.features) {
-                data.features.forEach(function (feature) {
-                    let coord = feature.geometry.coordinates;
-                    
-                    // Create circle marker for each coordinate
-                    var circle = L.circle([coord[1], coord[0]], {
-                        radius: 200, 
-                        fillColor: 'purple', 
-                        fillOpacity: 0.8, 
-                        opacity: 0
-                    });
-                    circle.addTo(user_points); // add to layerGroup
-                    // circle.addTo(map);
-                });
-                
-            }
-        },
-    });
-    */
-
     var geojsonLayer = L.geoJSON(null, {
         style: function (feature) {
             switch (feature.properties.netspeed) {
@@ -79,6 +51,7 @@ $(document).ready(function() {
                     return {
                         fillColor: "#33CC33",  // Green
                         fillOpacity: 0.8
+                        
                     };
                 case 3: // Netspeed 3 (3G)
                     return {
@@ -92,7 +65,7 @@ $(document).ready(function() {
                     };
                 default:
                     return {
-                        fillColor: "#fff000",  // Black
+                        fillColor: "#fff000",  
                         fillOpacity: 0 //invisible
                     };
             }
@@ -144,7 +117,7 @@ $(document).ready(function() {
                         });
     
                         var polyline = L.polyline(latLngArray, {
-                            color: 'blue',
+                            color: '#0066CC',
                             weight: 4
                         });
     
@@ -156,57 +129,86 @@ $(document).ready(function() {
                 user_trajectory.addTo(map);
 
                 
-
-                // Fit the map to the bounds of trajectories
-                var bounds = new L.LatLngBounds();
-
-                user_trajectory.eachLayer(function (layer) {
-                    bounds.extend(layer.getBounds());
-                });
-
-                console.log("Computed Bounds:", bounds);
-
-                if (bounds.isValid()) {
-                    // Ensure map and trajectories are fully loaded before calling fitBounds
-                    map.whenReady(function () {
-                        map.fitBounds(bounds);
-                    });
-                } else {
-                    console.error("Invalid bounds. Unable to fit map.");
-                }
             }
         }
     });
 
-    
-    
 
-    
-    
-    //Function to zoom to current position 
-    /*
-    function updateMap(position) {
-        var userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
-        map.setView(userLatLng, 13);
-        var marker = L.marker(userLatLng).addTo(map);
-        console.log('Current position:', position);
+
+    // Legend for user map
+
+    function updateLegend(legendDiv) {
+        //4G
+        var legendContent4G = document.createElement('div');
+        legendContent4G.className = 'legend-content';
+        legendContent4G.style.backgroundColor = '#33CC33';
+
+        var legendDescription4G = document.createElement('div');
+        legendDescription4G.className = 'legend-description';
+        legendDescription4G.innerHTML = '4G - 5G';
+
+        var legendContainer4G = document.createElement('div');
+        legendContainer4G.className = 'legend-container';
+        legendContainer4G.appendChild(legendContent4G);
+        legendContainer4G.appendChild(legendDescription4G);
+
+        legendDiv.appendChild(legendContainer4G);
+
+
+        // 3G
+        var legendContent3G = document.createElement('div');
+        legendContent3G.className = 'legend-content';
+        legendContent3G.style.backgroundColor = '#33CCCC';
+
+        var legendDescription3G = document.createElement('div');
+        legendDescription3G.className = 'legend-description';
+        legendDescription3G.innerHTML = '3G';
+
+        var legendContainer3G = document.createElement('div');
+        legendContainer3G.className = 'legend-container';
+        legendContainer3G.appendChild(legendContent3G);
+        legendContainer3G.appendChild(legendDescription3G);
+
+        legendDiv.appendChild(legendContainer3G);
+
+        // < 3G
+        var legendContent2G = document.createElement('div');
+        legendContent2G.className = 'legend-content';
+        legendContent2G.style.backgroundColor = '#FF6666';
+
+        var legendDescription2G = document.createElement('div');
+        legendDescription2G.className = 'legend-description';
+        legendDescription2G.innerHTML = '< 3G';
+
+        var legendContainer2G = document.createElement('div');
+        legendContainer2G.className = 'legend-container';
+        legendContainer2G.appendChild(legendContent2G);
+        legendContainer2G.appendChild(legendDescription2G);
+
+        legendDiv.appendChild(legendContainer2G);
+
+
+        // Trajectories
+        var legendContentT = document.createElement('div');
+        legendContentT.className = 'legend-content';
+        legendContentT.style.backgroundColor = '#0066CC';
+
+        var legendDescriptionT = document.createElement('div');
+        legendDescriptionT.className = 'legend-description';
+        legendDescriptionT.innerHTML = 'Your trajectories';
+
+        var legendContainerT = document.createElement('div');
+        legendContainerT.className = 'legend-container';
+        legendContainerT.appendChild(legendContentT);
+        legendContainerT.appendChild(legendDescriptionT);
+
+        legendDiv.appendChild(legendContainerT);
     }
 
-    function errorPosition(error) {
-        console.error('Error getting current position:', error);
-    }
+    updateLegend(legendUser)
+    
 
-    function startTracking() {
-        navigator.geolocation.watchPosition(updateMap, errorPosition, {
-            enableHighAccuracy: true
-        });
-    }
-
-    startTracking();
-    */
-
-
-
+    
     
         
 });

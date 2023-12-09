@@ -78,8 +78,6 @@
     });
         
         
-
-    console.log(saltMap.bands)
     
         
     //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
@@ -116,7 +114,7 @@
         },
     });
 
-    //----------------------------------TEST
+    //---------------------------------- same data but as GeoJSON
 
     // empty GeoJSON layer
     var geojsonLayer = L.geoJSON(null, {
@@ -185,7 +183,7 @@
                     
                     // Create  circle marker for each coordinate
                     var circle = L.circle([coord[1], coord[0]], {
-                        radius: 200, 
+                        radius: 80, 
                         fillColor: 'purple', 
                         fillOpacity: 0.8, 
                         opacity: 0
@@ -214,7 +212,7 @@
                     
                     // Create  circle marker for each coordinate
                     var circle = L.circle([coord[1], coord[0]], {
-                        radius: 200, 
+                        radius: 80, 
                         fillColor: 'green', 
                         fillOpacity: 0.8, 
                         opacity: 0
@@ -233,16 +231,16 @@
     //-------------------------------------------- Add Layers --------------------------------------------
     // Overlays of Provider maps
     var overlays = {
-        "Salt": saltMap,
-        "Sunrise": sunriseMap,
         "Swisscom": swisscomMap,
-        "Antenna Locations": antennaLocations,
+        "Sunrise": sunriseMap,
+        "Salt": saltMap,
+        //"Antenna Locations": antennaLocations,
         //"Trajectories": trajectories,
         //"User Point Data": userPointData, 
         "Swisscom User Data": swisscom_user,
-        //"Salt User Data": salt_user,
-        //"Sunrise User Data": sunrise_user,
-        "geojsonLayer": geojsonLayer
+        "Salt User Data": salt_user,
+        "Sunrise User Data": sunrise_user,
+        "Swisscom geoJSON": geojsonLayer
     };
 
     baseMap.addTo(map);

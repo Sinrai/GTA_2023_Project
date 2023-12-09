@@ -275,6 +275,26 @@ button#submitLogin {
     transition: opacity 1s ease;
 }
 
+#legendUser {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    color: #111111;
+
+    padding: 10px;
+
+    position: fixed;
+    left: 0px;
+    bottom: 130px;
+    width: 35%;
+
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+
+    /* Für den Text innerhalb des Containers */
+    font-size: small;
+}
+
 
 /*PERSONAL DATA ANALYSIS /////////////////////////////////////////////////////////////////////////////////////*/
 
