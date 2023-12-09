@@ -124,17 +124,22 @@
             switch (feature.properties.netspeed) {
                 case 3: // Netspeed 3 (3G)
                     return {
-                        fillColor: "#00ff00",  // Green
-                        fillOpacity: 0.5
+                        fillColor: "#33CCCC",  // Türkis
+                        fillOpacity: 0.8
                     };
                 case 4: // Netspeed 4 (4G)
                     return {
-                        fillColor: "#ff00ff",  // Pink
-                        fillOpacity: 0.5
+                        fillColor: "#33CC33",  // Green
+                        fillOpacity: 0.8
+                    };
+                case 2: // Netspeed 2 (2G)
+                    return {
+                        fillColor: "#FF6666",  // rot
+                        fillOpacity: 0.8
                     };
                 default:
                     return {
-                        fillColor: "#000000",  // Black
+                        fillColor: "#fff000",  // Black
                         fillOpacity: 0 //invisible
                     };
             }
@@ -143,7 +148,7 @@
         pointToLayer: function (feature, latlng) {
             let coord = feature.geometry.coordinates;
             return L.circle([coord[1], coord[0]], {
-                radius: 5, 
+                radius: 80, 
                 opacity: 0
             });
         }
