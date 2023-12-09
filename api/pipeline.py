@@ -73,8 +73,11 @@ def process_user_data():
             if idx < len(user_data_gdf)-1:
                 time = (user_data_gdf.at[idx+1, 'time'] - row['time']).total_seconds()
                 dist = row['geometry'].distance(user_data_gdf.at[idx+1, 'geometry'])
-                speed = dist/time
-                in_train = (speed >= 60 and train_dist <= 10)
+                if time == 0:
+                    speed = 0
+                else:
+                    speed = dist/time
+                in_train = (speed >= 16 and train_dist <= 15)
                 user_data_gdf.at[idx, 'in_train'] = in_train
                 if not in_train:
                     traj_dist += dist
