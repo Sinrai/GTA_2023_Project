@@ -58,27 +58,21 @@
 
 
     // Add data from Geoserver using WMS
-    let antennaLocations = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
-        layers: "GTA23_project:gta_p4_antenna_locations",
-        format: "image/png",
-        transparent: true
-    });
-
-    let trajectories = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
-        layers: "GTA23_project:gta_p4_trajectory_data",
-        format: "image/png",
-        transparent: true
-    });
-
-    
+    // let antennaLocations = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
+    //     layers: "GTA23_project:gta_p4_antenna_locations",
+    //     format: "image/png",
+    //     transparent: true
+    // });
+    // let trajectories = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
+    //     layers: "GTA23_project:gta_p4_trajectory_data",
+    //     format: "image/png",
+    //     transparent: true
+    // });
     let userPointData = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
         layers: "GTA23_project:gta_p4_user_point_data",
         format: "image/png",
         transparent: true,
     });
-        
-        
-    
         
     //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
 
@@ -97,18 +91,20 @@
         
         success: function (data) {
             if (data.features) {
+                var heatData = [];
                 data.features.forEach(function (feature) {
                     let coord = feature.geometry.coordinates;
-                    
-                    // Create circle marker for each coordinate
-                    var circle = L.circle([coord[1], coord[0]], {
-                        radius: 200, 
-                        fillColor: 'blue', 
-                        fillOpacity: 0.8, 
-                        opacity: 0
-                    });
-                    circle.addTo(swisscom_user); // add to layerGroup
+                    heatData.push([coord[1], coord[0], feature.netspeed/4]);
                 });
+                var heat = L.heatLayer(heatData, {
+                    radius: 25,  // Adjust the radius based on the size of your points
+                    maxZoom: 8, // Adjust as needed
+                    blur: 0.1,   // Adjust the blur effect
+                    gradient: {0.8: 'red', 1: 'blue'}  // Adjust the gradient colors based on your needs
+                });
+
+                // Add the heatmap layer to the map
+                map.addLayer(heat);
                 
             }
         },
