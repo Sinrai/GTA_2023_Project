@@ -178,7 +178,7 @@ $(document).ready(function() {
 
         var legendDescription2G = document.createElement('div');
         legendDescription2G.className = 'legend-description';
-        legendDescription2G.innerHTML = '< 3G';
+        legendDescription2G.innerHTML = 'No connection';
 
         var legendContainer2G = document.createElement('div');
         legendContainer2G.className = 'legend-container';

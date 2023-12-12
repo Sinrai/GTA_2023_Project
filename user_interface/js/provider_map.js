@@ -120,20 +120,25 @@
     var geojsonLayer = L.geoJSON(null, {
         style: function (feature) {
             switch (feature.properties.netspeed) {
+                case 4: // Netspeed 4 (4G)
+                return {
+                    fillColor: "#33CC33",  // Green
+                    //fillColor: feature.properties.in_train ? "#FF007F" : "#33CC33",
+                    //fillOpacity: 0.8
+                    fillOpacity: feature.properties.in_train ? 0 : 0.8
+                };
                 case 3: // Netspeed 3 (3G)
                     return {
-                        fillColor: "#33CCCC",  // Türkis
-                        fillOpacity: 0.8
-                    };
-                case 4: // Netspeed 4 (4G)
-                    return {
-                        fillColor: "#33CC33",  // Green
-                        fillOpacity: 0.8
+                        fillColor: "#33CCCC",  // Turquoise
+                        //fillColor: feature.properties.in_train ? "#FF007F" : "#33CCCC",
+                        //fillOpacity: 0.8,
+                        fillOpacity: feature.properties.in_train ? 0 : 0.8
                     };
                 case 2: // Netspeed 2 (2G)
                     return {
                         fillColor: "#FF6666",  // rot
-                        fillOpacity: 0.8
+                        //fillOpacity: 0.8,
+                        fillOpacity: feature.properties.in_train ? 0 : 0.8
                     };
                 default:
                     return {

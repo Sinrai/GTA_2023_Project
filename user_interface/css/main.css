@@ -315,7 +315,8 @@ button#submitLogin {
     position: fixed;
     padding: 20px;
     background: transparent;
-    top: 70%;
+    /*top: 70%;*/
+    bottom: 10%;
     right: 0;
     transform: translate(0, 0);
     z-index: 90;
@@ -463,29 +464,6 @@ button#submitLogin {
     background-color: #f9f9f9;
 }
 
-/*
-.leaflet-control-layers-list{
-    z-index: 99;
-}
-
-
-.leaflet-control-layers-overlays{
-    display: flex;
-}
-
-
-.leaflet-control-layers-selector {
-    background-color: cadetblue;
-    display: flex;
-}
-
-.leaflet-control-layers-overlays label {
-    background-color: rgb(151, 108, 192);
-    display: flex;
-}
-
-.leaflet-control-layers-expanded
-*/
 
 
 /*FAQ //////////////////////////////////////////////////////////////////////////////////////*/
