@@ -84,6 +84,8 @@
 
     var swisscom_user = L.layerGroup(); // Create layerGroup to hold points
 
+    var heatMap = L.heatLayer(null)
+
     $.ajax({
         type: "GET",
         url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo></Filter>',
@@ -96,7 +98,7 @@
                     let coord = feature.geometry.coordinates;
                     heatData.push([coord[1], coord[0], feature.netspeed/4]);
                 });
-                var heat = L.heatLayer(heatData, {
+                var heatMap = L.heatLayer(heatData, {
                     radius: 25,  // Adjust the radius based on the size of your points
                     maxZoom: 8, // Adjust as needed
                     blur: 0.1,   // Adjust the blur effect
@@ -104,7 +106,7 @@
                 });
 
                 // Add the heatmap layer to the map
-                map.addLayer(heat);
+                //map.addLayer(heatMap);
                 
             }
         },
@@ -241,7 +243,8 @@
         "Swisscom User Data": swisscom_user,
         "Salt User Data": salt_user,
         "Sunrise User Data": sunrise_user,
-        "Swisscom geoJSON": geojsonLayer
+        "Swisscom geoJSON": geojsonLayer,
+        //"heat": heatMap
     };
 
     baseMap.addTo(map);
@@ -260,11 +263,11 @@
 
     function updateLegend(legendDiv) {
         
-        legendDiv.innerHTML = 'Legend'; // Clear existing content
+        legendDiv.innerHTML = '<b> Network Coverage Map </b>'; 
 
         activeLayers.forEach(function (layer) {
             if (layer === baseMap) {
-                legendDiv.innerHTML += '<h4>Legend for Base Map</h4>';
+                legendDiv.innerHTML += '';
             } 
             
             // Legend salt map
