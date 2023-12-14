@@ -14,12 +14,10 @@
         attribution: 'Salt',
         opacity: 0.5
     });
-
     var sunriseMap = L.tileLayer('https://maps.sunrise.ch/cgi-bin/mapserv?map=/opt/app/data/sunrise_coverages_2019.map&LAYERS=coverage&mode=tile&tilemode=gmap&tile={x}+{y}+{z}', {
         attribution: 'Sunrise',
         opacity: 0.5
     });
-
     var swisscomMap = L.tileLayer('https://scmplc.begasoft.ch/plcapp/netzabdeckung/swisscom?layer=umts;lte;lteAdvanced&zoom={z}&x={x}&y={y}', {
         attribution: 'Swisscom',
         opacity: 0.5
@@ -27,10 +25,8 @@
 
     var swisscom = L.layerGroup();
     swisscom.addLayer(swisscomMap);
-
     var sunrise = L.layerGroup();
     sunrise.addLayer(sunriseMap);
-
     var salt = L.layerGroup();
     salt.addLayer(saltMap);
 
@@ -50,7 +46,7 @@
         layers: [baseMap]
     }).fitBounds(switzerlandBounds);
 
-
+    // Dynamically adjust zoom to screen size
     function calculateMinZoom() {
         if (window.innerWidth <= 768) {
             return 7.5; // Min-Zoom for mobile Device
@@ -63,33 +59,15 @@
     window.addEventListener('resize', function () {
         map.setMinZoom(calculateMinZoom());
     });
-
-
-    // Add data from Geoserver using WMS
-    // let antennaLocations = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
-    //     layers: "GTA23_project:gta_p4_antenna_locations",
-    //     format: "image/png",
-    //     transparent: true
-    // });
-    // let trajectories = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
-    //     layers: "GTA23_project:gta_p4_trajectory_data",
-    //     format: "image/png",
-    //     transparent: true
-    // });
-    // let userPointData = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
-    //     layers: "GTA23_project:gta_p4_user_point_data",
-    //     format: "image/png",
-    //     transparent: true,
-    // });
         
     //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
 
-    let wfsUrl_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
+    let wfs_url_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
 
     var swisscom_user;
     $.ajax({
         type: "GET",
-        url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo></Filter>',
+        url: wfs_url_point + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo></Filter>',
         dataType: 'json',
         
         success: function (data) {
@@ -111,11 +89,10 @@
         },
     });
 
-    var salt_user = L.layerGroup(); // Create layerGroup to hold the points
-
+    var salt_user = L.layerGroup();
     $.ajax({
         type: "GET",
-        url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS15796 Salt Mobile SA</Literal></PropertyIsEqualTo></Filter>',
+        url: wfs_url_point + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS15796 Salt Mobile SA</Literal></PropertyIsEqualTo></Filter>',
         dataType: 'json',
         
         success: function (data) {
@@ -137,13 +114,10 @@
         },
     });
 
-    // Filter Sunrise
-
-    var sunrise_user = L.layerGroup(); // Create layerGroup to hold the points
-
+    var sunrise_user = L.layerGroup();
     $.ajax({
         type: "GET",
-        url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS6730 Sunrise GmbH</Literal></PropertyIsEqualTo></Filter>',
+        url: wfs_url_point + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS6730 Sunrise GmbH</Literal></PropertyIsEqualTo></Filter>',
         dataType: 'json',
         
         success: function (data) {
@@ -165,10 +139,6 @@
         },
     });
 
-
-
-
-
     //-------------------------------------------- Add Layers --------------------------------------------
     // Overlays of Provider maps
     var overlays = {
@@ -177,24 +147,14 @@
         "Salt": salt,
     };
 
+    // User controls setup
     baseMap.addTo(map);
-
-
-    // Layer Control
     var layerControl = L.control.layers(overlays, null).addTo(map); //Multiple map layers visible
-
-
-    // Scale
     L.control.scale({ imperial: false }).addTo(map); 
 
-    
-    // Legend
     var activeLayers = [];
-
     function updateLegend(legendDiv) {
-        
         legendDiv.innerHTML = '<b> Network Coverage Map </b>'; 
-
         activeLayers.forEach(function (layer) {
             if (layer === baseMap) {
                 legendDiv.innerHTML += '';
@@ -217,7 +177,6 @@
                 legendContainer1.appendChild(legendDescription1);
 
                 legendDiv.appendChild(legendContainer1);
-
 
                 // 4G
                 var legendContent2 = document.createElement('div');
@@ -307,7 +266,6 @@
                 legendContainer3.appendChild(legendDescription3);
 
                 legendDiv.appendChild(legendContainer3);
-
             } 
             
             // Legend swisscom map
@@ -347,54 +305,29 @@
                 legendContainer2.appendChild(legendDescription2);
 
                 legendDiv.appendChild(legendContainer2);
-
             }
         });
     }
 
     // Update legend when layer added
     map.on('layeradd', function (event) {
-            var activeLayer = event.layer;
+        var activeLayer = event.layer;
 
-            /*
-            activeLayer.bringToFront();
-            */
+        if (!activeLayers.includes(activeLayer)) {
+            activeLayers.push(activeLayer);
+        }
 
-            if (!activeLayers.includes(activeLayer)) {
-                activeLayers.push(activeLayer);
-            }
-
-            updateLegend(legend);
+        updateLegend(legend);
     });
-
 
     // Update legend when layer removed
     map.on('layerremove', function (event) {
-            var removedLayer = event.layer;
+        var removedLayer = event.layer;
 
         activeLayers = activeLayers.filter(function (layer) {
             return layer !== removedLayer;
         });
 
         updateLegend(legend);
-        
     });
-
-
-
 });
-
-
-
-
-
-    // Function to fade out element
-    function elementAusblenden() {
-      var titelDiv = document.getElementById('titelDiv');
-      if (titelDiv) {
-        titelDiv.style.opacity = '0';
-      }
-    }
-  
-    setTimeout(elementAusblenden, 5000); // Wait 5 sec then fade out
-  

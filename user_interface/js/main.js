@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // check wondow size to adapt toolbar style
+    // check window size to adapt toolbar style
     const toolbar = document.querySelector('.toolbar');
     function checkWindowSize() {
         if (window.innerWidth <= 768) {
@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
     window.addEventListener('resize', function() {
         checkWindowSize();
     });
-
 
     //change to home page
     document.getElementById("home_page").addEventListener("click", function() {

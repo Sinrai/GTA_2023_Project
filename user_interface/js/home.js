@@ -19,48 +19,47 @@ $(document).ready(function () {
     setInterval(updateNetInfo, 10000);
 });
 
-//get objects from html
+// get objects from html
 loginButton = document.getElementById("loginButton");
 loginContainer = document.getElementById("loginContainer");
 trackButton = document.getElementById("trackButton");
 submitLogin = document.getElementById("submitLogin");
 
-//login button click 
+// login button click
 loginButton.addEventListener("click", () => {
     if (!isLoggedIn) {
-        loginContainer.style.display = "block"; //login container pops up if not logged in
+        loginContainer.style.display = "block";  // login container pops up
     } else {
         logout();
     }
 });
 
-//login container -> submit login
+// login container -> submit login
 submitLogin.addEventListener("click", () => {
-    userInput = document.getElementById('input_userid'); //get html object 
-    userID_empty = userInput.value.trim() === ''; // define variable to check if input is emtpy
+    userInput = document.getElementById('input_userid');
+    userID_empty = userInput.value.trim() === '';
 
-    if (userID_empty == false) { // login is successful
+    if (userID_empty == false) {
         isLoggedIn = true;
-        updateLoginButton(); //change login button to logout
-        updateTrackingButton() // enable tracking button
-        loginContainer.style.display = "none"; // login container disapears
-        userID = document.getElementById("input_userid").value;  //get the user ID of current user
-        saveLoginStatus(isLoggedIn); // save login status
+        updateLoginButton();
+        updateTrackingButton();
+        loginContainer.style.display = "none";
+        userID = document.getElementById("input_userid").value;
+        saveLoginStatus(isLoggedIn);
     }
     else {
-        alert("Please enter a User ID") // user input is empty
+        alert("Please enter a User ID")
     }
 });
 
 // logout user
 function logout() {
     isLoggedIn = false;
-    updateLoginButton(); // update logout button to login
-    updateTrackingButton(); // disable tracking button
-    saveLoginStatus(isLoggedIn); // save login status
-    userID_empty = true; // update boolean
+    updateLoginButton();
+    updateTrackingButton();
+    saveLoginStatus(isLoggedIn);
+    userID_empty = true;
 }
-
 
 // save login status (boolean) in local storage
 function saveLoginStatus(status) {
@@ -68,11 +67,11 @@ function saveLoginStatus(status) {
     localStorage.setItem('userID', userID);
 }
 
-// load login status from local storage and convert it into boolean
+// load login status from local storage
 function loadLoginStatus() {
     isLoggedIn = JSON.parse(localStorage.getItem('isLoggedin')); 
     if (isLoggedIn) {
-        userID = localStorage.getItem('userID'); //if logged it get user ID from local storage
+        userID = localStorage.getItem('userID');
     } else {
         isLoggedIn = false;
     }
@@ -98,7 +97,7 @@ function toggleTracking() {
         isTracking = false;
         stopTracking();
     }
-    updateTrackingButton(); // update text displayed in button
+    updateTrackingButton();
 }
 
 // change style of tracking button 
@@ -107,13 +106,13 @@ function updateTrackingButton() {
         if (getNetworkInfo()["browser_compatible"]) {
             if (getNetworkInfo()["isCellular"]) {
                 if (isTracking) {
-                    trackButton.classList.add('blinking'); // Apply blinking effect
+                    trackButton.classList.add('blinking');
                     trackButton.innerText = "Stop Tracking";
                     trackButton.style.color = 'white';
                     trackButton.style.background = 'rgb(255, 102, 102)';
                     trackButton.addEventListener("click", toggleTracking);
                 } else {
-                    trackButton.classList.remove('blinking'); // Remove blinking effect
+                    trackButton.classList.remove('blinking');
                     trackButton.innerText = "Start Tracking";
                     trackButton.style.color = 'black';
                     trackButton.style.background = 'rgb(154, 229, 154)';

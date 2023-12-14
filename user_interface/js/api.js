@@ -38,20 +38,20 @@ function getNetworkInfo() {
  * });
  */
 function isGPSenabled() {
-  return new Promise((resolve) => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        function(position) {
-          resolve(true);
-        },
-        function(error) {
-          resolve(false);
+    return new Promise((resolve) => {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    resolve(true);
+                },
+                function(error) {
+                    resolve(false);
+                }
+            );
+        } else {
+            resolve(false);
         }
-      );
-    } else {
-      resolve(false);
-    }
-  });
+    });
 }
 
 /**
@@ -87,7 +87,7 @@ function getCurrentPosition() {
 
 /**
  * Post user_point_data and user_trajectory_data
- * @param {list}     user_data     List of points, trajectory of user and connectivity
+ * @param {Array} user_data: List of points, trajectory of user and connectivity
  */
 function uploadData(user_data) {
     $.ajax({
@@ -109,7 +109,11 @@ function uploadData(user_data) {
     });
 }
 
-// get request to geoserver -> personal data analysis
+/**
+ * Request user statistics from database
+ * @param {string} userId
+ * @returns {Promise<Object>}
+ */
 function get_user_statistic(userId) {
     return new Promise((resolve) => {
         $.ajax({
@@ -122,19 +126,10 @@ function get_user_statistic(userId) {
                 reject(new Error('Error getting user statistic: ' + error));
             }
         });
-        // $.ajax({
-        //     type: "GET",
-        //     url: "/api/get_user_statistic?user_id=" + userId,
-        //     success: function(response) {
-        //         resolve(response);
-        //     },
-        //     error: function(xhr, status, error) {
-        //         reject(new Error('Error getting user statistic: ' + error));
-        //     }
-        // });
     });
 }
 
+//-------------------------------------------- GPS Tracking --------------------------------------------
 
 let trackingData = [];
 let intervalId;
@@ -158,17 +153,13 @@ function trackPoint() {
         data.netinfo = getNetworkInfo()
         data.time = Date.now();
         data.position = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
         };
         data.username = userID;
         trackingData.push(data);
     })
     .catch((error) => {
-      console.error("Error collecting position:", error);
+        console.error("Error collecting position:", error);
     });
 }
-
-
-
-

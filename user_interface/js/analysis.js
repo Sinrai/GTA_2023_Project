@@ -1,11 +1,8 @@
-
-// change to trajectory map page
 $(document).ready(function() {
     document.getElementById("show_map").addEventListener("click", function() {
         loadContent('user_map.html');
     });
 });
-
 
 // get html objects
 trajectory_length = document.getElementById("trajectory_length");
@@ -46,10 +43,3 @@ get_user_statistic(userID)
     .catch(error => {
         console.error("Error fetching user statistics:", error);
     });
-
-
-
-
-
-
-

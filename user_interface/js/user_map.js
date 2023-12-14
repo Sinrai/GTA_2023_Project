@@ -15,7 +15,6 @@ $(document).ready(function() {
         L.latLng(47.808, 10.492) // Northeast coordinates
     );
 
-
     var map = L.map('map', {
         center: [46.408375, 8.507669],
         zoom: 8,
@@ -26,7 +25,6 @@ $(document).ready(function() {
     }).fitBounds(switzerlandBounds);
 
     baseMap.addTo(map);
-
 
     // Function to fade out element
     function elementAusblenden() {
@@ -40,9 +38,7 @@ $(document).ready(function() {
 
     //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
 
-    // user point data
-
-    let wfsUrl_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
+    let wfs_url_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
 
     var geojsonLayer = L.geoJSON(null, {
         style: function (feature) {
@@ -51,7 +47,6 @@ $(document).ready(function() {
                     return {
                         fillColor: "#33CC33",  // Green
                         fillOpacity: 0.8
-                        
                     };
                 case 3: // Netspeed 3 (3G)
                     return {
@@ -83,7 +78,7 @@ $(document).ready(function() {
     // fetch GeoJSON data filtered by userID
     $.ajax({
         type: "GET",
-        url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>username</PropertyName><Literal>'+userID+'</Literal></PropertyIsEqualTo></Filter>',
+        url: wfs_url_point + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>username</PropertyName><Literal>'+userID+'</Literal></PropertyIsEqualTo></Filter>',
         dataType: 'json',
 
         success: function (data) {
@@ -94,20 +89,17 @@ $(document).ready(function() {
 
 
     // trajectory data
-    let wfsUrl_trajectory = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_trajectory_data&OUTPUTFORMAT=application/json';
+    let wfs_url_trajectory = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_trajectory_data&OUTPUTFORMAT=application/json';
 
     var user_trajectory = L.layerGroup();
 
-
     $.ajax({
         type: "GET",
-        url: wfsUrl_trajectory + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>username</PropertyName><Literal>' + userID + '</Literal></PropertyIsEqualTo></Filter>',
+        url: wfs_url_trajectory + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>username</PropertyName><Literal>' + userID + '</Literal></PropertyIsEqualTo></Filter>',
         dataType: 'json',
     
         success: function (data) {
-            // Check if features are available
             if (data.features && data.features.length > 0) {
-                // Iterate over each feature
                 data.features.forEach(function (feature) {
                     var coordinates = feature.geometry.coordinates;
     
@@ -124,19 +116,12 @@ $(document).ready(function() {
                         polyline.addTo(user_trajectory);
                     }
                 });
-    
-                // Add user trajectories to map
                 user_trajectory.addTo(map);
-
-                
             }
         }
     });
 
-
-
     // Legend for user map
-
     function updateLegend(legendDiv) {
         //4G
         var legendContent4G = document.createElement('div');
@@ -153,7 +138,6 @@ $(document).ready(function() {
         legendContainer4G.appendChild(legendDescription4G);
 
         legendDiv.appendChild(legendContainer4G);
-
 
         // 3G
         var legendContent3G = document.createElement('div');
@@ -187,7 +171,6 @@ $(document).ready(function() {
 
         legendDiv.appendChild(legendContainer2G);
 
-
         // Trajectories
         var legendContentT = document.createElement('div');
         legendContentT.className = 'legend-content';
@@ -206,9 +189,4 @@ $(document).ready(function() {
     }
 
     updateLegend(legendUser)
-    
-
-    
-    
-        
 });
