@@ -25,6 +25,14 @@
         opacity: 0.5
     });
 
+    var swisscom = L.layerGroup();
+    swisscom.addLayer(swisscomMap);
+
+    var sunrise = L.layerGroup();
+    sunrise.addLayer(sunriseMap);
+
+    var salt = L.layerGroup();
+    salt.addLayer(saltMap);
 
     // set bounds of switzerland
     var switzerlandBounds = L.latLngBounds(
@@ -68,24 +76,17 @@
     //     format: "image/png",
     //     transparent: true
     // });
-    let userPointData = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
-        layers: "GTA23_project:gta_p4_user_point_data",
-        format: "image/png",
-        transparent: true,
-    });
+    // let userPointData = L.tileLayer.wms("https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wms", {
+    //     layers: "GTA23_project:gta_p4_user_point_data",
+    //     format: "image/png",
+    //     transparent: true,
+    // });
         
     //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
 
-    //Filter Swisscom
-    //&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo></Filter>
-
     let wfsUrl_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
 
-
-    var swisscom_user = L.layerGroup(); // Create layerGroup to hold points
-
-    var heatMap = L.heatLayer(null)
-
+    var swisscom_user;
     $.ajax({
         type: "GET",
         url: wfsUrl_point+'&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo></Filter>',
@@ -96,81 +97,19 @@
                 var heatData = [];
                 data.features.forEach(function (feature) {
                     let coord = feature.geometry.coordinates;
-                    heatData.push([coord[1], coord[0], feature.netspeed/4]);
+                    heatData.push([coord[1], coord[0], feature.properties.netspeed/4]);
                 });
-                var heatMap = L.heatLayer(heatData, {
+                swisscom_user = L.heatLayer(heatData, {
                     radius: 25,  // Adjust the radius based on the size of your points
-                    maxZoom: 8, // Adjust as needed
-                    blur: 0.1,   // Adjust the blur effect
-                    gradient: {0.8: 'red', 1: 'blue'}  // Adjust the gradient colors based on your needs
+                    blur: 0.01,   // Adjust the blur effect
+                    minOpacity: 0.8,
+                    maxZoom: 10,
+                    gradient: {0: 'white', 0.75: 'red', 1: 'blue'}  // Adjust the gradient colors based on your needs
                 });
-
-                // Add the heatmap layer to the map
-                //map.addLayer(heatMap);
-                
+                swisscom.addLayer(swisscom_user);
             }
         },
     });
-
-    //---------------------------------- same data but as GeoJSON
-
-    // empty GeoJSON layer
-    var geojsonLayer = L.geoJSON(null, {
-        style: function (feature) {
-            switch (feature.properties.netspeed) {
-                case 4: // Netspeed 4 (4G)
-                return {
-                    fillColor: "#33CC33",  // Green
-                    //fillColor: feature.properties.in_train ? "#FF007F" : "#33CC33",
-                    //fillOpacity: 0.8
-                    fillOpacity: feature.properties.in_train ? 0 : 0.8
-                };
-                case 3: // Netspeed 3 (3G)
-                    return {
-                        fillColor: "#33CCCC",  // Turquoise
-                        //fillColor: feature.properties.in_train ? "#FF007F" : "#33CCCC",
-                        //fillOpacity: 0.8,
-                        fillOpacity: feature.properties.in_train ? 0 : 0.8
-                    };
-                case 2: // Netspeed 2 (2G)
-                    return {
-                        fillColor: "#FF6666",  // rot
-                        //fillOpacity: 0.8,
-                        fillOpacity: feature.properties.in_train ? 0 : 0.8
-                    };
-                default:
-                    return {
-                        fillColor: "#fff000",  // Black
-                        fillOpacity: 0 //invisible
-                    };
-            }
-        },
-
-        pointToLayer: function (feature, latlng) {
-            let coord = feature.geometry.coordinates;
-            return L.circle([coord[1], coord[0]], {
-                radius: 80, 
-                opacity: 0
-            });
-        }
-    });
-
-    // fetch GeoJSON data
-    $.ajax({
-        type: "GET",
-        url: wfsUrl_point + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo></Filter>',
-        dataType: 'json',
-
-        success: function (data) {
-            geojsonLayer.addData(data); // Add GeoJSON data to GeoJSON layer
-            
-        }
-    });
-
-    //----------------------------------
-
-
-    // Filter Salt
 
     var salt_user = L.layerGroup(); // Create layerGroup to hold the points
 
@@ -193,11 +132,10 @@
                     });
                     circle.addTo(salt_user); // add to layerGroup
                 });
-                
+                salt.addLayer(salt_user);
             }
         },
     });
-
 
     // Filter Sunrise
 
@@ -215,14 +153,14 @@
                     
                     // Create  circle marker for each coordinate
                     var circle = L.circle([coord[1], coord[0]], {
-                        radius: 80, 
+                        radius: 80,
                         fillColor: 'green', 
                         fillOpacity: 0.8, 
                         opacity: 0
                     });
                     circle.addTo(sunrise_user); // add to layerGroup
                 });
-                
+                sunrise.addLayer(sunrise_user);
             }
         },
     });
@@ -234,24 +172,16 @@
     //-------------------------------------------- Add Layers --------------------------------------------
     // Overlays of Provider maps
     var overlays = {
-        "Swisscom": swisscomMap,
-        "Sunrise": sunriseMap,
-        "Salt": saltMap,
-        //"Antenna Locations": antennaLocations,
-        //"Trajectories": trajectories,
-        //"User Point Data": userPointData, 
-        "Swisscom User Data": swisscom_user,
-        "Salt User Data": salt_user,
-        "Sunrise User Data": sunrise_user,
-        "Swisscom geoJSON": geojsonLayer,
-        //"heat": heatMap
+        "Swisscom": swisscom,
+        "Sunrise": sunrise,
+        "Salt": salt,
     };
 
     baseMap.addTo(map);
 
 
     // Layer Control
-    var layerControl = L.control.layers(null, overlays).addTo(map); //Multiple map layers visible
+    var layerControl = L.control.layers(overlays, null).addTo(map); //Multiple map layers visible
 
 
     // Scale
