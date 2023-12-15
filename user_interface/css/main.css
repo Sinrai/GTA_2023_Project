@@ -256,42 +256,18 @@ button#submitLogin {
 }
 
 /*USER MAP//////////////////////////////////////////////////////////////////////////////////////////////*/
-.seitentitel-user {
-    position: fixed;
-    top: 0;
-    width: 40%;
-    background-color: whitesmoke;
-    color: black;
-    margin-top: 105px;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-left: 15%;
-    margin-right: 30%;
-    font-size: small;
-    opacity: 1;
-    transition: opacity 1s ease;
-}
-
 #legendUser {
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     color: #111111;
-
     padding: 10px;
-
     position: fixed;
     left: 0px;
     bottom: 100px;
     width: 35%;
-
     z-index: 999;
     display: flex;
     flex-direction: column;
-
-    /* Für den Text innerhalb des Containers */
     font-size: small;
 }
 
@@ -400,47 +376,18 @@ button#submitLogin {
 
 
 /*PROVIDER ANALYSIS//////////////////////////////////////////////////////////////////////////////////////////*/
-.seitentitel-provider {
-    position: fixed;
-    top: 0;
-    width: 40%;
-    background-color: whitesmoke;
-    color: black;
-    margin-top: 105px;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    /* Für den Text innerhalb des Containers */
-    margin-left: 15%;
-    /* Zentrieren horizontal */
-    margin-right: 30%;
-    /* Zentrieren horizontal */
-    font-size: small;
-    opacity: 1;
-    transition: opacity 1s ease;
-    /* Füge eine Übergangseigenschaft hinzu */
-}
-
-
 #legend {
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     color: #111111;
-
     padding: 10px;
-
     position: fixed;
     right: 0px;
     bottom: 130px;
     width: 35%;
-
     z-index: 999;
     display: flex;
     flex-direction: column;
-
-    /* Für den Text innerhalb des Containers */
     font-size: small;
 }
 
@@ -453,11 +400,19 @@ button#submitLogin {
 
 .legend-content {
     display: inline-block;
-    /*background-color: green;*/
     opacity: 0.5;
     width: 20px;
     height: 20px;
     margin-right: 10px;
+}
+
+.legend-content-round {
+    display: inline-block;
+    opacity: 0.5;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 10px;
 }
 
 .legend-description {

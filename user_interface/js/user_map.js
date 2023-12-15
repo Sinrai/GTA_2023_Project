@@ -125,7 +125,7 @@ $(document).ready(function() {
     function updateLegend(legendDiv) {
         //4G
         var legendContent4G = document.createElement('div');
-        legendContent4G.className = 'legend-content';
+        legendContent4G.className = 'legend-content-round';
         legendContent4G.style.backgroundColor = '#33CC33';
 
         var legendDescription4G = document.createElement('div');
@@ -141,7 +141,7 @@ $(document).ready(function() {
 
         // 3G
         var legendContent3G = document.createElement('div');
-        legendContent3G.className = 'legend-content';
+        legendContent3G.className = 'legend-content-round';
         legendContent3G.style.backgroundColor = '#33CCCC';
 
         var legendDescription3G = document.createElement('div');
@@ -157,7 +157,7 @@ $(document).ready(function() {
 
         // < 3G
         var legendContent2G = document.createElement('div');
-        legendContent2G.className = 'legend-content';
+        legendContent2G.className = 'legend-content-round';
         legendContent2G.style.backgroundColor = '#FF6666';
 
         var legendDescription2G = document.createElement('div');
