@@ -15,8 +15,9 @@ get_user_statistic(userID)
         if (userStats && userStats.hasOwnProperty("statistic")) {
         response_statisitc = userStats["statistic"];
 
-        trajectory_length.value = Math.round((response_statisitc/1000) , 2) + "  km" ;  //display trajectory length on web appp
-        discount.value = Math.round((response_statisitc / 100000), 2) + "  CHF";  //display discount value on web appp
+        trajectory_length.value = (Math.round((response_statisitc/1000)*10) /10) + "  km" ;  //display trajectory length on web appp
+        discount.value = (Math.round((response_statisitc / 100000) * 100) / 100) + " CHF";
+
         }
 
          // netspeed bar chart 
