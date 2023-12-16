@@ -9,6 +9,7 @@ import pyproj
 import sqlalchemy.dialects.postgresql as pg_dialect
 from geoalchemy2 import Geometry
 import math
+import numpy as np
 
 api = Blueprint('api', __name__)
 engine = db.create_engine("postgresql://gta_p4:***REMOVED***@ikgpgis.ethz.ch:5432/gta")
@@ -119,10 +120,10 @@ def execute_query(query):
         result = con.execute(query)
         return result.fetchall()
 
-
-# claculate trajectory length
+# claculate total trajectory length for a given user
 def calculate_trajectory_length(user_id):
-    query = db.text(f"SELECT distance FROM gta_p4.user_trajectory_data WHERE username = '{user_id}'")  # SQL query to select the line lengths based on the user_id
+    # SQL query to select the line lengths based on the user_id
+    query = db.text(f"SELECT distance FROM gta_p4.user_trajectory_data WHERE username = '{user_id}'")
     rows = execute_query(query)
     total_length = 0
 
@@ -131,14 +132,14 @@ def calculate_trajectory_length(user_id):
         total_length += row[0]  # distance is type REAL
     return total_length
 
-
+# Bar chart setup for user statistics for a given user
 def calcuate_network_speed(user_id):
-    query = db.text(f"SELECT netspeed FROM gta_p4.user_point_data WHERE username = '{user_id}'") # SQL query to select the netspeed based on the user_id
+    # SQL query to select the netspeed based on the user_id
+    query = db.text(f"SELECT netspeed FROM gta_p4.user_point_data WHERE username = '{user_id}'")
     rows = execute_query(query)
     lessthan_3G = 0
     threeG = 0
     fourG_fiveG = 0
-
 
     # calculating three netspeed classes
     for row in rows:
@@ -150,27 +151,16 @@ def calcuate_network_speed(user_id):
         if row[0] == 4 or row[0] == 5:
             fourG_fiveG += 1
 
-    # if values are very big take log(values) -> bar chart style stays nice on web app
-    if max(lessthan_3G, threeG, fourG_fiveG) >= 300:
-        if lessthan_3G != 0:
-            lessthan_3G = math.log(lessthan_3G) + 100
-        if threeG != 0:
-            threeG = math.log(threeG) + 100
-        if fourG_fiveG != 0:
-            fourG_fiveG = math.log(fourG_fiveG) + 100
+    # normalize levels
+    distribution = np.array([lessthan_3G, threeG, fourG_fiveG])
+    distribution = distribution/np.max(distribution)*200
 
-    return [lessthan_3G, threeG, fourG_fiveG]
+    return list(distribution)
 
-
-# flask 
+# Return the calculated total length and the netspeed as JSON
 @api.route('/api/get_user_statistic', methods=["GET"])
 def get_user_statistic():
-
-    user_id = request.args.get('user_id')               # get user id
-    total_length = calculate_trajectory_length(user_id) # get total legth
-    # print(json.dumps({"statistic": total_length}, indent=4)) # Output in the Python-Flask console for debugging
-
-    netspeed_array = calcuate_network_speed(user_id) # get netspeed
-    # print(json.dumps({"netspeed_class": netspeed_array}, indent=4)) # Output in the Python-Flask console for debugging
-
-    return jsonify({"statistic": total_length, "netspeed_class": netspeed_array} )  # Return the calculated total length and the netspeed as JSON
+    user_id = request.args.get('user_id')
+    total_length = calculate_trajectory_length(user_id)
+    netspeed_array = calcuate_network_speed(user_id)
+    return jsonify({"statistic": total_length, "netspeed_class": netspeed_array} )

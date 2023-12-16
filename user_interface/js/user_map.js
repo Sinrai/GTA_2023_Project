@@ -130,7 +130,7 @@ $(document).ready(function() {
 
         var legendDescription4G = document.createElement('div');
         legendDescription4G.className = 'legend-description';
-        legendDescription4G.innerHTML = '4G - 5G';
+        legendDescription4G.innerHTML = '4G+';
 
         var legendContainer4G = document.createElement('div');
         legendContainer4G.className = 'legend-container';
