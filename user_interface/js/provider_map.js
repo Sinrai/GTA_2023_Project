@@ -67,22 +67,20 @@
 
     // Include swisscom user data into swisscom map
     var swisscom_user = L.layerGroup();
+    var swisscom_colors = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#c06161", 4: "#777fa1"};
     $.ajax({
         type: "GET",
         url: wfs_url_point + '&FILTER=<Filter><And><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo><PropertyIsEqualTo><PropertyName>in_train</PropertyName><Literal>false</Literal></PropertyIsEqualTo></And></Filter>',
         dataType: 'json',
-        
         success: function (data) {
             if (data.features) {
                 data.features.forEach(function (feature) {
                     let coord = feature.geometry.coordinates;
-                    //var color = {2: "#FFFFFF", 3: "#be0000", 4: "#0851da"}; // colors from tile layer
-                    var color = {2: "#FFFFFF", 3: "#c15b5b", 4: "#80a5e9"}; // adjusted colors
                     
-                    // Create circle for each coordinate
+                    // Create circle for each point
                     var circle = L.circle([coord[1], coord[0]], {
                         radius: 90,
-                        fillColor: color[feature.properties.netspeed], 
+                        fillColor: swisscom_colors[feature.properties.netspeed],
                         fillOpacity: 0.8, 
                         opacity: 0
                     });
@@ -96,22 +94,20 @@
 
     // Include salt user data into salt map
     var salt_user = L.layerGroup();
+    var salt_color = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#CCCC99", 4: "#96b681"};
     $.ajax({
         type: "GET",
         url: wfs_url_point + '&FILTER=<Filter><And><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS15796 Salt Mobile SA</Literal></PropertyIsEqualTo><PropertyIsEqualTo><PropertyName>in_train</PropertyName><Literal>false</Literal></PropertyIsEqualTo></And></Filter>',
         dataType: 'json',
-        
         success: function (data) {
             if (data.features) {
                 data.features.forEach(function (feature) {
                     let coord = feature.geometry.coordinates;
-                    //var color = {2: "#FFFFF", 3: "#b1c697", 4: "#65a63c"}; // colors from tile layer
-                    var color = {2: "#FFFFFF", 3: "#CCCC99", 4: "#5BA62B"}; // adjusted colors
-                    
-                    // Create circle for each coordinate
+
+                    // Create circle for each point
                     var circle = L.circle([coord[1], coord[0]], {
                         radius: 90, 
-                        fillColor: color[feature.properties.netspeed], 
+                        fillColor: salt_color[feature.properties.netspeed],
                         fillOpacity: 0.8, 
                         opacity: 0
                     });
@@ -124,21 +120,20 @@
 
     // Include sunrise user data into sunrise map
     var sunrise_user = L.layerGroup();
+    var sunrise_color = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#f5b2c4", 4: "#ef7f9d"};
     $.ajax({
         type: "GET",
         url: wfs_url_point + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS6730 Sunrise GmbH</Literal></PropertyIsEqualTo></Filter>',
         dataType: 'json',
-        
         success: function (data) {
             if (data.features) {
                 data.features.forEach(function (feature) {
                     let coord = feature.geometry.coordinates;
-                    var color = {2: "#FFFFFF", 3: "#f5b2c4", 4: "#ef7f9d"};
                     
-                    // Create circle for each coordinate
+                    // Create circle for each point
                     var circle = L.circle([coord[1], coord[0]], {
                         radius: 90,
-                        fillColor: color[feature.properties.netspeed], 
+                        fillColor: sunrise_color[feature.properties.netspeed],
                         fillOpacity: 0.8, 
                         opacity: 0
                     });
@@ -161,7 +156,6 @@
     baseMap.addTo(map);
     var layerControl = L.control.layers(overlays, null).addTo(map); //Multiple map layers visible
     L.control.scale({ imperial: false }).addTo(map); 
-
 
     //-------------------------------------------- Define and update legend --------------------------------------------
     var activeLayers = [];
@@ -290,7 +284,7 @@
 
                 var legendDescription2 = document.createElement('div');
                 legendDescription2.className = 'legend-description';
-                legendDescription2.innerHTML = '4G LTE advanced';
+                legendDescription2.innerHTML = '4G+';
                 legendDiv.appendChild(legendDescription2);
                 
                 var legendContainer2 = document.createElement('div');
@@ -308,7 +302,7 @@
 
                 var legendDescription1 = document.createElement('div');
                 legendDescription1.className = 'legend-description';
-                legendDescription1.innerHTML = '4G LTE';
+                legendDescription1.innerHTML = '4G';
                 legendDiv.appendChild(legendDescription1);
 
                 var legendContainer1 = document.createElement('div');
