@@ -1,0 +1,7 @@
+numpy
+geopandas
+shapely
+pyproj
+geoalchemy2
+sqlalchemy
+flask
