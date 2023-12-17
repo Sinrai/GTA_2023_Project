@@ -31,7 +31,7 @@ python app.py
 ## Contributors
 
 This project was made as a semester project for [GTA HS2023 at ETHZ](https://www.vvz.ethz.ch/Vorlesungsverzeichnis/lerneinheit.view?lerneinheitId=173266&semkez=2023W&lang=en) by:  
-Colin Wallimann
-Tanja Bialek
-Jiaan Tian
-Carmela Roth
+Colin Wallimann  
+Tanja Bialek  
+Jiaan Tian  
+Carmela Roth  
