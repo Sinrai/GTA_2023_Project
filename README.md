@@ -11,7 +11,7 @@
 
 ## Installation and Usage
 
-To setup the database use the sql script (`database/database_setup.sql`).
+To setup the database use the sql script (`database/database_setup.sql`).  
 To run a flask development server:
 ```bash
 pip install -r requirements.txt
@@ -30,7 +30,7 @@ python app.py
 
 ## Contributors
 
-This project was made as a semester project for [GTA HS2023 at ETHZ](https://www.vvz.ethz.ch/Vorlesungsverzeichnis/lerneinheit.view?lerneinheitId=173266&semkez=2023W&lang=en) by:
+This project was made as a semester project for [GTA HS2023 at ETHZ](https://www.vvz.ethz.ch/Vorlesungsverzeichnis/lerneinheit.view?lerneinheitId=173266&semkez=2023W&lang=en) by:  
 Colin Wallimann
 Tanja Bialek
 Jiaan Tian
