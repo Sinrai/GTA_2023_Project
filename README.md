@@ -1,6 +1,6 @@
 # NETworks
 
-*NETworks* is a application to collect, analyze and visualize cellular network coverage.
+*NETworks* is a application to collect, analyze and visualize cellular network coverage data.
 
 ## Folder structure
 
