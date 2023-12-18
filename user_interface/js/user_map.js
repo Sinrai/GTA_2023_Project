@@ -3,6 +3,7 @@ $(document).ready(function() {
         loadContent('analysis.html');
     });
 
+    // Load basemap
     var baseMap = L.tileLayer.wms("https://wms.geo.admin.ch/", {
         layers: 'ch.swisstopo.pixelkarte-grau',
         format: 'image/jpeg',
@@ -10,11 +11,13 @@ $(document).ready(function() {
         opacity: 0.7
     });
 
+    // Define bounds of switzerland
     var switzerlandBounds = L.latLngBounds(
         L.latLng(45.817, 5.967), // Southwest coordinates
         L.latLng(47.808, 10.492) // Northeast coordinates
     );
 
+    // Define map
     var map = L.map('map', {
         center: [46.408375, 8.507669],
         zoom: 8,
@@ -25,6 +28,8 @@ $(document).ready(function() {
     }).fitBounds(switzerlandBounds);
 
     baseMap.addTo(map);
+    
+    L.control.scale({ imperial: false }).addTo(map); // add scale
 
     // Function to fade out element
     function elementAusblenden() {
@@ -36,10 +41,12 @@ $(document).ready(function() {
     
     setTimeout(elementAusblenden, 5000); // Wait 5 sec then fade out
 
+
     //-------------------------------------------- Add data from Geoserver using WFS --------------------------------------------
 
     let wfs_url_point = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_point_data&OUTPUTFORMAT=application/json';
 
+    //-------------------------------------------- user point data
     var geojsonLayer = L.geoJSON(null, {
         style: function (feature) {
             switch (feature.properties.netspeed) {
@@ -88,7 +95,7 @@ $(document).ready(function() {
     });
 
 
-    // trajectory data
+    //-------------------------------------------- trajectory data
     let wfs_url_trajectory = 'https://ikgeoserv.ethz.ch/geoserver/GTA23_project/wfs?SERVICE=wfs&Version=1.1.1&REQUEST=GetFeature&TYPENAME=GTA23_project:gta_p4_user_trajectory_data&OUTPUTFORMAT=application/json';
 
     var user_trajectory = L.layerGroup();
@@ -121,7 +128,7 @@ $(document).ready(function() {
         }
     });
 
-    // Legend for user map
+    //-------------------------------------------- legend for user map --------------------------------------------
     function updateLegend(legendDiv) {
         //4G
         var legendContent4G = document.createElement('div');
