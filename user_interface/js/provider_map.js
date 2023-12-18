@@ -158,178 +158,163 @@
     //-------------------------------------------- Define and update legend --------------------------------------------
     var activeLayers = [];
     function updateLegend(legendDiv) {
-        legendDiv.innerHTML = '<b> Network Coverage Map </b>'; 
-        activeLayers.forEach(function (layer) {
-            if (layer === baseMap) {
-                legendDiv.innerHTML += '';
-            } 
-            
-            // Legend salt map
-            else if (layer === saltMap) {
-                // 4G+
-                var legendContent1 = document.createElement('div');
-                legendContent1.className = 'legend-content';
-                legendContent1.style.backgroundColor = '#65a63c';
+        legendDiv.innerHTML = '<b> Network Coverage Map </b>';
+        if (activeLayers.includes(swisscomMap) || activeLayers.includes(swisscom_user)) {
+            // 4G LTE advanced
+            var legendContent2 = document.createElement('div');
+            legendContent2.className = 'legend-content';
+            // legendContent2.style.backgroundColor = '#757e9f';
+            legendContent2.style.backgroundColor = '#5b6fb9';
 
-                var legendDescription1 = document.createElement('div');
-                legendDescription1.className = 'legend-description';
-                legendDescription1.innerHTML = '4G+';
+            var legendDescription2 = document.createElement('div');
+            legendDescription2.className = 'legend-description';
+            legendDescription2.innerHTML = 'Swisscom 4G+';
 
-                var legendContainer1 = document.createElement('div');
-                legendContainer1.className = 'legend-container';
-                legendContainer1.appendChild(legendContent1);
-                legendContainer1.appendChild(legendDescription1);
+            var legendContainer2 = document.createElement('div');
+            legendContainer2.className = 'legend-container';
+            legendContainer2.appendChild(legendContent2);
+            legendContainer2.appendChild(legendDescription2);
 
-                legendDiv.appendChild(legendContainer1);
+            legendDiv.appendChild(legendContainer2);
 
-                // 4G
-                var legendContent2 = document.createElement('div');
-                legendContent2.className = 'legend-content';
-                legendContent2.style.backgroundColor = '#87b578';
+            // 4G LTE
+            var legendContent1 = document.createElement('div');
+            legendContent1.className = 'legend-content';
+            // legendContent1.style.backgroundColor = '#7498dd';
+            legendContent1.style.backgroundColor = '#6393ee';
 
-                var legendDescription2 = document.createElement('div');
-                legendDescription2.className = 'legend-description';
-                legendDescription2.innerHTML = '4G';
+            var legendDescription1 = document.createElement('div');
+            legendDescription1.className = 'legend-description';
+            legendDescription1.innerHTML = 'Swisscom 4G';
 
-                var legendContainer2 = document.createElement('div');
-                legendContainer2.className = 'legend-container';
-                legendContainer2.appendChild(legendContent2);
-                legendContainer2.appendChild(legendDescription2);
+            var legendContainer1 = document.createElement('div');
+            legendContainer1.className = 'legend-container';
+            legendContainer1.appendChild(legendContent1);
+            legendContainer1.appendChild(legendDescription1);
 
-                legendDiv.appendChild(legendContainer2);
+            legendDiv.appendChild(legendContainer1);
 
-                // 3G
-                var legendContent3 = document.createElement('div');
-                legendContent3.className = 'legend-content';
-                legendContent3.style.backgroundColor = '#b1c697';
+            // 3G
+            var legendContent3 = document.createElement('div');
+            legendContent3.className = 'legend-content';
+            // legendContent3.style.backgroundColor = '#d17272';
+            legendContent3.style.backgroundColor = '#e35f5f';
 
-                var legendDescription3 = document.createElement('div');
-                legendDescription3.className = 'legend-description';
-                legendDescription3.innerHTML = '3G';
+            var legendDescription3 = document.createElement('div');
+            legendDescription3.className = 'legend-description';
+            legendDescription3.innerHTML = 'Swisscom 3G';
 
-                var legendContainer3 = document.createElement('div');
-                legendContainer3.className = 'legend-container';
-                legendContainer3.appendChild(legendContent3);
-                legendContainer3.appendChild(legendDescription3);
+            var legendContainer3 = document.createElement('div');
+            legendContainer3.className = 'legend-container';
+            legendContainer3.appendChild(legendContent3);
+            legendContainer3.appendChild(legendDescription3);
 
-                legendDiv.appendChild(legendContainer3);
-            } 
+            legendDiv.appendChild(legendContainer3);
+        }
+        if (activeLayers.includes(sunriseMap) || activeLayers.includes(sunrise_user)) {
+            // 4G+
+            var legendContent1 = document.createElement('div');
+            legendContent1.className = 'legend-content';
+            // legendContent1.style.backgroundColor = '#eb7896';
+            legendContent1.style.backgroundColor = '#f76e92';
 
-            // Legend sunrise map
-            else if (layer === sunriseMap) {
-                // 4G+
-                var legendContent1 = document.createElement('div');
-                legendContent1.className = 'legend-content';
-                legendContent1.style.backgroundColor = '#ea4d77';
-                legendDiv.appendChild(legendContent1);
+            var legendDescription1 = document.createElement('div');
+            legendDescription1.className = 'legend-description';
+            legendDescription1.innerHTML = 'Sunrise 4G+';
 
-                var legendDescription1 = document.createElement('div');
-                legendDescription1.className = 'legend-description';
-                legendDescription1.innerHTML = '4G+';
-                legendDiv.appendChild(legendDescription1);
+            var legendContainer1 = document.createElement('div');
+            legendContainer1.className = 'legend-container';
+            legendContainer1.appendChild(legendContent1);
+            legendContainer1.appendChild(legendDescription1);
 
-                var legendContainer1 = document.createElement('div');
-                legendContainer1.className = 'legend-container';
-                legendContainer1.appendChild(legendContent1);
-                legendContainer1.appendChild(legendDescription1);
+            legendDiv.appendChild(legendContainer1);
 
-                legendDiv.appendChild(legendContainer1);
+            // 4G
+            var legendContent2 = document.createElement('div');
+            legendContent2.className = 'legend-content';
+            // legendContent2.style.backgroundColor = '#eea0b5';
+            legendContent2.style.backgroundColor = '#f994af';
 
-                // 4G
-                var legendContent2 = document.createElement('div');
-                legendContent2.className = 'legend-content';
-                legendContent2.style.backgroundColor = '#ef7f9d';
-                legendDiv.appendChild(legendContent2);
+            var legendDescription2 = document.createElement('div');
+            legendDescription2.className = 'legend-description';
+            legendDescription2.innerHTML = 'Sunrise 4G';
 
-                var legendDescription2 = document.createElement('div');
-                legendDescription2.className = 'legend-description';
-                legendDescription2.innerHTML = '4G';
-                legendDiv.appendChild(legendDescription2);
+            var legendContainer2 = document.createElement('div');
+            legendContainer2.className = 'legend-container';
+            legendContainer2.appendChild(legendContent2);
+            legendContainer2.appendChild(legendDescription2);
 
-                var legendContainer2 = document.createElement('div');
-                legendContainer2.className = 'legend-container';
-                legendContainer2.appendChild(legendContent2);
-                legendContainer2.appendChild(legendDescription2);
+            legendDiv.appendChild(legendContainer2);
 
-                legendDiv.appendChild(legendContainer2);
+            // 3G
+            var legendContent3 = document.createElement('div');
+            legendContent3.className = 'legend-content';
+            // legendContent3.style.backgroundColor = '#ecb4c3';
+            legendContent3.style.backgroundColor = '#f8aabf';
 
-                // 3G
-                var legendContent3 = document.createElement('div');
-                legendContent3.className = 'legend-content';
-                legendContent3.style.backgroundColor = '#f5b2c4';
-                legendDiv.appendChild(legendContent3);
+            var legendDescription3 = document.createElement('div');
+            legendDescription3.className = 'legend-description';
+            legendDescription3.innerHTML = 'Sunrise 3G';
 
-                var legendDescription3 = document.createElement('div');
-                legendDescription3.className = 'legend-description';
-                legendDescription3.innerHTML = '3G';
-                legendDiv.appendChild(legendDescription3);
+            var legendContainer3 = document.createElement('div');
+            legendContainer3.className = 'legend-container';
+            legendContainer3.appendChild(legendContent3);
+            legendContainer3.appendChild(legendDescription3);
 
-                var legendContainer3 = document.createElement('div');
-                legendContainer3.className = 'legend-container';
-                legendContainer3.appendChild(legendContent3);
-                legendContainer3.appendChild(legendDescription3);
+            legendDiv.appendChild(legendContainer3);
+        }
+        if (activeLayers.includes(saltMap) || activeLayers.includes(salt_user)) {
+            // 4G+
+            var legendContent1 = document.createElement('div');
+            legendContent1.className = 'legend-content';
+            // legendContent1.style.backgroundColor = '#abcb96';
+            legendContent1.style.backgroundColor = '#a8d788';
 
-                legendDiv.appendChild(legendContainer3);
-            } 
-            
-            // Legend swisscom map
-            else if (layer === swisscomMap) {
-                // 4G LTE advanced  
-                var legendContent2 = document.createElement('div');
-                legendContent2.className = 'legend-content';
-                legendContent2.style.backgroundColor = '#001155';
-                legendDiv.appendChild(legendContent2);
+            var legendDescription1 = document.createElement('div');
+            legendDescription1.className = 'legend-description';
+            legendDescription1.innerHTML = 'Salt 4G+';
 
-                var legendDescription2 = document.createElement('div');
-                legendDescription2.className = 'legend-description';
-                legendDescription2.innerHTML = '4G+';
-                legendDiv.appendChild(legendDescription2);
-                
-                var legendContainer2 = document.createElement('div');
-                legendContainer2.className = 'legend-container';
-                legendContainer2.appendChild(legendContent2);
-                legendContainer2.appendChild(legendDescription2);
+            var legendContainer1 = document.createElement('div');
+            legendContainer1.className = 'legend-container';
+            legendContainer1.appendChild(legendContent1);
+            legendContainer1.appendChild(legendDescription1);
 
-                legendDiv.appendChild(legendContainer2);
-                
-                // 4G LTE
-                var legendContent1 = document.createElement('div');
-                legendContent1.className = 'legend-content';
-                legendContent1.style.backgroundColor = '#0851da';
-                legendDiv.appendChild(legendContent1);
+            legendDiv.appendChild(legendContainer1);
 
-                var legendDescription1 = document.createElement('div');
-                legendDescription1.className = 'legend-description';
-                legendDescription1.innerHTML = '4G';
-                legendDiv.appendChild(legendDescription1);
+            // 4G
+            var legendContent2 = document.createElement('div');
+            legendContent2.className = 'legend-content';
+            // legendContent2.style.backgroundColor = '#b9d0b2';
+            legendContent2.style.backgroundColor = '#b3dda6';
 
-                var legendContainer1 = document.createElement('div');
-                legendContainer1.className = 'legend-container';
-                legendContainer1.appendChild(legendContent1);
-                legendContainer1.appendChild(legendDescription1);
+            var legendDescription2 = document.createElement('div');
+            legendDescription2.className = 'legend-description';
+            legendDescription2.innerHTML = 'Salt 4G';
 
-                legendDiv.appendChild(legendContainer1);
+            var legendContainer2 = document.createElement('div');
+            legendContainer2.className = 'legend-container';
+            legendContainer2.appendChild(legendContent2);
+            legendContainer2.appendChild(legendDescription2);
 
+            legendDiv.appendChild(legendContainer2);
 
-                // 3G
-                var legendContent3 = document.createElement('div');
-                legendContent3.className = 'legend-content';
-                legendContent3.style.backgroundColor = '#be0000';
-                legendDiv.appendChild(legendContent3);
+            // 3G
+            var legendContent3 = document.createElement('div');
+            legendContent3.className = 'legend-content';
+            // legendContent3.style.backgroundColor = '#ccd7bf';
+            legendContent3.style.backgroundColor = '#cfe6b3';
 
-                var legendDescription3 = document.createElement('div');
-                legendDescription3.className = 'legend-description';
-                legendDescription3.innerHTML = '3G';
-                legendDiv.appendChild(legendDescription3);
-                
-                var legendContainer3 = document.createElement('div');
-                legendContainer3.className = 'legend-container';
-                legendContainer3.appendChild(legendContent3);
-                legendContainer3.appendChild(legendDescription3);
+            var legendDescription3 = document.createElement('div');
+            legendDescription3.className = 'legend-description';
+            legendDescription3.innerHTML = 'Salt 3G';
 
-                legendDiv.appendChild(legendContainer3);
-            }
-        });
+            var legendContainer3 = document.createElement('div');
+            legendContainer3.className = 'legend-container';
+            legendContainer3.appendChild(legendContent3);
+            legendContainer3.appendChild(legendDescription3);
+
+            legendDiv.appendChild(legendContainer3);
+        }
     }
 
     // Update legend when layer added
