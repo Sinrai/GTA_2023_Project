@@ -115,28 +115,24 @@ def process_user_data():
         status_code = 400
     return jsonify(result), status_code
 
-def execute_query(query):
+# get total trajectory length for a given user
+def get_trajectory_length(user_id):
+    # SQL query to select the line lengths based on the user_id
+    query = db.text(f"SELECT SUM(distance) \
+                      FROM gta_p4.user_trajectory_data \
+                      WHERE username = '{user_id}'")
     with engine.connect() as con:
         result = con.execute(query)
-        return result.fetchall()
-
-# claculate total trajectory length for a given user
-def calculate_trajectory_length(user_id):
-    # SQL query to select the line lengths based on the user_id
-    query = db.text(f"SELECT distance FROM gta_p4.user_trajectory_data WHERE username = '{user_id}'")
-    rows = execute_query(query)
-    total_length = 0
-
-    # claculate total length of all trips with same user id
-    for row in rows:
-        total_length += row[0]  # distance is type REAL
-    return total_length
+        return result.fetchone()[0]
 
 # Bar chart setup for user statistics for a given user
 def calcuate_network_speed(user_id):
     # SQL query to select the netspeed based on the user_id
     query = db.text(f"SELECT netspeed FROM gta_p4.user_point_data WHERE username = '{user_id}'")
-    rows = execute_query(query)
+    with engine.connect() as con:
+        result = con.execute(query)
+        rows = result.fetchall()
+
     lessthan_3G = 0
     threeG = 0
     fourG_fiveG = 0
@@ -144,7 +140,7 @@ def calcuate_network_speed(user_id):
     # calculating three netspeed classes
     for row in rows:
         # print(json.dumps(row[0], indent=4))
-        if row[0] == 1 or row[0] == 2:
+        if row[0] <= 2:
             lessthan_3G += 1
         if row[0] == 3:
             threeG += 1
@@ -161,6 +157,6 @@ def calcuate_network_speed(user_id):
 @api.route('/api/get_user_statistic', methods=["GET"])
 def get_user_statistic():
     user_id = request.args.get('user_id')
-    total_length = calculate_trajectory_length(user_id)
+    total_length = get_trajectory_length(user_id)
     netspeed_array = calcuate_network_speed(user_id)
     return jsonify({"statistic": total_length, "netspeed_class": netspeed_array} )
