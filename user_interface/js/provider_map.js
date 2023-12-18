@@ -8,6 +8,8 @@
         opacity: 0.7
     });
 
+    var empty_layer = L.layerGroup();
+
     // Load provider maps
     var saltMap = L.tileLayer('https://mapserver.salt.ch/public/gmaps/2G3G4G4G+@GoogleMapsCompatible/{z}/{x}/{y}.png', {
         format: 'image/png',
@@ -22,14 +24,6 @@
         attribution: 'Swisscom',
         opacity: 0.5
     });
-
-    // Define layer groups
-    var swisscom = L.layerGroup();
-    swisscom.addLayer(swisscomMap);
-    var sunrise = L.layerGroup();
-    sunrise.addLayer(sunriseMap);
-    var salt = L.layerGroup();
-    salt.addLayer(saltMap);
 
     // Define bounds of switzerland
     var switzerlandBounds = L.latLngBounds(
@@ -67,7 +61,7 @@
 
     // Include swisscom user data into swisscom map
     var swisscom_user = L.layerGroup();
-    var swisscom_colors = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#c06161", 4: "#777fa1"};
+    var swisscom_colors = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#d17272", 4: "#757e9f"};
     $.ajax({
         type: "GET",
         url: wfs_url_point + '&FILTER=<Filter><And><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS3303 Swisscom (Schweiz) AG</Literal></PropertyIsEqualTo><PropertyIsEqualTo><PropertyName>in_train</PropertyName><Literal>false</Literal></PropertyIsEqualTo></And></Filter>',
@@ -86,7 +80,6 @@
                     });
                     circle.addTo(swisscom_user); 
                 });
-                swisscom.addLayer(swisscom_user); // add to swisscom layerGroup
                 
             }
         },
@@ -94,7 +87,7 @@
 
     // Include salt user data into salt map
     var salt_user = L.layerGroup();
-    var salt_color = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#CCCC99", 4: "#96b681"};
+    var salt_color = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#ccd7bf", 4: "#abcb96"};
     $.ajax({
         type: "GET",
         url: wfs_url_point + '&FILTER=<Filter><And><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS15796 Salt Mobile SA</Literal></PropertyIsEqualTo><PropertyIsEqualTo><PropertyName>in_train</PropertyName><Literal>false</Literal></PropertyIsEqualTo></And></Filter>',
@@ -113,14 +106,13 @@
                     });
                     circle.addTo(salt_user); 
                 });
-                salt.addLayer(salt_user); // add to salt layerGroup
             }
         },
     });
 
     // Include sunrise user data into sunrise map
     var sunrise_user = L.layerGroup();
-    var sunrise_color = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#f5b2c4", 4: "#ef7f9d"};
+    var sunrise_color = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#ecb4c3", 4: "#eb7896"};
     $.ajax({
         type: "GET",
         url: wfs_url_point + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS6730 Sunrise GmbH</Literal></PropertyIsEqualTo></Filter>',
@@ -139,22 +131,28 @@
                     });
                     circle.addTo(sunrise_user); 
                 });
-                sunrise.addLayer(sunrise_user); // add to sunrise layerGroup
             }
         },
     });
 
     //-------------------------------------------- Add layers --------------------------------------------
-    // Overlays of provider maps
-    var overlays = {
-        "Swisscom": swisscom,
-        "Sunrise": sunrise,
-        "Salt": salt,
+    // Overlays of maps
+    var provider_maps = {
+        "None": empty_layer,
+        "Swisscom": swisscomMap,
+        "Sunrise": sunriseMap,
+        "Salt": saltMap,
+    };
+    var user_data = {
+        "Swisscom User Data": swisscom_user,
+        "Sunrise User Data": sunrise_user,
+        "Salt User Data": salt_user,
     };
 
     // User controls setup
     baseMap.addTo(map);
-    var layerControl = L.control.layers(overlays, null).addTo(map); //Multiple map layers visible
+    empty_layer.addTo(map);
+    var layerControl = L.control.layers(provider_maps, user_data).addTo(map); //Multiple map layers visible
     L.control.scale({ imperial: false }).addTo(map); 
 
     //-------------------------------------------- Define and update legend --------------------------------------------
