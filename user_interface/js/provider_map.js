@@ -115,7 +115,7 @@
     var sunrise_color = {0: "#FFFFFF", 1: "#FFFFFF", 2: "#FFFFFF", 3: "#ecb4c3", 4: "#eb7896"};
     $.ajax({
         type: "GET",
-        url: wfs_url_point + '&FILTER=<Filter><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS6730 Sunrise GmbH</Literal></PropertyIsEqualTo></Filter>',
+        url: wfs_url_point + '&FILTER=<Filter><And><PropertyIsEqualTo><PropertyName>provider</PropertyName><Literal>AS6730 Sunrise GmbH</Literal></PropertyIsEqualTo><PropertyIsEqualTo><PropertyName>in_train</PropertyName><Literal>false</Literal></PropertyIsEqualTo></And></Filter>',
         dataType: 'json',
         success: function (data) {
             if (data.features) {
