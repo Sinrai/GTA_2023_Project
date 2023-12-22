@@ -27,6 +27,8 @@ python app.py
 * GeoAlchemy2
 * SqlAlchemy
 * Flask
+* requests
+* psycopg2
 
 ## Contributors
 
