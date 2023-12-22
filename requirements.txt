@@ -5,3 +5,5 @@ pyproj
 geoalchemy2
 sqlalchemy
 flask
+requests
+psycopg2
