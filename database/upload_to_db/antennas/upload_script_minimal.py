@@ -8,7 +8,7 @@ import numpy as np
 db_gta = {"dbname": "gta",
           "port": "5432",
           "user": "gta_p4",
-          "password": "***REMOVED***",
+          "password": "[insert_password]",
           "host": "ikgpgis.ethz.ch"}
 conn = psycopg2.connect(**db_gta)
 cur=conn.cursor()

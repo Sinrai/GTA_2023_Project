@@ -12,7 +12,7 @@ import math
 import numpy as np
 
 api = Blueprint('api', __name__)
-engine = db.create_engine("postgresql://gta_p4:***REMOVED***@ikgpgis.ethz.ch:5432/gta")
+engine = db.create_engine("postgresql://gta_p4:[insert_password]@ikgpgis.ethz.ch:5432/gta")
 WGS_to_LV95 = pyproj.Transformer.from_crs('EPSG:4326', 'EPSG:2056', always_xy=True)
 
 
